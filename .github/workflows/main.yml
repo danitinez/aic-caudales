@@ -1,11 +1,9 @@
 name: Run Python Script and Push Changes
 
 on:
-  push:
-    branches:
-      - main  # Trigger the action on a push to the 'main' branch
   schedule:
     - cron: "0 20 * * *"
+  workflow_dispatch:
 
 jobs:
   modify-file:
