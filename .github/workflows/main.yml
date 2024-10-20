@@ -41,10 +41,11 @@ jobs:
         git fetch origin
         git checkout --track origin/caudales
         git pull --ff-only
-        git add caudales/caudales.json
+        git add docs/caudales.json
         echo "Git status after add files"
         git status
         git commit -m "Actualizando caudales..."
+        git rebase origin main
         git push origin caudales
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token for authentication
