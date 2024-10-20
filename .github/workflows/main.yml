@@ -1,0 +1,43 @@
+name: Run Python Script and Push Changes
+
+on:
+  push:
+    branches:
+      - main  # Trigger the action on a push to the 'main' branch
+
+jobs:
+  modify-file:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Check out the repository
+    - name: Check out the repository
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'  # Specify the Python version
+
+    # Step 3: Install any dependencies (if needed)
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # If you have dependencies listed
+
+    # Step 4: Run the Python script to modify a file
+    - name: Run Python script
+      run: python scraper_app.py  # Your Python script here
+
+    # Step 5: Configure Git user and commit changes
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m "Automated commit from GitHub Action"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token for authentication
+
