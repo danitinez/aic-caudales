@@ -16,7 +16,7 @@ def save_data_as_json(caudales, file_path):
 
 if __name__ == "__main__":
 
-    cache_buster = random.randint(0, 1e6)
+    cache_buster = random.randint(0, 99999)
     url = "http://www.aic.gov.ar/sitio/caudales?cache_buster={cache_buster}"  # Replace with the actual URL
     html_content = fetch_html(url)
 
