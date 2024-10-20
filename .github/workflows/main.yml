@@ -38,9 +38,15 @@ jobs:
         cat caudales/caudales.json
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git fetch origin
+        echo "Git status after call"
         git status
         git checkout caudales
+        echo "Git status after checkout"
+        git status
         git add caudales
+        echo "Git status after add files"
+        git status
         git commit -m "Actualizando caudales..."
         git push
       env:
