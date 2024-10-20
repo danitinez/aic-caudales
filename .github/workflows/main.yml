@@ -41,10 +41,10 @@ jobs:
         git fetch origin
         echo "Git status after call"
         git status
-        git checkout caudales
+        git checkout -b caudales
         echo "Git status after checkout"
         git status
-        git add caudales
+        git add caudales/caudales.json
         echo "Git status after add files"
         git status
         git commit -m "Actualizando caudales..."
