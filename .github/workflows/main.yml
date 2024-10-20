@@ -39,7 +39,7 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git fetch origin
-        git checkout -b caudales
+        git checkout --track origin/caudales
         git pull --ff-only
         git add caudales/caudales.json
         echo "Git status after add files"
