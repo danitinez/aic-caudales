@@ -26,8 +26,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt  # If you have dependencies listed
 
-    - name: Caudales Original
-      run: cat caudales/caudales.json
     # Step 4: Run the Python script to modify a file
     - name: Run Python script
       run: python scraper_app.py  # Your Python script here
@@ -35,20 +33,15 @@ jobs:
     # Step 5: Configure Git user and commit changes
     - name: Commit and push changes
       run: |
-        cat caudales/caudales.json
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git fetch origin
-        echo "Git status after call"
-        git status
         git checkout -b caudales
-        echo "Git status after checkout"
-        git status
         git add caudales/caudales.json
         echo "Git status after add files"
         git status
         git commit -m "Actualizando caudales..."
-        git push
+        git push origin caudales
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token for authentication
 
