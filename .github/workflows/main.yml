@@ -45,7 +45,7 @@ jobs:
         echo "Git status after add files"
         git status
         git commit -m "Actualizando caudales..."
-        git rebase origin main
+        git rebase main
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token for authentication
