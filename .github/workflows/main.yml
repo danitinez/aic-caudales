@@ -46,7 +46,7 @@ jobs:
         git status
         git commit -m "Actualizando caudales..."
         git rebase origin main
-        git push origin caudales
+        git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token for authentication
 
