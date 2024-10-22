@@ -58,7 +58,3 @@ jobs:
         git push --force
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token for authentication
-
-# Specify the file to check
-FILE_TO_CHECK="docs/caudales.json"
-
