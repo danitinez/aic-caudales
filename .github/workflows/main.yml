@@ -5,7 +5,7 @@ permissions:
   
 on:
   schedule:
-    - cron: "0 20 * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -33,6 +33,16 @@ jobs:
     - name: Run Python script
       run: python scraper_app.py  # Your Python script here
 
+    - name: Check if there are changes in the files and push if there are.
+    # Check for differences in the file
+      run: |
+        FILE_TO_CHECK="docs/caudales.json"
+        git diff --quiet HEAD -- "$FILE_TO_CHECK"
+        # Exit the script if no changes are detected
+        if [ $? -eq 0 ]; then
+          echo "No changes in $FILE_TO_CHECK. Exiting."
+          exit 0
+        fi
     # Step 5: Configure Git user and commit changes
     - name: Commit and push changes
       run: |
@@ -40,13 +50,15 @@ jobs:
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git fetch origin
         git checkout --track origin/caudales
-        git pull --ff-only
-        git add docs/caudales.json
+        git add $FILE_TO_CHECK
         echo "Git status after add files"
         git status
         git commit -m "Actualizando caudales..."
         git rebase main
-        git push
+        git push --force
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token for authentication
+
+# Specify the file to check
+FILE_TO_CHECK="docs/caudales.json"
 
