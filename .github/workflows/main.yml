@@ -44,6 +44,8 @@ jobs:
         git add $FILE_TO_CHECK
         echo "Git status after add files"
         git status
+        echo "Git DIFF"
+        git diff
         timestamp=$(date -u)
         git commit -m "Actualizando caudales: ${timestamp}" || exit 0
         git rebase main
