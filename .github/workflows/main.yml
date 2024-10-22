@@ -36,8 +36,10 @@ jobs:
     - name: Check if there are changes in the files and push if there are.
     # Check for differences in the file
       run: |
+        set +e
         FILE_TO_CHECK="docs/caudales.json"
         git diff --quiet HEAD -- "$FILE_TO_CHECK"
+        set -e
         # Exit the script if no changes are detected
         if [ $? -eq 0 ]; then
           echo "No changes in $FILE_TO_CHECK. Exiting."
