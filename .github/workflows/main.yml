@@ -46,10 +46,10 @@ jobs:
         git stash
         git fetch origin
         git checkout --track origin/caudales
-        git stash pop
+        git stash pop || exit 0
         git add $FILE_TO_CHECK
         timestamp=$(date -u)
-        git commit -m "Actualizando caudales: ${timestamp}" || exit 0
+        git commit -m "Actualizando caudales: ${timestamp}"
         git rebase main
         git push --force
       env:
