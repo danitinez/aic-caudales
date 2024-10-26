@@ -1,32 +1,14 @@
 import SwiftUI
 import Charts
 
-public struct Rio: Decodable {
-    public init(name: String, levels: [Level]) {
-        self.name = name
-        self.levels = levels
-    }
-    let name: String
-    let levels: [Level]
-}
-
-public struct Level: Decodable {
-    public init(day: Date, levelM3: Int) {
-        self.day = day
-        self.levelM3 = levelM3
-    }
-    let day: Date
-    let levelM3: Int
-}
-
 
 public struct RioView: View {
-    let rio: Rio
+    @State private var viewmodel: RioViewModel
     
-    public init(rio: Rio) {
-        self.rio = rio
+    public init(vm: RioViewModel) {
+        self.viewmodel = vm
     }
-    
+            
     // Date formatter for x-axis labels
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -37,20 +19,25 @@ public struct RioView: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // Title
-            Text(rio.name)
+            Text(viewmodel.rio.name)
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.horizontal)
             
             // Bar Chart
-            Chart {
-                ForEach(rio.levels, id: \.day) { level in
+            Chart (viewmodel.rio.levels) { level in
+
                     BarMark(
-                        x: .value("Day", dateFormatter.string(from: level.day)),
+                        x: .value("Day", level.dayToShow),
                         y: .value("Level", level.levelM3)
                     )
                     .foregroundStyle(Color.blue.gradient)
-                }
+                    .annotation(position: .overlay, alignment: .top) {
+                        Text("\(level.levelM3)")
+                            .font(.system(size: 12, weight: .thin))
+                            .foregroundStyle(.white)
+                            
+                    }
             }
             .frame(height: 300)
             .padding()
@@ -62,18 +49,21 @@ public struct RioView: View {
                         }
                     }
                 }
+                
             }
+            .chartYScale(domain: 0...900)
             .chartXAxis {
                 AxisMarks { value in
                     AxisValueLabel {
                         if let day = value.as(String.self) {
                             Text(day)
-                                .rotationEffect(.degrees(-45))
+//                                .rotationEffect(.degrees(-45))
                         }
                     }
                 }
             }
         }
+        .padding(.all, 10)
         .background(
                     RoundedRectangle(cornerRadius: 16)
                         .fill(Color(.systemGray6))
@@ -86,13 +76,14 @@ public struct RioView_Previews: PreviewProvider {
     public static var previews: some View {
         // Sample data for preview
         let sampleLevels = [
-            Level(day: Date(), levelM3: 100),
-            Level(day: Date().addingTimeInterval(86400), levelM3: 150),
-            Level(day: Date().addingTimeInterval(172800), levelM3: 120),
-            Level(day: Date().addingTimeInterval(259200), levelM3: 180)
+            Level(dayToShow: "ayer", levelM3: 100),
+            Level(dayToShow: "hoy",levelM3: 150),
+            Level(dayToShow: "mañana", levelM3: 110),
+            Level(dayToShow: "22/12", levelM3: 180)
         ]
         let sampleRio = Rio(name: "Amazon River", levels: sampleLevels)
         
-        RioView(rio: sampleRio)
+        let vm = RioViewModel()
+        RioView(vm: vm)
     }
 }
