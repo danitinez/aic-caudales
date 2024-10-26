@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		685CFF022CC9AE5C00D2EE2F /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = 685CFF012CC9AE5C00D2EE2F /* UI */; };
+		686C1D842CCD122400DA2885 /* Rios in Frameworks */ = {isa = PBXBuildFile; productRef = 686C1D832CCD122400DA2885 /* Rios */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				685CFF022CC9AE5C00D2EE2F /* UI in Frameworks */,
+				686C1D842CCD122400DA2885 /* Rios in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,7 +125,7 @@
 			);
 			name = Caudales;
 			packageProductDependencies = (
-				685CFF012CC9AE5C00D2EE2F /* UI */,
+				686C1D832CCD122400DA2885 /* Rios */,
 			);
 			productName = Caudales;
 			productReference = 68C3A2CD2CC59E2B00555A28 /* Caudales.app */;
@@ -210,7 +210,7 @@
 			mainGroup = 68C3A2C42CC59E2B00555A28;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				685CFEFD2CC9ADCD00D2EE2F /* XCLocalSwiftPackageReference "Modules" */,
+				686C1D822CCD122400DA2885 /* XCLocalSwiftPackageReference "Modules" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 68C3A2CE2CC59E2B00555A28 /* Products */;
@@ -579,17 +579,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		685CFEFD2CC9ADCD00D2EE2F /* XCLocalSwiftPackageReference "Modules" */ = {
+		686C1D822CCD122400DA2885 /* XCLocalSwiftPackageReference "Modules" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Modules;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		685CFF012CC9AE5C00D2EE2F /* UI */ = {
+		686C1D832CCD122400DA2885 /* Rios */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 685CFEFD2CC9ADCD00D2EE2F /* XCLocalSwiftPackageReference "Modules" */;
-			productName = UI;
+			productName = Rios;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
