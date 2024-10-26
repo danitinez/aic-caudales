@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Modules",
     platforms: [
-           .iOS(.v16),
+           .iOS(.v17),
            // You can also specify other platforms if needed:
            // .macOS(.v13),
            // .watchOS(.v9),
