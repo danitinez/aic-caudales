@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Rio: Decodable {
+struct Rio: Decodable {
     init(name: String, min: Int, max: Int, levels: [Level] = []) {
         self.name = name
         self.levels = levels
