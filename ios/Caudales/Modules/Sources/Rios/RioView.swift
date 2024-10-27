@@ -31,7 +31,7 @@ public struct RioView: View {
                         y: .value("Level", level.levelM3)
                     )
 //                    .foregroundStyle(dangerToColor(dangerLevel: viewmodel.colorForLevel(level: level)))
-                    .foregroundStyle(dangerToColor(value: 0.8))
+                    .foregroundStyle(dangerToColor(value: level.dangerLevel))
                     .annotation(position: .overlay, alignment: .top) {
                         Text("\(level.levelM3)")
                             .font(.system(size: 12, weight: .medium))
@@ -79,14 +79,8 @@ public struct RioView: View {
 //    }
     
     func dangerToColor(value: Double) -> Gradient {
-        // Ensure value is between 0 and 1
-        let normalizedValue = min(max(value, 0), 1)
-        
-        // As value increases:
-        // Green component decreases (1 -> 0)
-        // Red component increases (0 -> 1)
-        let green = 1 - normalizedValue
-        let red = normalizedValue
+        let green = 1 - value
+        let red = value
         let color = Color(red: red, green: green, blue: 0)
         return Gradient(colors:[color, .green])
     }
