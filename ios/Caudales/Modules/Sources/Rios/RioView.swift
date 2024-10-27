@@ -26,16 +26,16 @@ public struct RioView: View {
             
             // Bar Chart
             Chart (viewmodel.rio.levels) { level in
-
                     BarMark(
                         x: .value("Day", level.dayToShow),
                         y: .value("Level", level.levelM3)
                     )
-                    .foregroundStyle(Color.blue.gradient)
+//                    .foregroundStyle(dangerToColor(dangerLevel: viewmodel.colorForLevel(level: level)))
+                    .foregroundStyle(dangerToColor(value: 0.8))
                     .annotation(position: .overlay, alignment: .top) {
                         Text("\(level.levelM3)")
-                            .font(.system(size: 12, weight: .thin))
-                            .foregroundStyle(.white)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(.black)
                             
                     }
             }
@@ -69,20 +69,35 @@ public struct RioView: View {
                         .fill(Color(.systemGray6))
                 )
     }
+    
+//    private func dangerToColor(dangerLevel: RioViewModel.LevelDanger) -> AnyGradient {
+//        switch dangerLevel {
+//        case .low: return Color.green.gradient
+//        case .medium: return Color.yellow.gradient
+//        case .high: return Color.red.gradient
+//        }
+//    }
+    
+    func dangerToColor(value: Double) -> Gradient {
+        // Ensure value is between 0 and 1
+        let normalizedValue = min(max(value, 0), 1)
+        
+        // As value increases:
+        // Green component decreases (1 -> 0)
+        // Red component increases (0 -> 1)
+        let green = 1 - normalizedValue
+        let red = normalizedValue
+        let color = Color(red: red, green: green, blue: 0)
+        return Gradient(colors:[color, .green])
+    }
+    
+    
 }
 
 // Preview provider for SwiftUI canvas
 public struct RioView_Previews: PreviewProvider {
     public static var previews: some View {
         // Sample data for preview
-        let sampleLevels = [
-            Level(dayToShow: "ayer", levelM3: 100),
-            Level(dayToShow: "hoy",levelM3: 150),
-            Level(dayToShow: "mañana", levelM3: 110),
-            Level(dayToShow: "22/12", levelM3: 180)
-        ]
-        let sampleRio = Rio(name: "Amazon River", levels: sampleLevels)
-        
         let vm = RioViewModel()
         RioView(vm: vm)
     }
