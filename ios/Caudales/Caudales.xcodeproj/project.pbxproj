@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		686C1D842CCD122400DA2885 /* Rios in Frameworks */ = {isa = PBXBuildFile; productRef = 686C1D832CCD122400DA2885 /* Rios */; };
+		6820B1AF2CCEE24600D4E2F5 /* Rios in Frameworks */ = {isa = PBXBuildFile; productRef = 6820B1AE2CCEE24600D4E2F5 /* Rios */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +31,7 @@
 		68C3A2CD2CC59E2B00555A28 /* Caudales.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Caudales.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68C3A2DD2CC59E2C00555A28 /* CaudalesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CaudalesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		68C3A2E72CC59E2C00555A28 /* CaudalesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CaudalesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		68F3DA682CCEDC5200EE5531 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,11 +45,6 @@
 			path = CaudalesTests;
 			sourceTree = "<group>";
 		};
-		68C3A2EA2CC59E2C00555A28 /* CaudalesUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = CaudalesUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				686C1D842CCD122400DA2885 /* Rios in Frameworks */,
+				6820B1AF2CCEE24600D4E2F5 /* Rios in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,8 +85,8 @@
 			children = (
 				68C3A2CF2CC59E2B00555A28 /* Caudales */,
 				68C3A2E02CC59E2C00555A28 /* CaudalesTests */,
-				68C3A2EA2CC59E2C00555A28 /* CaudalesUITests */,
 				685CFF002CC9AE5C00D2EE2F /* Frameworks */,
+				68F3DA682CCEDC5200EE5531 /* Modules */,
 				68C3A2CE2CC59E2B00555A28 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -125,7 +121,7 @@
 			);
 			name = Caudales;
 			packageProductDependencies = (
-				686C1D832CCD122400DA2885 /* Rios */,
+				6820B1AE2CCEE24600D4E2F5 /* Rios */,
 			);
 			productName = Caudales;
 			productReference = 68C3A2CD2CC59E2B00555A28 /* Caudales.app */;
@@ -167,9 +163,6 @@
 			dependencies = (
 				68C3A2E92CC59E2C00555A28 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				68C3A2EA2CC59E2C00555A28 /* CaudalesUITests */,
-			);
 			name = CaudalesUITests;
 			packageProductDependencies = (
 			);
@@ -210,7 +203,7 @@
 			mainGroup = 68C3A2C42CC59E2B00555A28;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				686C1D822CCD122400DA2885 /* XCLocalSwiftPackageReference "Modules" */,
+				6820B1AD2CCEE24600D4E2F5 /* XCLocalSwiftPackageReference "Modules" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 68C3A2CE2CC59E2B00555A28 /* Products */;
@@ -579,14 +572,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		686C1D822CCD122400DA2885 /* XCLocalSwiftPackageReference "Modules" */ = {
+		6820B1AD2CCEE24600D4E2F5 /* XCLocalSwiftPackageReference "Modules" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Modules;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		686C1D832CCD122400DA2885 /* Rios */ = {
+		6820B1AE2CCEE24600D4E2F5 /* Rios */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Rios;
 		};
