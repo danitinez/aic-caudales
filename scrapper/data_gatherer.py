@@ -16,7 +16,8 @@ class DataGatherer:
         self.arroyito = []
         self.chanar_arroyito = []
         self._parse_html()
-        self._parse_data()
+        print(self.rows)
+        # self._parse_data()
 
     def _parse_html(self):
         # with open(self.html_content, 'r') as f:
@@ -87,7 +88,7 @@ class DataGatherer:
         return self.chanar_arroyito
     
     def get_filename(self):
-        return self.fecha_act_as_date.strftime("%d_%m_%Y.json")
+        return self.fecha_act_as_date.strftime("docs/%d_%m_%Y.json")
 
     def get_data(self):
         return {
