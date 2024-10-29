@@ -1,10 +1,13 @@
 from bs4 import BeautifulSoup
+import locale
+from datetime import datetime
 
 class DataGatherer:
     
     def __init__(self, html_content):
         self.html_content = html_content
         self.fecha_actualizacion = ""
+        self.fecha_act_as_date = None
         self.rows = []
         self.dates = []
         self.portezuelo = []
@@ -23,6 +26,16 @@ class DataGatherer:
         table = soup.find(id="body_TablaCaudales")
         self.fecha_actualizacion = soup.find(id="body_LabelFecha").get_text().strip()
         self.rows = table.find_all("tr")
+        # Set locale to Spanish
+        locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')  # or 'Spanish' depending on your system
+
+        date_string = self.fecha_actualizacion
+        # Remove the day name and 'de' words as they're not needed for parsing
+        cleaned_date = date_string.split(", ")[1]
+
+        # Parse the date using Spanish locale
+        self.fecha_act_as_date = datetime.strptime(cleaned_date, "%d de %B de %Y").date()
+
 
     def gather_data(self, rows_slice):
         data = []
@@ -72,6 +85,9 @@ class DataGatherer:
 
     def get_chanar_arroyito(self):
         return self.chanar_arroyito
+    
+    def get_filename(self):
+        return self.fecha_act_as_date.strftime("%d_%m_%Y.json")
 
     def get_data(self):
         return {

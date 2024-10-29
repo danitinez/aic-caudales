@@ -22,5 +22,5 @@ if __name__ == "__main__":
 
     data_gatherer = DataGatherer(html_content)
     data = data_gatherer.get_data()
-    print(json.dumps(data, indent=4))
-    save_data_as_json(data_gatherer.get_data(), "docs/caudales.json")  
+    filename = data_gatherer.get_filename
+    save_data_as_json(data_gatherer.get_data(), "docs/{filename}")  
