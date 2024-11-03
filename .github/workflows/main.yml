@@ -54,6 +54,9 @@ jobs:
 
     # Step 5: Configure Git user and commit changes
     - name: Commit and push changes
+      env:
+        LANGUAGE: en_US.UTF-8
+        LC_ALL: en_US.UTF-8
       run: |
         FILE_TO_CHECK="docs/"
         git config --global user.name 'github-actions[bot]'
