@@ -45,6 +45,9 @@ jobs:
       run: python scraper_app.py  # Your Python script here
 
     - name: en_US.UTF-8
+      env:
+        LC_ALL: en_US.UTF-8
+        LANG: en_US.UTF-8
       run: |
         sudo update-locale LANG=en_US.UTF-8
         date
@@ -69,4 +72,6 @@ jobs:
         git rebase main
         git push --force
       env:
+        LC_ALL: en_US.UTF-8
+        LANG: en_US.UTF-8
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token for authentication
