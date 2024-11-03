@@ -8,9 +8,9 @@ struct ContentView: View {
     var body: some View {
         ScrollView {
             VStack {
-                RioView(vm: viewModel)
-                RioView(vm: viewModel)
-                RioView(vm: viewModel)
+                RioCardView(viewmodel: viewModel)
+                RioCardView(viewmodel: viewModel)
+                RioCardView(viewmodel: viewModel)
             }.padding(.horizontal, 20)
         }
         

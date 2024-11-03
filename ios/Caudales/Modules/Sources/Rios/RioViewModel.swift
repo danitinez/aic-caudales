@@ -9,17 +9,18 @@ public class RioViewModel {
     }
     
     public init() {
-        self.rio = Rio.createRio()
+        self.rio = Sections.sectionsExample
     }
     
-    var rio: Rio
+    var rio: Sections
     
     
-    func colorForLevel(level: Level) -> LevelDanger {
-        let levelLow = rio.min + (rio.max - rio.min) * 1/3
-        let levelMid = rio.min + (rio.max - rio.min) * 2/3
-        let levelHigh = rio.max
-        return switch level.levelM3 {
+    func colorForLevel(level: Level, section: Section) -> LevelDanger {
+        let levelLow = section.absMin + (section.absMax - section.absMin) * 1/3
+        let levelMid = section.absMax + (section.absMax - section.absMin) * 2/3
+        let levelHigh = section.absMax
+        let lvl = level.min ?? level.dispensed ?? 0
+        return switch lvl {
         case ...levelLow: .low
         case levelLow ... levelMid: .medium
         case levelMid...: .high
