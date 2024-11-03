@@ -22,11 +22,6 @@ def save_data_as_json(caudales, file_path):
     with open(file_path, 'w') as json_file:
         json.dump(asdict(caudales), json_file, indent=4, default=default_serializer)
 
-    # Create a symbolic link called "latest" that points to the file_path
-    symlink_path = os.path.join(os.path.dirname(file_path), "latest")
-    if os.path.islink(symlink_path):
-        os.remove(symlink_path)
-    os.symlink(file_path, symlink_path)
 
     
 
@@ -48,18 +43,26 @@ def add_link_to_index(json_filename, html_file_path):
         html_file.write(link_line)
 
 
-if __name__ == "__main__":
+def update_latest_json_symlink(path, filename):
+    # Create a symbolic link called "latest.json" that points to the file_path
+    symlink_path = os.path.join(path, "latest.json")
+    if os.path.islink(symlink_path):
+        os.remove(symlink_path)
+    os.symlink(filename, symlink_path)
 
+if __name__ == "__main__":
+    github_docs_dir = "docs/"
     cache_buster = random.randint(0, 99999)
-    url = "http://www.aic.gov.ar/sitio/caudales?cache_buster={cache_buster}"  # Replace with the actual URL
+    url = f"http://www.aic.gov.ar/sitio/caudales?cache_buster={cache_buster}"  # Replace with the actual URL
     html_content = fetch_html(url)
 
     data_gatherer = DataGatherer()
     sections = data_gatherer.parse(html_content)
     
     filename = sections.last_update.strftime("%d_%m_%Y.json")
-    save_data_as_json(sections, "docs/" + filename)
-    add_link_to_index(filename, "docs/index.html")
+    save_data_as_json(sections, github_docs_dir + filename)
+    update_latest_json_symlink(github_docs_dir, filename)
+    add_link_to_index(filename, f"{github_docs_dir}/index.html")
 
 
 #
