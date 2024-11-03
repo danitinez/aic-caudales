@@ -13,9 +13,11 @@ class Level:
 @dataclass
 class Section:
     name: str = ""
+    order: int = 0
     levels: List[Level] = field(default_factory=list)
 
 @dataclass
 class Sections:
+    version: str
     last_update: date
     sections: List[Section] = field(default_factory=list)

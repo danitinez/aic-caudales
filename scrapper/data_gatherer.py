@@ -16,7 +16,7 @@ class DataGatherer:
         # Remove the day name and 'de' words as they're not needed for parsing
         cleaned_date = date_string.strip().split(", ")[1]
         # Parse the date using Spanish locale
-        return datetime.strptime(cleaned_date, "%d de %B de %Y").date().isoformat()
+        return datetime.strptime(cleaned_date, "%d de %B de %Y").date()
 
     def parse(self, html_content):
         # sections = Sections()
@@ -29,20 +29,21 @@ class DataGatherer:
         #dates handlind
         trs = table.find_all("tr")
         dates_td_str = [td.get_text() for td in trs[1].find_all("td")]
-        dates = [datetime.strptime(date, "%d/%m/%Y").date().isoformat() for date in dates_td_str]
+        dates = [datetime.strptime(date, "%d/%m/%Y").date() for date in dates_td_str]
         
         sections = []
         for i in range(2, len(trs), 2):
             tr_n = trs[i]
             tr_n_plus_1 = trs[i + 1]
             
-            section = self._build_section(tr_n, tr_n_plus_1, dates)
+            section = self._build_section(tr_n, tr_n_plus_1, dates, order=(i-2)/2)
             sections.append(section)
 
-        return Sections(last_update=last_update, sections=sections)    
+        return Sections(version="v1.0.0", last_update=last_update, sections=sections)    
 
-    def _build_section(self, tr1, tr2, dates):
+    def _build_section(self, tr1, tr2, dates, order):
         section = Section()
+        section.order = int(order)
         section.name = tr1.find("td", class_="HeaderCaudalesFila").get_text().strip()
 
         # Build Levels        
