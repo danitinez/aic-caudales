@@ -20,7 +20,9 @@ if __name__ == "__main__":
     url = "http://www.aic.gov.ar/sitio/caudales?cache_buster={cache_buster}"  # Replace with the actual URL
     html_content = fetch_html(url)
 
-    data_gatherer = DataGatherer(html_content)
-    data = data_gatherer.get_data()
-    filename = data_gatherer.get_filename()
-    save_data_as_json(data_gatherer.get_data(), filename)
+    data_gatherer = DataGatherer()
+    sections = data_gatherer.parse(html_content)
+    
+    filename = "data/sections.json"
+    
+    save_data_as_json(sections, filename)

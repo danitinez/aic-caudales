@@ -1,40 +1,127 @@
 import unittest
-from unittest.mock import MagicMock, patch
 from bs4 import BeautifulSoup
+from scrapper.data_gatherer import DataGatherer
 
 class TestGatherData(unittest.TestCase):
     
-    @patch('builtins.open', create=True)
-    def test_gather_data(self, mock_open):
-        mock_open.return_value.read.return_value = '''
-        <html>
-        <body>
-            <table id="body_TablaCaudales">
-                <tr><td>Header</td></tr>
-                <tr><td>Date1</td><td>Date2</td></tr>
-                <tr><td>Row1</td><td>1.0</td><td>2.0</td></tr>
-                <tr><td>Row2</td><td>3.0</td><td>4.0</td></tr>
-                <tr><td>Row3</td><td>5.0</td><td>6.0</td></tr>
-                <tr><td>Row4</td><td>7.0</td><td>8.0</td></tr>
-                <tr><td>Row5</td><td>9.0</td><td>10.0</td></tr>
-                <tr><td>Row6</td><td>11.0</td><td>12.0</td></tr>
-                <tr><td>Row7</td><td>13.0</td><td>14.0</td></tr>
-                <tr><td>Row8</td><td>15.0</td><td>16.0</td></tr>
-                <tr><td>Row9</td><td>17.0</td><td>18.0</td></tr>
-            </table>
-        </body>
-        </html>
-        '''
+    def test_gather_data(self):
+        with open('tests/test.html', 'r') as file:
+            html_content = file.read()
+
+        gatherer = DataGatherer()
+        sections = gatherer.parse(html_content)
+
+        self.assertEqual(sections.last_update, '2024-05-12')
+        self.assertEqual(len(sections.sections), 5)
         
-        gatherer = DataGatherer("fake_path")
-        gatherer.parse_data()
+        # Check the first section
+        section = sections.sections[0]
+        self.assertEqual(section.name, 'Portezuelo Grande')
         
-        self.assertEqual(gatherer.get_dates(), ['Date1', 'Date2'])
-        self.assertEqual(gatherer.get_portezuelo(), [1.0, (2.0 + 3.0) / 2])
-        self.assertEqual(gatherer.get_el_chanar(), [5.0, (6.0 + 7.0) / 2])
-        self.assertEqual(gatherer.get_picun(), [9.0, (10.0 + 11.0) / 2])
-        self.assertEqual(gatherer.get_arroyito(), [13.0, (14.0 + 15.0) / 2])
-        self.assertEqual(gatherer.get_chanar_arroyito(), [17.0, (18.0 + 1.0) / 2])  # Assuming incomplete data handled properly
+        # Check the levels of the first section
+        levels = section.levels
+        self.assertEqual(len(levels), 6)
+        
+        # Check each level
+        self.assertEqual(levels[0].type, 'dispensed')
+        self.assertEqual(levels[0].date, '2024-05-11')
+        self.assertIsNone(levels[0].min)
+        self.assertIsNone(levels[0].max)
+        self.assertEqual(levels[0].dispensed, '12')
+        
+        for i in range(1, 6):
+            self.assertEqual(levels[i].type, 'programmed')
+            self.assertEqual(levels[i].date, f'2024-05-{11 + i}')
+            self.assertEqual(levels[i].min, 12)
+            self.assertEqual(levels[i].max, 10)
+            self.assertIsNone(levels[i].dispensed)
+
+
+         # Check the last section
+        section = sections.sections[-1]
+        self.assertEqual(section.name, 'El Chañar + Arroyito')
+        
+        # Check the levels of the last section
+        levels = section.levels
+        self.assertEqual(len(levels), 6)
+        
+        # Check each level
+        self.assertEqual(levels[0].type, 'dispensed')
+        self.assertEqual(levels[0].date, '2024-05-11')
+        self.assertIsNone(levels[0].min)
+        self.assertIsNone(levels[0].max)
+        self.assertEqual(levels[0].dispensed, '694')
+        
+        self.assertEqual(levels[1].type, 'programmed')
+        self.assertEqual(levels[1].date, '2024-05-12')
+        self.assertEqual(levels[1].min, 830)
+        self.assertEqual(levels[1].max, 770)
+        self.assertIsNone(levels[1].dispensed)
+        
+        for i in range(2, 6):
+            self.assertEqual(levels[i].type, 'programmed')
+            self.assertEqual(levels[i].date, f'2024-05-{11 + i}')
+            self.assertEqual(levels[i].min, 840)
+            self.assertEqual(levels[i].max, 800)
+            self.assertIsNone(levels[i].dispensed)
+
+
+
+    def test_gather_data2(self):
+        with open('tests/test2.html', 'r') as file:
+            html_content = file.read()
+
+        gatherer = DataGatherer()
+        sections = gatherer.parse(html_content)
+
+        self.assertEqual(sections.last_update, '2024-11-03')
+        self.assertEqual(len(sections.sections), 5)
+        
+        # Check the first section
+        section = sections.sections[0]
+        self.assertEqual(section.name, 'Portezuelo Grande')
+        
+        # Check the levels of the first section
+        levels = section.levels
+        self.assertEqual(len(levels), 6)
+        
+        # Check each level
+        self.assertEqual(levels[0].type, 'dispensed')
+        self.assertEqual(levels[0].date, '2024-11-02')
+        self.assertIsNone(levels[0].min)
+        self.assertIsNone(levels[0].max)
+        self.assertEqual(levels[0].dispensed, '12')
+        
+        for i in range(1, 6):
+            self.assertEqual(levels[i].type, 'programmed')
+            self.assertEqual(levels[i].date, f'2024-11-0{2 + i}')
+            self.assertEqual(levels[i].min, 12)
+            self.assertEqual(levels[i].max, 10)
+            self.assertIsNone(levels[i].dispensed)
+
+
+         # Check the last section
+        section = sections.sections[-1]
+        self.assertEqual(section.name, 'El Chañar + Arroyito')
+        
+        # Check the levels of the last section
+        levels = section.levels
+        self.assertEqual(len(levels), 6)
+        
+        # Check each level
+        self.assertEqual(levels[0].type, 'dispensed')
+        self.assertEqual(levels[0].date, '2024-11-02')
+        self.assertIsNone(levels[0].min)
+        self.assertIsNone(levels[0].max)
+        self.assertEqual(levels[0].dispensed, '511')
+        
+        for i in range(1, 6):
+            self.assertEqual(levels[i].type, 'programmed')
+            self.assertEqual(levels[i].date, f'2024-11-0{2 + i}')
+            self.assertEqual(levels[i].min, 570)
+            self.assertEqual(levels[i].max, 530)
+            self.assertIsNone(levels[i].dispensed)
+        
 
 if __name__ == '__main__':
     unittest.main()
