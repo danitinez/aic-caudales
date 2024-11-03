@@ -1,4 +1,4 @@
-name: Run Python Script and Push Changes
+name: Python Application
 
 permissions:
   contents: write  # Explicitly set permission to write to the repository
@@ -38,17 +38,16 @@ jobs:
           sudo update-locale LANG=es_ES.UTF-8
     
     - name: date
-      run: |
-          date
+      run: date
 
     # Step 4: Run the Python script to modify a file
     - name: Run Python script
       run: python scraper_app.py  # Your Python script here
 
     - name: en_US.UTF-8
-       run: |
-          sudo update-locale LANG=en_US.UTF-8
-          date
+      run: |
+        sudo update-locale LANG=en_US.UTF-8
+        date
 
     # Step 5: Configure Git user and commit changes
     - name: Commit and push changes
