@@ -10,7 +10,6 @@ on:
 
 env:
   LC_ALL: es_ES.UTF-8
-  LC_CTYPE: es_ES.UTF-8
 
 jobs:
   modify-file:
@@ -33,9 +32,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt  # If you have dependencies listed
     
-    - name: Locale
-      run:
-        date
+    - name: es_ES.UTF-8
+      run: |
+          sudo locale-gen es_ES.UTF-8
+          sudo update-locale LANG=es_ES.UTF-8
+    
+    - name: date
+      run: |
+          date
 
     # Step 4: Run the Python script to modify a file
     - name: Run Python script
