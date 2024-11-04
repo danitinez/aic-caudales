@@ -69,7 +69,7 @@ jobs:
         git add $FILE_TO_CHECK
         timestamp=$(date -u)
         git commit -m "Actualizando caudales: ${timestamp}"
-        git rebase main
+        git rebase -X ours main
         git push --force
       env:
         LC_ALL: en_US.UTF-8
