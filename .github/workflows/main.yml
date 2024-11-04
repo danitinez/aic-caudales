@@ -55,7 +55,7 @@ jobs:
     # Step 5: Configure Git user and commit changes
     - name: Commit and push changes
       run: |
-        FILE_TO_CHECK="docs/caudales.json"
+        FILE_TO_CHECK="docs/"
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         echo "Git status after running script"
