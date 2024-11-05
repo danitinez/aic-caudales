@@ -48,22 +48,24 @@ jobs:
     - name: Run Python script
       run: python scraper_app.py  # Your Python script here
 
-    - name: en_US.UTF-8
-      env:
-        LC_ALL: en_US.UTF-8
-        LANG: en_US.UTF-8
-      run: |
-        sudo update-locale LANG=en_US.UTF-8
-        date
+    # - name: en_US.UTF-8
+    #   env:
+    #     LC_ALL: en_US.UTF-8
+    #     LANG: en_US.UTF-8
+    #   run: |
+    #     sudo update-locale LANG=en_US.UTF-8
+    #     date
 
     # Step 5: Configure Git user and commit changes
     - name: Commit and push changes
       run: |
         FILE_TO_CHECK="docs/"
-        echo "Git status after running script"
+        echo "---- Git status after running script"
         git status
-        echo "Git DIFF"
+        echo "---- Git DIFF"
         git diff
+        echo "----"
+        git diff-index --quiet HEAD && exit 0
         git add $FILE_TO_CHECK
         timestamp=$(date -u)
         git commit -m "Actualizando caudales: ${timestamp}"
