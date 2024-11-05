@@ -31,11 +31,15 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt  # If you have dependencies listed
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git fetch origin
+        git checkout --track origin/caudales
     
     - name: es_ES.UTF-8
       run: |
-          sudo locale-gen es_ES.UTF-8
-          sudo update-locale LANG=es_ES.UTF-8
+        sudo locale-gen es_ES.UTF-8
+        sudo update-locale LANG=es_ES.UTF-8
     
     - name: date
       run: date
@@ -56,21 +60,14 @@ jobs:
     - name: Commit and push changes
       run: |
         FILE_TO_CHECK="docs/"
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         echo "Git status after running script"
         git status
         echo "Git DIFF"
         git diff
-        git stash
-        git fetch origin
-        git checkout --track origin/caudales
-        git stash pop || exit 0
         git add $FILE_TO_CHECK
         timestamp=$(date -u)
         git commit -m "Actualizando caudales: ${timestamp}"
-        git rebase -X ours main
-        git push --force
+        git push 
       env:
         LC_ALL: en_US.UTF-8
         LANG: en_US.UTF-8
