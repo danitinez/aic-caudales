@@ -17,12 +17,23 @@ let package = Package(
         .library(
             name: "Rios",
             targets: ["Rios"]),
+        .library(
+            name: "AicNetwork",
+            targets: ["AicNetwork"]),
     ],
     targets: [
         .target(name: "Rios"),
         .testTarget(
             name: "RiosTests",
-            dependencies: ["Rios"]
+            dependencies: [
+                "Rios", 
+                "AicNetwork"
+            ]
         ),
+        .target(name: "AicNetwork"),
+        .testTarget(
+            name: "AicNetworkTests",
+            dependencies: ["AicNetwork"]
+        )
     ]
 )

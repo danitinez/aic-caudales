@@ -7,18 +7,21 @@ public struct RioCardView: View {
     
     public init(viewmodel: RioViewModel) {
         self.viewmodel = viewmodel
+        Task {
+            await viewmodel.loadRio()
+        }
     }
     
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // Title
-            Text(viewmodel.rio.name)
+            Text(viewmodel.rio?.name ?? "")
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.horizontal)
             
-            // Chart
-            ForEach(viewmodel.rio.sections) { section in
+//            // Chart
+            ForEach(viewmodel.rio?.sections ?? []) { section in
                 RioChartView(levels: section.levels)
                     .frame(height: 200)
             }
@@ -51,7 +54,8 @@ struct RioChartView: View {
     var body: some View {
         Chart(levels) { level in
             BarMark(
-                x: .value("Day", formatter.string(for: level.date)!),
+//                x: .value("Day", formatter.string(for: level.date)!),
+                x: .value("Day", level.date),
                 y: .value("Level", level.min ?? 0)
             )
             .foregroundStyle(Color.red)

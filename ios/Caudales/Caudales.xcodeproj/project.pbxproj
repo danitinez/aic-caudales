@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6820B1AF2CCEE24600D4E2F5 /* Rios in Frameworks */ = {isa = PBXBuildFile; productRef = 6820B1AE2CCEE24600D4E2F5 /* Rios */; };
+		68E2AD172CDC217C00DEC8DD /* AicNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = 68E2AD162CDC217C00DEC8DD /* AicNetwork */; };
+		68E2AD192CDC217C00DEC8DD /* Rios in Frameworks */ = {isa = PBXBuildFile; productRef = 68E2AD182CDC217C00DEC8DD /* Rios */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +54,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68E2AD192CDC217C00DEC8DD /* Rios in Frameworks */,
 				6820B1AF2CCEE24600D4E2F5 /* Rios in Frameworks */,
+				68E2AD172CDC217C00DEC8DD /* AicNetwork in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +126,8 @@
 			name = Caudales;
 			packageProductDependencies = (
 				6820B1AE2CCEE24600D4E2F5 /* Rios */,
+				68E2AD162CDC217C00DEC8DD /* AicNetwork */,
+				68E2AD182CDC217C00DEC8DD /* Rios */,
 			);
 			productName = Caudales;
 			productReference = 68C3A2CD2CC59E2B00555A28 /* Caudales.app */;
@@ -203,7 +209,7 @@
 			mainGroup = 68C3A2C42CC59E2B00555A28;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				6820B1AD2CCEE24600D4E2F5 /* XCLocalSwiftPackageReference "Modules" */,
+				68E2AD152CDC217C00DEC8DD /* XCLocalSwiftPackageReference "Modules" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 68C3A2CE2CC59E2B00555A28 /* Products */;
@@ -572,7 +578,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		6820B1AD2CCEE24600D4E2F5 /* XCLocalSwiftPackageReference "Modules" */ = {
+		68E2AD152CDC217C00DEC8DD /* XCLocalSwiftPackageReference "Modules" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Modules;
 		};
@@ -580,6 +586,14 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		6820B1AE2CCEE24600D4E2F5 /* Rios */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Rios;
+		};
+		68E2AD162CDC217C00DEC8DD /* AicNetwork */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AicNetwork;
+		};
+		68E2AD182CDC217C00DEC8DD /* Rios */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Rios;
 		};
