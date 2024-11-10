@@ -6,7 +6,7 @@ import AicNetwork
 public class RioViewModel {
     
     private let network: NetworkServiceProtocol
-    var rio: Sections?
+    var sections: Rio?
     
     enum LevelDanger {
         case low, medium, high
@@ -16,13 +16,35 @@ public class RioViewModel {
         self.network = NetworkService()
     }
     
+    init(rio: Rio?) {
+        self.network = NetworkService()
+        self.sections = rio
+    }
+    
     func loadRio() async {
         do {
-            let rio: Sections = try await self.network.execute(endpoint: AicNetwork.APIEndpoints.getData(parameters: nil))
+            let rio: Rio = try await self.network.execute(endpoint: APIEndpoints.getData(parameters: nil))
             print(rio)
-            self.rio = rio
+            self.sections = rio
+        } catch let error as NetworkError {
+            switch error {
+            case let .decodingError(decodingError):
+                print("Decoding error: \(decodingError)")
+            default:
+                print("Error loading Rio data: \(error.localizedDescription)")
+            }
         } catch {
-            print("Error loading Rio data: \(error)")
+            print("Error loading Rio data: \(error.localizedDescription)")
+        }
+        
+    }
+    
+    
+    func formatDate(_ date: String) {
+        var formatter:Formatter {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd/MM"
+            return formatter
         }
     }
     
