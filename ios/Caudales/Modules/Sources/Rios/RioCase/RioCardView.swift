@@ -1,7 +1,6 @@
 import SwiftUI
 import Charts
 
-
 public struct RioCardView: View {
     let viewmodel: RioViewModel
     
@@ -15,15 +14,15 @@ public struct RioCardView: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // Title
-            Text(viewmodel.rio?.name ?? "")
+            Text(viewmodel.sections?.name ?? "")
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.horizontal)
             
 //            // Chart
-            ForEach(viewmodel.rio?.sections ?? []) { section in
-                RioChartView(levels: section.levels)
-                    .frame(height: 200)
+            ForEach(viewmodel.sections?.sections ?? []) { section in
+//                LevelsView(levels: section.levels)
+//                    .frame(height: 200)
             }
         }
         .padding(.all, 10)
@@ -34,58 +33,7 @@ public struct RioCardView: View {
     }
 }
 
-struct RioChartView: View {
-    let levels: [Level]  // Assuming this is your data model
-    
-    var formatter:Formatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM"
-        return formatter
-    }
-    
-    
-    func dangerToColor(value: Double) -> Gradient {
-       let green = 1 - value
-       let red = value
-       let color = Color(red: red, green: green, blue: 0)
-       return Gradient(colors:[color, .green])
-   }
-    
-    var body: some View {
-        Chart(levels) { level in
-            BarMark(
-//                x: .value("Day", formatter.string(for: level.date)!),
-                x: .value("Day", level.date),
-                y: .value("Level", level.min ?? 0)
-            )
-            .foregroundStyle(Color.red)
-            .annotation(position: .overlay, alignment: .top) {
-                Text("\(level.min ?? 0)")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(.black)
-            }
-        }
-        .chartYAxis {
-            AxisMarks(position: .leading) { value in
-                AxisValueLabel {
-                    if let level = value.as(Int.self) {
-                        Text("\(level)m³")
-                    }
-                }
-            }
-        }
-        .chartXAxis {
-            AxisMarks { value in
-                AxisValueLabel {
-                    if let day = value.as(String.self) {
-                        Text(day)
-                    }
-                }
-            }
-        }
-    }
-    
-}
+
 
 //
 //public struct RioView: View {
@@ -169,7 +117,8 @@ struct RioChartView: View {
 public struct RioView_Previews: PreviewProvider {
     public static var previews: some View {
         // Sample data for preview
-        let vm = RioViewModel()
+        let rio = Rio.loadSample()
+        let vm = RioViewModel(rio: rio)
         RioCardView(viewmodel: vm)
     }
 }

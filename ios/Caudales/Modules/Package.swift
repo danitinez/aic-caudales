@@ -22,7 +22,12 @@ let package = Package(
             targets: ["AicNetwork"]),
     ],
     targets: [
-        .target(name: "Rios"),
+        .target(
+            name: "Rios",
+            dependencies: [
+                "AicNetwork"
+            ],
+            resources: [.copy("ResourcesData")]),
         .testTarget(
             name: "RiosTests",
             dependencies: [
