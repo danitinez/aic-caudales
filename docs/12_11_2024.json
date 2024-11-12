@@ -1,0 +1,246 @@
+{
+    "version": "v1.0.0",
+    "last_update": "2024-11-12",
+    "sections": [
+        {
+            "name": "Portezuelo Grande",
+            "order": 0,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2024-11-11",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "14"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-12",
+                    "min": 14,
+                    "max": 12,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-13",
+                    "min": 14,
+                    "max": 12,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-14",
+                    "min": 14,
+                    "max": 12,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-15",
+                    "min": 14,
+                    "max": 12,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-16",
+                    "min": 14,
+                    "max": 12,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "name": "El Cha\u00f1ar",
+            "order": 1,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2024-11-11",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "247"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-12",
+                    "min": 260,
+                    "max": 240,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-13",
+                    "min": 260,
+                    "max": 240,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-14",
+                    "min": 260,
+                    "max": 240,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-15",
+                    "min": 260,
+                    "max": 240,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-16",
+                    "min": 260,
+                    "max": 240,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "name": "Pichi Pic\u00fan Leuf\u00fa",
+            "order": 2,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2024-11-11",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "282"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-12",
+                    "min": 850,
+                    "max": 750,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-13",
+                    "min": 600,
+                    "max": 500,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-14",
+                    "min": 1050,
+                    "max": 950,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-15",
+                    "min": 650,
+                    "max": 550,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-16",
+                    "min": 650,
+                    "max": 550,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "name": "Arroyito",
+            "order": 3,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2024-11-11",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "300"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-12",
+                    "min": 310,
+                    "max": 290,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-13",
+                    "min": 310,
+                    "max": 290,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-14",
+                    "min": 310,
+                    "max": 290,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-15",
+                    "min": 310,
+                    "max": 290,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-16",
+                    "min": 310,
+                    "max": 290,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "name": "El Cha\u00f1ar + Arroyito",
+            "order": 4,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2024-11-11",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "547"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-12",
+                    "min": 570,
+                    "max": 530,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-13",
+                    "min": 570,
+                    "max": 530,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-14",
+                    "min": 570,
+                    "max": 530,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-15",
+                    "min": 570,
+                    "max": 530,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2024-11-16",
+                    "min": 570,
+                    "max": 530,
+                    "dispensed": null
+                }
+            ]
+        }
+    ]
+}
