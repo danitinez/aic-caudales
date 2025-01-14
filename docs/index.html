@@ -1,60 +1,102 @@
-<a href="03_11_2024.json">03_11_2024.json</a><br>
-<a href="04_11_2024.json">04_11_2024.json</a><br>
-<a href="05_11_2024.json">05_11_2024.json</a><br>
-<a href="07_11_2024.json">07_11_2024.json</a><br>
-<a href="08_11_2024.json">08_11_2024.json</a><br>
-<a href="11_11_2024.json">11_11_2024.json</a><br>
-<a href="12_11_2024.json">12_11_2024.json</a><br>
-<a href="14_11_2024.json">14_11_2024.json</a><br>
-<a href="15_11_2024.json">15_11_2024.json</a><br>
-<a href="16_11_2024.json">16_11_2024.json</a><br>
-<a href="17_11_2024.json">17_11_2024.json</a><br>
-<a href="18_11_2024.json">18_11_2024.json</a><br>
-<a href="19_11_2024.json">19_11_2024.json</a><br>
-<a href="21_11_2024.json">21_11_2024.json</a><br>
-<a href="22_11_2024.json">22_11_2024.json</a><br>
-<a href="23_11_2024.json">23_11_2024.json</a><br>
-<a href="24_11_2024.json">24_11_2024.json</a><br>
-<a href="25_11_2024.json">25_11_2024.json</a><br>
-<a href="26_11_2024.json">26_11_2024.json</a><br>
-<a href="27_11_2024.json">27_11_2024.json</a><br>
-<a href="28_11_2024.json">28_11_2024.json</a><br>
-<a href="29_11_2024.json">29_11_2024.json</a><br>
-<a href="30_11_2024.json">30_11_2024.json</a><br>
-<a href="03_12_2024.json">03_12_2024.json</a><br>
-<a href="04_12_2024.json">04_12_2024.json</a><br>
-<a href="06_12_2024.json">06_12_2024.json</a><br>
-<a href="07_12_2024.json">07_12_2024.json</a><br>
-<a href="09_12_2024.json">09_12_2024.json</a><br>
-<a href="10_12_2024.json">10_12_2024.json</a><br>
-<a href="11_12_2024.json">11_12_2024.json</a><br>
-<a href="12_12_2024.json">12_12_2024.json</a><br>
-<a href="13_12_2024.json">13_12_2024.json</a><br>
-<a href="14_12_2024.json">14_12_2024.json</a><br>
-<a href="15_12_2024.json">15_12_2024.json</a><br>
-<a href="16_12_2024.json">16_12_2024.json</a><br>
-<a href="17_12_2024.json">17_12_2024.json</a><br>
-<a href="19_12_2024.json">19_12_2024.json</a><br>
-<a href="20_12_2024.json">20_12_2024.json</a><br>
-<a href="21_12_2024.json">21_12_2024.json</a><br>
-<a href="22_12_2024.json">22_12_2024.json</a><br>
-<a href="23_12_2024.json">23_12_2024.json</a><br>
-<a href="25_12_2024.json">25_12_2024.json</a><br>
-<a href="26_12_2024.json">26_12_2024.json</a><br>
-<a href="27_12_2024.json">27_12_2024.json</a><br>
-<a href="28_12_2024.json">28_12_2024.json</a><br>
-<a href="29_12_2024.json">29_12_2024.json</a><br>
-<a href="30_12_2024.json">30_12_2024.json</a><br>
-<a href="31_12_2024.json">31_12_2024.json</a><br>
-<a href="02_01_2025.json">02_01_2025.json</a><br>
-<a href="03_01_2025.json">03_01_2025.json</a><br>
-<a href="04_01_2025.json">04_01_2025.json</a><br>
-<a href="05_01_2025.json">05_01_2025.json</a><br>
-<a href="06_01_2025.json">06_01_2025.json</a><br>
-<a href="07_01_2025.json">07_01_2025.json</a><br>
-<a href="08_01_2025.json">08_01_2025.json</a><br>
-<a href="09_01_2025.json">09_01_2025.json</a><br>
-<a href="11_01_2025.json">11_01_2025.json</a><br>
-<a href="12_01_2025.json">12_01_2025.json</a><br>
-<a href="13_01_2025.json">13_01_2025.json</a><br>
-<a href="14_01_2025.json">14_01_2025.json</a><br>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caudales Diarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .day-indicator {
+            transition: all 0.3s ease;
+        }
+        .day-indicator:hover {
+            transform: scale(1.02);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-blue-900 font-sans">
+    <div id="root" class="container mx-auto p-4"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
+    <script type="text/babel">
+        function RiverSection({ section }) {
+            return (
+                <div className="bg-gray-800 shadow-2xl rounded-xl p-6 w-full mb-6 fade-in">
+                    <div className="text-center mb-6">
+                        <h1 className="text-2xl font-bold text-gray-100 mb-2">{section.name}</h1>
+                        <div className="flex justify-center gap-4 text-sm">
+                            <div className="flex items-center">
+                                <div className="w-3 h-3 rounded-full bg-indigo-800 mr-2"></div>
+                                <span className="text-gray-300">Histórico</span>
+                            </div>
+                            <div className="flex items-center">
+                                <div className="w-3 h-3 rounded-full bg-indigo-600 mr-2"></div>
+                                <span className="text-gray-300">Pronosticado</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="flex flex-wrap justify-between items-center gap-4">
+                        {section.levels.map((level, index) => (
+                            <div 
+                                key={index} 
+                                className="flex flex-col items-center space-y-2 day-indicator"
+                            >
+                                <div className={`w-24 h-24 rounded-xl ${level.type === 'dispensed' ? 'bg-indigo-800' : 'bg-indigo-600'} 
+                                    flex flex-col items-center justify-center p-2
+                                    transition-all duration-300`}
+                                >
+                                    <span className="text-white font-bold text-sm">
+                                        {new Date(level.date).toLocaleDateString('es-ES', { weekday: 'short' }).replace('.', '')}
+                                    </span>
+                                    <span className="text-white text-xs">
+                                        {new Date(level.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }).replace('.', '')}
+                                    </span>
+                                    {level.type === 'dispensed' ? (
+                                        <span className="text-white font-bold mt-1">{level.dispensed}</span>
+                                    ) : (
+                                        <div className="text-center mt-1">
+                                            <div className="text-white text-xs">Mín: {level.min}</div>
+                                            <div className="text-white text-xs">Máx: {level.max}</div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        function App() {
+            const [data, setData] = React.useState(null);
+
+            React.useEffect(() => {
+                fetch('https://danitinez.github.io/aic-caudales/latest.json')
+                    .then(response => response.json())
+                    .then(data => setData(data));
+            }, []);
+
+            if (!data) return <div className="text-white">Loading...</div>;
+
+            return (
+                <div className="max-w-7xl mx-auto">
+                    {data.sections.map((section, index) => (
+                        <RiverSection key={index} section={section} />
+                    ))}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

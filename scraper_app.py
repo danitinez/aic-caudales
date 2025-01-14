@@ -62,7 +62,3 @@ if __name__ == "__main__":
     filename = sections.last_update.strftime("%d_%m_%Y.json")
     save_data_as_json(sections, github_docs_dir + filename)
     update_latest_json_symlink(github_docs_dir, filename)
-    add_link_to_index(filename, f"{github_docs_dir}/index.html")
-
-
-#

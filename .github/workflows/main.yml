@@ -48,6 +48,9 @@ jobs:
     - name: Run Python script
       run: python scraper_app.py  # Your Python script here
 
+    - name: Update Front End
+      run: cp front/caudales.html docs/index.html
+
     # - name: en_US.UTF-8
     #   env:
     #     LC_ALL: en_US.UTF-8
