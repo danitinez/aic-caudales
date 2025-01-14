@@ -27,6 +27,14 @@
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
     <script type="text/babel">
+        function getFlagColor(maxValue) {
+            if (!maxValue) return 'text-white';
+            if (maxValue > 300) return 'text-red-400';
+            if (maxValue >= 200) return 'text-orange-400';
+            if (maxValue >= 100) return 'text-yellow-400';
+            return 'text-green-400';
+        }
+
         function RiverSection({ section }) {
             return (
                 <div className="bg-gray-800 shadow-2xl rounded-xl p-6 w-full mb-6 fade-in">
@@ -54,12 +62,10 @@
                                     flex flex-col items-center justify-center p-2
                                     transition-all duration-300`}
                                 >
-                                    <span className="text-white font-bold text-sm">
+                                    <span className="text-white font-bold text-base">
                                         {new Date(level.date).toLocaleDateString('es-ES', { weekday: 'short' }).replace('.', '')}
                                     </span>
-                                    <span className="text-white text-xs">
-                                        {new Date(level.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }).replace('.', '')}
-                                    </span>
+                                    <span className={`text-lg ${getFlagColor(level.max)}`}>⚠️❗</span>
                                     {level.type === 'dispensed' ? (
                                         <span className="text-white font-bold mt-1">{level.dispensed}</span>
                                     ) : (
@@ -87,11 +93,13 @@
 
             if (!data) return <div className="text-white">Loading...</div>;
 
+            const filteredSection = data.sections.find(section => section.order === 3);
+            
+            if (!filteredSection) return <div className="text-white">Sección no encontrada</div>;
+
             return (
                 <div className="max-w-7xl mx-auto">
-                    {data.sections.map((section, index) => (
-                        <RiverSection key={index} section={section} />
-                    ))}
+                    <RiverSection section={filteredSection} />
                 </div>
             );
         }

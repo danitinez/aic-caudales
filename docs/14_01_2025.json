@@ -1,9 +1,10 @@
 {
-    "version": "v1.0.0",
+    "version": "v1.1.0",
     "last_update": "2025-01-14",
     "sections": [
         {
-            "name": "Portezuelo Grande",
+            "id": "portezuelo_grande",
+            "title": "Portezuelo Grande",
             "order": 0,
             "levels": [
                 {
@@ -51,7 +52,8 @@
             ]
         },
         {
-            "name": "El Cha\u00f1ar",
+            "id": "el_chanar",
+            "title": "El Cha\u00f1ar",
             "order": 1,
             "levels": [
                 {
@@ -99,7 +101,8 @@
             ]
         },
         {
-            "name": "Pichi Pic\u00fan Leuf\u00fa",
+            "id": "pichi_picun_leufu",
+            "title": "Pichi Pic\u00fan Leuf\u00fa",
             "order": 2,
             "levels": [
                 {
@@ -147,7 +150,8 @@
             ]
         },
         {
-            "name": "Arroyito",
+            "id": "arroyito",
+            "title": "Arroyito",
             "order": 3,
             "levels": [
                 {
@@ -195,7 +199,8 @@
             ]
         },
         {
-            "name": "El Cha\u00f1ar + Arroyito",
+            "id": "el_chanar_+_arroyito",
+            "title": "El Cha\u00f1ar + Arroyito",
             "order": 4,
             "levels": [
                 {

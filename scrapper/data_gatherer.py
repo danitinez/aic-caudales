@@ -1,9 +1,9 @@
 from bs4 import BeautifulSoup
 import locale
-import json
 from dataclasses import asdict
 from datetime import datetime
 from .models import Sections, Section, Level
+import unicodedata
 
 class DataGatherer:
     
@@ -39,12 +39,13 @@ class DataGatherer:
             section = self._build_section(tr_n, tr_n_plus_1, dates, order=(i-2)/2)
             sections.append(section)
 
-        return Sections(version="v1.0.0", last_update=last_update, sections=sections)    
+        return Sections(version="v1.1.0", last_update=last_update, sections=sections)    
 
     def _build_section(self, tr1, tr2, dates, order):
         section = Section()
         section.order = int(order)
-        section.name = tr1.find("td", class_="HeaderCaudalesFila").get_text().strip()
+        section.title = tr1.find("td", class_="HeaderCaudalesFila").get_text().strip()
+        section.id = self.remove_accents(section.title.lower().replace(" ", "_"))
 
         # Build Levels        
         levels = []
@@ -61,3 +62,7 @@ class DataGatherer:
 
         section.levels = levels
         return section
+    
+    def remove_accents(self, input_str):
+        nfkd_form = unicodedata.normalize('NFKD', input_str)
+        return "".join([c for c in nfkd_form if not unicodedata.combining(c)])

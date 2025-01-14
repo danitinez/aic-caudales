@@ -12,7 +12,8 @@ class Level:
 
 @dataclass
 class Section:
-    name: str = ""
+    id: str = ""
+    title: str = ""
     order: int = 0
     levels: List[Level] = field(default_factory=list)
 

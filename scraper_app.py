@@ -20,10 +20,7 @@ def save_data_as_json(caudales, file_path):
 
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, 'w') as json_file:
-        json.dump(asdict(caudales), json_file, indent=4, default=default_serializer)
-
-
-    
+        json.dump(asdict(caudales), json_file, indent=4, default=default_serializer)    
 
 def add_link_to_index(json_filename, html_file_path):
     # Extract the date from the filename

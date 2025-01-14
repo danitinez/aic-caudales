@@ -1,0 +1,23 @@
+{
+    "version": "1.0.0",
+    "portezuelo_grande": {
+        "min": 16,
+        "max": 14
+    },
+    "el_chanar": {
+        "min": 206,
+        "max": 206
+    },
+    "pichi_picun_leufu": {
+        "min": 0,
+        "max": 0
+    },
+    "arroyito": {
+        "min": 900,
+        "max": 100
+    },
+    "el_chanar_+_arroyito": {
+        "min": 0,
+        "max": 0
+    }
+}
