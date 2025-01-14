@@ -12,38 +12,46 @@ struct LevelsView: View {
    }
     
     var body: some View {
-        Chart(levels) { level in
-            BarMark(
-//                x: .value("Day", formatter.string(for: level.date)!),
-                x: .value("Day", level.date),
-                y: .value("Level", level.valueTop)
-            )
-            .foregroundStyle(Color.blue.gradient)
-            .clipShape(RoundedRectangle(cornerRadius: 4))
-            .annotation(position: .overlay, alignment: .top) {
-                Text("\(level.valueTop)")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(.black)
+        VStack {
+            Chart(levels) { level in
+                BarMark(
+                    //                x: .value("Day", formatter.string(for: level.date)!),
+                    x: .value("Day", level.date),
+                    y: .value("Level", level.valueTop)
+                )
+                .foregroundStyle(Color.blue.gradient)
+                .clipShape(RoundedRectangle(cornerRadius: 4))
+                .annotation(position: .overlay, alignment: .top) {
+                    Text("\(level.valueTop)")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.black)
+                }
             }
-        }
-        .chartYAxis {
-            AxisMarks(position: .leading) { value in
-                AxisValueLabel {
-                    if let level = value.as(Int.self) {
-                        Text("\(level)m³")
+            .chartYAxis {
+                AxisMarks(position: .leading) { value in
+                    AxisValueLabel {
+                        if let level = value.as(Int.self) {
+                            Text("\(level)m³")
+                        }
+                    }
+                }
+            }
+            .chartXAxis {
+                AxisMarks { value in
+                    AxisValueLabel {
+                        if let day = value.as(String.self) {
+                            Text(day)
+                        }
                     }
                 }
             }
         }
-        .chartXAxis {
-            AxisMarks { value in
-                AxisValueLabel {
-                    if let day = value.as(String.self) {
-                        Text(day)
-                    }
-                }
-            }
-        }
+        .padding(.all, 20)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(.systemGray6))
+        )
+        
     }
     
 }
@@ -56,5 +64,25 @@ public struct LevelsView_Previews: PreviewProvider {
         
         return LevelsView(levels: levels.map{ LevelDTO(from: $0) })
             .frame(minWidth: 400, maxWidth: .infinity, minHeight: 300, maxHeight: 400)
+    }
+}
+
+// Preview provider for SwiftUI canvas for dark mode
+public struct LevelsViewDark_Previews: PreviewProvider {
+    public static var previews: some View {
+        
+        let levels = Rio.loadSample()!.sections[2].levels
+                let levelsView = LevelsView(levels: levels.map{ LevelDTO(from: $0) })
+                    .frame(minWidth: 400, maxWidth: .infinity, minHeight: 300, maxHeight: 400)
+                
+                Group {
+                    levelsView
+                        .preferredColorScheme(.light)
+                        .previewDisplayName("Light Mode")
+                    
+                    levelsView
+                        .preferredColorScheme(.dark)
+                        .previewDisplayName("Dark Mode")
+                }
     }
 }

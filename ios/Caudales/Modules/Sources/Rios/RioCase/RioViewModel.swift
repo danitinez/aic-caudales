@@ -6,7 +6,7 @@ import AicNetwork
 public class RioViewModel {
     
     private let network: NetworkServiceProtocol
-    var sections: Rio?
+    var rio: RioDTO?
     
     enum LevelDanger {
         case low, medium, high
@@ -18,14 +18,15 @@ public class RioViewModel {
     
     init(rio: Rio?) {
         self.network = NetworkService()
-        self.sections = rio
+        guard let rio = rio else { return }
+        self.rio = RioDTO(with: rio)
     }
     
     func loadRio() async {
         do {
             let rio: Rio = try await self.network.execute(endpoint: APIEndpoints.getData(parameters: nil))
-            print(rio)
-            self.sections = rio
+//            print(rio)
+            self.rio = RioDTO(with: rio)
         } catch let error as NetworkError {
             switch error {
             case let .decodingError(decodingError):
