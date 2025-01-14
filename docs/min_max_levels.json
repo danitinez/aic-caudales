@@ -13,8 +13,8 @@
         "max": 0
     },
     "arroyito": {
-        "min": 900,
-        "max": 100
+        "min": 100,
+        "max": 900
     },
     "el_chanar_+_arroyito": {
         "min": 0,
