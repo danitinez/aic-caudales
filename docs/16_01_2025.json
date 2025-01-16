@@ -1,0 +1,251 @@
+{
+    "version": "v1.1.0",
+    "last_update": "2025-01-16",
+    "sections": [
+        {
+            "id": "portezuelo_grande",
+            "title": "Portezuelo Grande",
+            "order": 0,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2025-01-15",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "16"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-16",
+                    "min": 16,
+                    "max": 14,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-17",
+                    "min": 16,
+                    "max": 14,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-18",
+                    "min": 16,
+                    "max": 14,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-19",
+                    "min": 16,
+                    "max": 14,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-20",
+                    "min": 16,
+                    "max": 14,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "id": "el_chanar",
+            "title": "El Cha\u00f1ar",
+            "order": 1,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2025-01-15",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "210"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-16",
+                    "min": 255,
+                    "max": 235,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-17",
+                    "min": 255,
+                    "max": 235,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-18",
+                    "min": 255,
+                    "max": 235,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-19",
+                    "min": 255,
+                    "max": 235,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-20",
+                    "min": 255,
+                    "max": 235,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "id": "pichi_picun_leufu",
+            "title": "Pichi Pic\u00fan Leuf\u00fa",
+            "order": 2,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2025-01-15",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "350"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-16",
+                    "min": 750,
+                    "max": 650,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-17",
+                    "min": 1000,
+                    "max": 900,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-18",
+                    "min": 700,
+                    "max": 600,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-19",
+                    "min": 300,
+                    "max": 190,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-20",
+                    "min": 300,
+                    "max": 190,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "id": "arroyito",
+            "title": "Arroyito",
+            "order": 3,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2025-01-15",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "358"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-16",
+                    "min": 370,
+                    "max": 350,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-17",
+                    "min": 370,
+                    "max": 350,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-18",
+                    "min": 370,
+                    "max": 350,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-19",
+                    "min": 370,
+                    "max": 350,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-20",
+                    "min": 370,
+                    "max": 350,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "id": "el_chanar_+_arroyito",
+            "title": "El Cha\u00f1ar + Arroyito",
+            "order": 4,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2025-01-15",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "568"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-16",
+                    "min": 625,
+                    "max": 585,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-17",
+                    "min": 625,
+                    "max": 585,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-18",
+                    "min": 625,
+                    "max": 585,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-19",
+                    "min": 625,
+                    "max": 585,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2025-01-20",
+                    "min": 625,
+                    "max": 585,
+                    "dispensed": null
+                }
+            ]
+        }
+    ]
+}
