@@ -1,14 +1,67 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/aic-caudales/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-    <script type="module" crossorigin src="/aic-caudales/assets/index-Dgpb3a-8.js"></script>
-    <link rel="stylesheet" crossorigin href="/aic-caudales/assets/index-6Csc7xKl.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caudales Diarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .day-indicator {
+            transition: all 0.3s ease;
+        }
+        .day-indicator:hover {
+            transform: scale(1.02);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-blue-900 font-sans">
+    <div id="root" class="container mx-auto p-4"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
+    <script type="text/babel">
+        
+
+        function App() {
+            const [data, setData] = React.useState(null);
+            const [minMaxLevels, setMinMaxLevels] = React.useState(null);
+            const [error, setError] = React.useState(null);
+
+            React.useEffect(() => {
+                Promise.all([
+                    fetch('https://danitinez.github.io/aic-caudales/latest.json').then(r => r.json()),
+                    fetch('https://danitinez.github.io/aic-caudales/min_max_levels.json').then(r => r.json())
+                ]).then(([latestData, minMaxData]) => {
+                    console.log('Fetched data:', { latestData, minMaxData });
+                    setData(latestData);
+                    setMinMaxLevels(minMaxData);
+                }).catch(err => {
+                    console.error('Error fetching data:', err);
+                    setError(err.message);
+                });
+            }, []);
+
+            if (error) return <div className="text-white">Error: {error}</div>;
+            if (!data || !minMaxLevels) return <div className="text-white">Loading...</div>;
+
+            const filteredSection = data.sections.find(section => section.order === 3);
+            if (!filteredSection) return <div className="text-white">Sección no encontrada</div>;
+
+            return (
+                <div className="max-w-7xl mx-auto">
+                    <RiverSection section={filteredSection} minMaxLevels={minMaxLevels} />
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
 </html>
