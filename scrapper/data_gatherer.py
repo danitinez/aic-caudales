@@ -56,8 +56,8 @@ class DataGatherer:
         tds1 = tr1.find_all("td")
         tds2 = tr2.find_all("td")
         for i in range(len(tds2)-1):
-            min = int(tds1[i+2].get_text().strip())
-            max = int(tds2[i].get_text().strip())
+            max = int(tds1[i+2].get_text().strip())
+            min = int(tds2[i].get_text().strip())
             levels.append(Level("programmed", dates[i+1], min=min, max=max))
 
         section.levels = levels
