@@ -49,7 +49,7 @@ jobs:
       run: python scraper_app.py  # Your Python script here
 
     - name: Update Front End
-      run: cp front/front/* docs/*
+      run: cp -R front/front/* docs/*
 
     # - name: en_US.UTF-8
     #   env:
