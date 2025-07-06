@@ -82,5 +82,9 @@ if __name__ == "__main__":
     print_sections_data(sections)
     
     filename = sections.last_update.strftime("%d_%m_%Y.json")
-    save_data_as_json(sections, github_docs_dir + filename)
+    file_path = github_docs_dir + filename
+    save_data_as_json(sections, file_path)
     update_latest_json_symlink(github_docs_dir, filename)
+    
+    print(f"JSON file created: {file_path}")
+    print(f"Symlink updated: {github_docs_dir}latest.json -> {filename}")

@@ -32,7 +32,10 @@ class RiverSection extends Component {
   isToday(dateStr) {
     const today = new Date();
     const cardDate = new Date(dateStr);
-    return today.toDateString() === cardDate.toDateString();
+    
+    return today.getFullYear() === cardDate.getFullYear() &&
+           today.getMonth() === cardDate.getMonth() &&
+           today.getDate() === cardDate.getDate();
   }
 
   render() {
@@ -72,8 +75,14 @@ class RiverSection extends Component {
               key={index} 
               className="flex flex-col items-center space-y-2 day-indicator"
             >
+              {this.isToday(level.date) && (
+                <span className="text-white text-xs font-bold bg-indigo-700 px-2 py-0.5 rounded-t-md -mb-1">
+                  HOY
+                </span>
+              )}
               <div className={`w-24 h-24 rounded-xl 
                 ${level.type === 'dispensed' ? 'bg-gray-700' : 'bg-indigo-600'}
+                ${this.isToday(level.date) ? 'border-2 border-yellow-400' : ''}
                 flex flex-col items-center justify-center p-2
                 transition-all duration-300`}
               >
