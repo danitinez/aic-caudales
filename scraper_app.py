@@ -47,6 +47,28 @@ def update_latest_json_symlink(path, filename):
         os.remove(symlink_path)
     os.symlink(filename, symlink_path)
 
+def print_sections_data(sections):
+    """Print the scraped data in a readable format"""
+    print(f"\n===== WATER FLOW DATA =====")
+    print(f"Version: {sections.version}")
+    print(f"Last Update: {sections.last_update.strftime('%d %B, %Y')}")
+    print(f"==========================")
+    
+    for section in sections.sections:
+        print(f"\n[{section.order}] {section.title} (ID: {section.id})")
+        print(f"  {'Type':<10} {'Date':<12} {'Min':<6} {'Max':<6} {'Dispensed':<9}")
+        print(f"  {'-'*45}")
+        
+        for level in section.levels:
+            date_str = level.date.strftime("%d/%m/%Y")
+            min_val = str(level.min) if level.min is not None else "-"
+            max_val = str(level.max) if level.max is not None else "-"
+            dispensed = str(level.dispensed) if level.dispensed is not None else "-"
+            
+            print(f"  {level.type:<10} {date_str:<12} {min_val:<6} {max_val:<6} {dispensed:<9}")
+    
+    print("\n==========================\n")
+
 if __name__ == "__main__":
     github_docs_dir = "docs/"
     cache_buster = random.randint(0, 99999)
@@ -55,6 +77,9 @@ if __name__ == "__main__":
 
     data_gatherer = DataGatherer()
     sections = data_gatherer.parse(html_content)
+    
+    # Print the scraped data
+    print_sections_data(sections)
     
     filename = sections.last_update.strftime("%d_%m_%Y.json")
     save_data_as_json(sections, github_docs_dir + filename)
