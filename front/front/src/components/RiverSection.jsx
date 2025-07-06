@@ -73,14 +73,14 @@ class RiverSection extends Component {
           {section.levels.map((level, index) => (
             <div 
               key={index} 
-              className="flex flex-col items-center space-y-2 day-indicator"
+              className="flex flex-col items-center day-indicator relative h-28"
             >
               {this.isToday(level.date) && (
-                <span className="text-white text-xs font-bold bg-indigo-700 px-2 py-0.5 rounded-t-md -mb-1">
+                <span className="text-white text-xs font-bold bg-indigo-700 px-2 py-0.5 rounded-t-md absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
                   HOY
                 </span>
               )}
-              <div className={`w-24 h-24 rounded-xl 
+              <div className={`w-24 h-24 rounded-xl mt-2
                 ${level.type === 'dispensed' ? 'bg-gray-700' : 'bg-indigo-600'}
                 ${this.isToday(level.date) ? 'border-2 border-yellow-400' : ''}
                 flex flex-col items-center justify-center p-2

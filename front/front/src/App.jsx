@@ -30,7 +30,14 @@ function App() {
     <div className="max-w-7xl mx-auto p-4">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-white mb-2">AIC - Caudales programados</h1>
-        <p className="text-gray-300 text-sm">Todos los valores estan expresados en m³/s</p>
+        <p className="text-gray-300 text-sm mb-1">Todos los valores estan expresados en m³/s</p>
+        <p className="text-gray-400 text-xs">
+          Última actualización: {new Date(data.last_update).toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          })}
+        </p>
       </div>
       {orderedSections.map((section, index) => (
         <RiverSection key={index} section={section} minMaxLevels={minMaxLevels[section.id]} />
