@@ -1,8 +1,30 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import fs from 'fs'
+import path from 'path'
 
-// https://vite.dev/config/
+const docsDir = path.resolve(process.cwd(), '../../docs')
+
 export default defineConfig({
   base: '/aic-caudales/',
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'serve-docs-json',
+      configureServer(server) {
+        server.middlewares.use('/aic-caudales', (req, res, next) => {
+          const filePath = path.join(docsDir, req.url.split('?')[0])
+          try {
+            if (fs.statSync(filePath).isFile()) {
+              const ext = path.extname(filePath)
+              if (ext === '.json') res.setHeader('Content-Type', 'application/json')
+              res.end(fs.readFileSync(filePath))
+              return
+            }
+          } catch {}
+          next()
+        })
+      }
+    }
+  ],
 })

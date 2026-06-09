@@ -1,0 +1,57 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## What this project does
+
+Scrapes daily water flow (caudales) data from `aic.gov.ar/sitio/caudales` and publishes it as JSON + a React dashboard on GitHub Pages. The `caudales` branch is the working branch — CI commits scraped data directly to it every 4 hours.
+
+## Commands
+
+### Python scraper
+
+```bash
+source .venv/bin/activate   # or: source activate
+python scraper_app.py       # run the scraper manually
+python -m unittest tests/test_scraper.py  # run tests (must run from repo root)
+```
+
+### Frontend (front/front/)
+
+```bash
+cd front/front
+npm install
+npm run dev      # local dev server
+npm run build    # build to dist/ (CI then copies dist/* → docs/)
+npm run lint
+```
+
+## Architecture
+
+### Data pipeline
+
+`scraper_app.py` fetches the AIC HTML page → `DataGatherer.parse()` extracts the table (`#body_TablaCaudales`) → saves a dated JSON file to `docs/DD_MM_YYYY.json` and updates `docs/latest.json` (a symlink to the most recent file).
+
+The data model is:
+- `Sections` → list of `Section` (id, title, order, levels)
+- `Section.levels` → list of `Level` (type: `"dispensed"` | `"programmed"`, date, min, max, dispensed)
+- Each section has one `dispensed` level (yesterday's actual flow) and five `programmed` levels (upcoming min/max forecasts)
+
+Parsing relies on `es_ES.UTF-8` locale to parse Spanish month names in the date string (e.g., "domingo, 21 de julio de 2025").
+
+### Frontend
+
+The React app (`front/front/src/`) fetches `latest.json` and `min_max_levels.json` at runtime (relative URLs, since it's served from `docs/`). `min_max_levels.json` contains historical min/max bounds per section used for gauge rendering. The built output is committed into `docs/` and served via GitHub Pages at `danitinez.github.io/aic-caudales/`.
+
+The Vite base path is set to `/aic-caudales/` to match the GitHub Pages subpath.
+
+### CI
+
+`.github/workflows/main.yml` runs on the `caudales` branch every 4 hours:
+1. Runs `python scraper_app.py` (requires `es_ES.UTF-8` locale)
+2. Copies `front/front/dist/*` → `docs/`
+3. Commits and pushes any changes to `docs/`
+
+### iOS (ios/)
+
+A SwiftPM package (`AicNetwork` module) in `ios/Caudales/Modules/` — nascent, no Swift source files committed yet.
