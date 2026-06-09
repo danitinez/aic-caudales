@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import locale
 from dataclasses import asdict
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import Sections, Section, Level
 import unicodedata
 
@@ -26,11 +26,21 @@ class DataGatherer:
         # Get the last update date
         last_update = self._build_date(soup.find(id="body_LabelFecha").get_text())
         
-        #dates handlind
         trs = table.find_all("tr")
         dates_td_str = [td.get_text() for td in trs[1].find_all("td")]
         dates = [datetime.strptime(date, "%d/%m/%Y").date() for date in dates_td_str]
-        
+
+        # Sanity check: the dispensed date (dates[0]) must be exactly 1 day before last_update.
+        # If not, the page is serving stale cached table data under a fresh header date.
+        expected_dispensed_date = last_update - timedelta(days=1)
+        if dates[0] != expected_dispensed_date:
+            raise ValueError(
+                f"Inconsistent data from AIC: header says {last_update} "
+                f"but table dispensed date is {dates[0]} "
+                f"(expected {expected_dispensed_date}). "
+                "The site may be serving cached data."
+            )
+
         sections = []
         for i in range(2, len(trs), 2):
             tr_n = trs[i]
