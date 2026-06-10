@@ -12,10 +12,15 @@ export default function Gauge({ min, max, value }) {
   const trackW = svgW - padding * 2;
   const barY = (svgH - barH) / 2;
 
-  const clamped = Math.max(min, Math.min(max, value ?? min));
-  const pct = max > min ? (clamped - min) / (max - min) : 0;
+  // Scale from 0 to max so proportions are absolute (450/900 = 50%)
+  const clamped = Math.max(0, Math.min(max, value ?? 0));
+  const pct = max > 0 ? clamped / max : 0;
   const fillW = Math.round(pct * trackW);
   const pointerX = padding + fillW;
+
+  // Position of min marker on the track (subtle reference line)
+  const minPct = max > 0 ? min / max : 0;
+  const minX = padding + Math.round(minPct * trackW);
 
   return (
     <svg width="100%" viewBox={`0 0 ${svgW} ${svgH}`} overflow="visible">
@@ -35,6 +40,8 @@ export default function Gauge({ min, max, value }) {
       {/* Colored fill */}
       <rect x={padding} y={barY} width={trackW} height={barH} rx={barH / 2}
         fill={`url(#${gradientId})`} mask={`url(#${maskId})`} />
+      {/* Min marker — subtle tick */}
+      {min > 0 && <rect x={minX} y={barY - 1} width={1.5} height={barH + 2} fill="white" opacity="0.25" />}
       {/* Pointer dot */}
       <circle cx={pointerX} cy={barY - 2} r={3.5} fill="white" opacity="0.9" />
     </svg>

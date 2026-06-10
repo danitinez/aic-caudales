@@ -1,8 +1,16 @@
 import React from 'react';
 import Gauge from './Gauge';
 
+const SECTION_SUBTITLES = {
+  portezuelo_grande:    'Río Neuquén · Entrada al complejo Cerros Colorados',
+  el_chanar:            'Río Neuquén · Centenario · Vista Alegre · Cipolletti',
+  pichi_picun_leufu:    'Río Limay · Aguas arriba de Arroyito',
+  arroyito:             'Río Limay · Senillosa · Plottier · Neuquén',
+  'el_chanar_+_arroyito': 'Río Negro · Neuquén · Cipolletti · Allen',
+};
+
 const STATUS = {
-  normal:  { label: 'Normal',       icon: null,  alert: null },
+  normal:  { label: 'Medio',        icon: null,  alert: null },
   warning: { label: 'Caudal bajo',  icon: '⚠️',  alert: 'El caudal se encuentra por debajo del mínimo esperado.' },
   danger:  { label: 'Peligro',      icon: '🚨',  alert: 'El caudal supera el máximo histórico. Extremar precauciones.' },
 };
@@ -19,11 +27,17 @@ function sectionDanger(levels, limits) {
   for (const level of levels) {
     const val = level.type === 'dispensed'
       ? parseFloat(level.dispensed)
-      : level.max; // use programmed max for conservative check
+      : level.max;
     if (val > limits.max) return 'danger';
     if (val < limits.min) worst = 'warning';
   }
   return worst;
+}
+
+function sectionFlowLabel(levels, limits) {
+  if (!limits || !levels.length) return flowLabel(0, limits);
+  const avg = levels.reduce((sum, l) => sum + displayValue(l), 0) / levels.length;
+  return flowLabel(avg, limits);
 }
 
 function levelDanger(level, limits) {
@@ -41,6 +55,17 @@ function displayValue(level) {
   return Math.round((level.min + level.max) / 2);
 }
 
+function flowLabel(val, limits) {
+  if (!limits) return { text: 'Normal', color: 'text-emerald-400', icon: null };
+  const { min, max } = limits;
+  const range = max - min;
+  if (val < min - range * 0.1)  return { text: 'Muy bajo', color: 'text-sky-400',     icon: '⚠️' };
+  if (val < min)                return { text: 'Bajo',     color: 'text-amber-400',   icon: null };
+  if (val < min + range * 0.40) return { text: 'Medio',    color: 'text-emerald-400', icon: null };
+  if (val < min + range * 0.75) return { text: 'Alto',     color: 'text-orange-400',  icon: '⚠️' };
+                                return { text: 'Muy alto', color: 'text-red-400',     icon: '🚨' };
+}
+
 function isToday(dateStr) {
   const now = new Date();
   const d = new Date(dateStr + 'T00:00:00');
@@ -54,6 +79,7 @@ export default function RiverSection({ section, minMaxLevels }) {
   const danger = sectionDanger(section.levels, limits);
   const st = STATUS[danger];
   const c = colorMap[danger];
+  const sectionLabel = sectionFlowLabel(section.levels, limits);
 
   return (
     <div className={`rounded-2xl p-5 mb-5 border ${c.border} ${c.bg} backdrop-blur-sm`}>
@@ -62,16 +88,19 @@ export default function RiverSection({ section, minMaxLevels }) {
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div>
           <h2 className="text-lg font-bold text-white leading-tight">{section.title}</h2>
-          <p className="text-slate-500 text-xs mt-0.5">
-            Rango histórico: <span className="text-slate-400 font-medium">{limits.min}–{limits.max} m³/s</span>
+          {SECTION_SUBTITLES[section.id] && (
+            <p className="text-slate-400 text-xs mt-0.5">{SECTION_SUBTITLES[section.id]}</p>
+          )}
+          <p className="text-slate-600 text-xs mt-0.5">
+            Rango histórico: <span className="text-slate-500 font-medium">{limits.min}–{limits.max} m³/s</span>
           </p>
         </div>
 
-        {/* Status badge */}
-        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-semibold ${c.bg} ${c.border} ${c.text}`}>
-          {st.icon && <span className="text-base leading-none">{st.icon}</span>}
+        {/* Status badge — promedio de niveles */}
+        <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-semibold ${c.bg} ${c.border}`}>
+          {sectionLabel.icon && <span className="text-sm leading-none">{sectionLabel.icon}</span>}
           <span className={`w-2 h-2 rounded-full ${c.dot} ${danger !== 'normal' ? 'animate-pulse' : ''}`} />
-          {st.label}
+          <span className={sectionLabel.color}>{sectionLabel.text}</span>
         </div>
       </div>
 
@@ -89,6 +118,7 @@ export default function RiverSection({ section, minMaxLevels }) {
           const val = displayValue(level);
           const d = levelDanger(level, limits);
           const dc = colorMap[d] ?? colorMap.normal;
+          const label = flowLabel(val, limits);
           const today = isToday(level.date);
           const historical = level.type === 'dispensed';
           const day = new Date(level.date + 'T00:00:00')
@@ -123,33 +153,21 @@ export default function RiverSection({ section, minMaxLevels }) {
                 <Gauge min={limits.min} max={limits.max} value={val} />
               </div>
 
-              {/* Main value */}
-              <span className={`text-xl font-black leading-none
-                ${d === 'danger' ? 'text-red-400' : d === 'warning' ? 'text-amber-400' : 'text-white'}`}>
-                {val}
+              {/* Label — protagonista */}
+              <span className={`flex items-center gap-1 text-sm font-black leading-none tracking-wide ${label.color}`}>
+                {label.icon && <span className="text-xs leading-none">{label.icon}</span>}
+                {label.text}
               </span>
 
-              {/* Sub-label */}
-              {!historical && level.min !== null && (
-                <span className="text-[10px] text-slate-500 mt-1 leading-none">
-                  {level.min}–{level.max}
-                </span>
-              )}
-              {historical && (
-                <span className="text-[10px] text-slate-600 mt-1 leading-none uppercase tracking-wide">
-                  real
-                </span>
-              )}
+              {/* Number — secundario */}
+              <span className="text-xs text-slate-500 mt-1 leading-none font-medium">
+                {val} m³/s
+              </span>
 
-              {/* Danger tag */}
-              {d === 'danger' && (
-                <span className="text-[9px] font-bold text-red-400 bg-red-500/20 px-1.5 py-0.5 rounded-full mt-1 uppercase tracking-wide">
-                  Excede máx
-                </span>
-              )}
-              {d === 'warning' && (
-                <span className="text-[9px] font-bold text-amber-400 bg-amber-500/20 px-1.5 py-0.5 rounded-full mt-1 uppercase tracking-wide">
-                  Bajo mín
+              {/* Min-max range for programmed */}
+              {!historical && level.min !== null && (
+                <span className="text-[10px] text-slate-600 mt-0.5 leading-none">
+                  {level.min}–{level.max}
                 </span>
               )}
             </div>

@@ -32,22 +32,32 @@ function App() {
     </div>
   );
 
-  const orderedSections = [...data.sections].sort((a, b) => a.order - b.order);
+  const DISPLAY_ORDER = ['arroyito', 'el_chanar_+_arroyito', 'pichi_picun_leufu', 'el_chanar', 'portezuelo_grande'];
+  const orderedSections = [...data.sections].sort((a, b) => {
+    const ai = DISPLAY_ORDER.indexOf(a.id);
+    const bi = DISPLAY_ORDER.indexOf(b.id);
+    const aOrder = ai === -1 ? 999 : ai;
+    const bOrder = bi === -1 ? 999 : bi;
+    return aOrder - bOrder;
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <div className="max-w-4xl mx-auto px-4 py-10">
 
         <div className="text-center mb-10">
-          <div className="flex items-center justify-center gap-3 mb-3">
+          <div className="flex items-center justify-center gap-3 mb-2">
             <span className="text-3xl">🌊</span>
-            <h1 className="text-3xl font-bold text-white tracking-tight">Caudales AIC</h1>
+            <h1 className="text-3xl font-bold text-white tracking-tight">CaudalGuru</h1>
           </div>
-          <p className="text-slate-400 text-sm mb-1">
-            Caudales programados · Provincia del Neuquén
+          <p className="text-slate-300 text-sm font-medium mb-2">
+            Planeá tu ida al río de forma segura
           </p>
-          <p className="text-slate-500 text-xs">
-            Valores en m³/s · Última actualización:{' '}
+          <p className="text-slate-500 text-xs mb-3 max-w-sm mx-auto leading-relaxed">
+            Sabé cuál es el caudal para el día que quieras ir · Ríos Limay y Neuquén · Provincia del Neuquén
+          </p>
+          <p className="text-slate-600 text-xs">
+            Valores en m³/s · Datos actualizados:{' '}
             {new Date(data.last_update + 'T00:00:00').toLocaleDateString('es-ES', {
               day: 'numeric', month: 'long', year: 'numeric',
             })}
