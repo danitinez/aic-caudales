@@ -49,7 +49,11 @@ jobs:
       run: python scraper_app.py  # Your Python script here
 
     - name: Update Front End
-      run: cp -R front/front/dist/* docs/
+      # Copy ONLY the built app (html/assets), never *.json. docs/latest.json is a
+      # symlink to the dated file the scraper just wrote; `cp` would follow it and
+      # overwrite fresh data with the build's baked-in stale JSON. --no-links + the
+      # json exclude guarantee the scraper's docs/*.json are left untouched.
+      run: rsync -a --no-links --exclude='*.json' front/front/dist/ docs/
 
     # - name: en_US.UTF-8
     #   env:

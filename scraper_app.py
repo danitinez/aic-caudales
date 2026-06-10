@@ -47,6 +47,53 @@ def update_latest_json_symlink(path, filename):
         os.remove(symlink_path)
     os.symlink(filename, symlink_path)
 
+def read_published_last_update(docs_dir):
+    """Return the last_update date already published in latest.json, or None."""
+    latest_path = os.path.join(docs_dir, "latest.json")
+    if not os.path.exists(latest_path):
+        return None
+    try:
+        with open(latest_path) as f:
+            return date.fromisoformat(json.load(f)["last_update"])
+    except (json.JSONDecodeError, KeyError, ValueError, OSError):
+        return None
+
+# How many days behind the wall clock the scraped data may be before we treat it
+# as stale. AIC publishes the current day's row; weekends/holidays can lag a bit,
+# and CI runs in UTC while AIC reports in ART (UTC-3), so allow a small margin.
+MAX_DATA_AGE_DAYS = 3
+
+def assert_data_is_fresh(sections, docs_dir, today=None):
+    """Refuse to publish stale or regressing data.
+
+    Raises SystemExit (non-zero) so the CI job fails instead of silently
+    overwriting good data with cached/old data from AIC.
+    """
+    if today is None:
+        today = datetime.now().date()
+    last_update = sections.last_update
+
+    if last_update > today:
+        raise SystemExit(
+            f"Refusing to save: last_update {last_update} is in the future "
+            f"(today={today}). AIC returned inconsistent data."
+        )
+
+    age_days = (today - last_update).days
+    if age_days > MAX_DATA_AGE_DAYS:
+        raise SystemExit(
+            f"Refusing to save: scraped data is {age_days} days old "
+            f"(last_update={last_update}, today={today}). "
+            "AIC is likely serving cached data."
+        )
+
+    published = read_published_last_update(docs_dir)
+    if published is not None and last_update < published:
+        raise SystemExit(
+            f"Refusing to save: scraped last_update {last_update} is older than the "
+            f"already published {published}. Not overwriting newer data with older data."
+        )
+
 def print_sections_data(sections):
     """Print the scraped data in a readable format"""
     print(f"\n===== WATER FLOW DATA =====")
@@ -80,7 +127,10 @@ if __name__ == "__main__":
     
     # Print the scraped data
     print_sections_data(sections)
-    
+
+    # Refuse to publish stale/regressing data (e.g. AIC serving a cached page).
+    assert_data_is_fresh(sections, github_docs_dir)
+
     filename = sections.last_update.strftime("%d_%m_%Y.json")
     file_path = github_docs_dir + filename
     save_data_as_json(sections, file_path)
