@@ -71,8 +71,10 @@ jobs:
     - name: Update Front End
       # Copy ONLY the built app (html/assets), never *.json: the dist carries a
       # baked-in dev weather.json that would overwrite the data the scrapers
-      # just published.
-      run: rsync -a --exclude='*.json' front/dist/ docs/
+      # just published. --no-links is defense-in-depth in case a build output
+      # symlink ever creeps back in (docs/*.json aliases are real-file copies,
+      # never symlinks; see CLAUDE.md).
+      run: rsync -a --no-links --exclude='*.json' front/dist/ docs/
 
     # - name: en_US.UTF-8
     #   env:
