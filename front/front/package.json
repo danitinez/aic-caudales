@@ -2,7 +2,7 @@
   "name": "front",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://danitinez.github.io/aic-caudales/",
+  "homepage": "https://caudalguru.com.ar/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

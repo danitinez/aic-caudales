@@ -6,13 +6,13 @@ import path from 'path'
 const docsDir = path.resolve(process.cwd(), '../../docs')
 
 export default defineConfig({
-  base: '/aic-caudales/',
+  base: '/',
   plugins: [
     react(),
     {
       name: 'serve-docs-json',
       configureServer(server) {
-        server.middlewares.use('/aic-caudales', (req, res, next) => {
+        server.middlewares.use((req, res, next) => {
           const filePath = path.join(docsDir, req.url.split('?')[0])
           try {
             if (fs.statSync(filePath).isFile()) {
