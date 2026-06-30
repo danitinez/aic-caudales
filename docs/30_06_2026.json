@@ -164,36 +164,36 @@
                 {
                     "type": "programmed",
                     "date": "2026-06-30",
-                    "min": 470,
+                    "min": 440,
                     "max": 520,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-07-01",
-                    "min": 470,
-                    "max": 520,
+                    "min": 380,
+                    "max": 410,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-07-02",
-                    "min": 470,
-                    "max": 520,
+                    "min": 330,
+                    "max": 360,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-07-03",
-                    "min": 470,
-                    "max": 520,
+                    "min": 290,
+                    "max": 320,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-07-04",
-                    "min": 470,
-                    "max": 520,
+                    "min": 250,
+                    "max": 300,
                     "dispensed": null
                 }
             ]
@@ -213,36 +213,36 @@
                 {
                     "type": "programmed",
                     "date": "2026-06-30",
-                    "min": 516,
+                    "min": 486,
                     "max": 575,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-07-01",
-                    "min": 516,
-                    "max": 575,
+                    "min": 426,
+                    "max": 465,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-07-02",
-                    "min": 516,
-                    "max": 575,
+                    "min": 376,
+                    "max": 415,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-07-03",
-                    "min": 516,
-                    "max": 575,
+                    "min": 336,
+                    "max": 375,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-07-04",
-                    "min": 516,
-                    "max": 575,
+                    "min": 296,
+                    "max": 355,
                     "dispensed": null
                 }
             ]
