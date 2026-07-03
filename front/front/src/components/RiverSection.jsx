@@ -25,9 +25,7 @@ function sectionDanger(levels, limits) {
   if (!limits) return 'normal';
   let worst = 'normal';
   for (const level of levels) {
-    const val = level.type === 'dispensed'
-      ? parseFloat(level.dispensed)
-      : level.max;
+    const val = level.max;
     if (val > limits.max) return 'danger';
     if (val < limits.min) worst = 'warning';
   }
@@ -42,16 +40,13 @@ function sectionFlowLabel(levels, limits) {
 
 function levelDanger(level, limits) {
   if (!limits) return 'normal';
-  const val = level.type === 'dispensed'
-    ? parseFloat(level.dispensed)
-    : level.max;
+  const val = level.max;
   if (val > limits.max) return 'danger';
   if (val < limits.min) return 'warning';
   return 'normal';
 }
 
 function displayValue(level) {
-  if (level.type === 'dispensed') return parseFloat(level.dispensed);
   return Math.round((level.min + level.max) / 2);
 }
 
@@ -74,12 +69,23 @@ function isToday(dateStr) {
     now.getDate() === d.getDate();
 }
 
+// A level is "past" if its date falls before today. We filter by date rather
+// than by level.type, because when AIC's data lags a day or two the programmed
+// levels can include dates that are already in the past.
+function isPast(dateStr) {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const d = new Date(dateStr + 'T00:00:00');
+  return d < today;
+}
+
 export default function RiverSection({ section, minMaxLevels }) {
   const limits = minMaxLevels || { min: 0, max: 100 };
-  const danger = sectionDanger(section.levels, limits);
+  const upcomingLevels = section.levels.filter(l => !isPast(l.date));
+  const danger = sectionDanger(upcomingLevels, limits);
   const st = STATUS[danger];
   const c = colorMap[danger];
-  const sectionLabel = sectionFlowLabel(section.levels, limits);
+  const sectionLabel = sectionFlowLabel(upcomingLevels, limits);
 
   return (
     <div className={`rounded-2xl p-5 mb-5 border ${c.border} ${c.bg} backdrop-blur-sm`}>
@@ -113,14 +119,13 @@ export default function RiverSection({ section, minMaxLevels }) {
       )}
 
       {/* Day cards */}
-      <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-        {section.levels.map((level, i) => {
+      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+        {upcomingLevels.map((level, i) => {
           const val = displayValue(level);
           const d = levelDanger(level, limits);
           const dc = colorMap[d] ?? colorMap.normal;
           const label = flowLabel(val, limits);
           const today = isToday(level.date);
-          const historical = level.type === 'dispensed';
           const day = new Date(level.date + 'T00:00:00')
             .toLocaleDateString('es-ES', { weekday: 'short' })
             .replace('.', '');
@@ -129,9 +134,7 @@ export default function RiverSection({ section, minMaxLevels }) {
             <div
               key={i}
               className={`relative flex flex-col items-center rounded-xl py-3 px-2 transition-all
-                ${historical
-                  ? 'bg-sky-950/70 border border-sky-700/40'
-                  : 'bg-slate-800/40 border border-slate-700/30'}
+                bg-slate-800/40 border border-slate-700/30
                 ${today ? 'ring-2 ring-yellow-400/70' : ''}
                 ${d !== 'normal' ? `ring-1 ${dc.ring}` : ''}
               `}
@@ -143,8 +146,7 @@ export default function RiverSection({ section, minMaxLevels }) {
               )}
 
               {/* Day name */}
-              <span className={`text-xs font-semibold uppercase tracking-wide mb-2
-                ${historical ? 'text-sky-300/80' : 'text-slate-300'}`}>
+              <span className="text-xs font-semibold uppercase tracking-wide mb-2 text-slate-300">
                 {day}
               </span>
 
@@ -164,8 +166,8 @@ export default function RiverSection({ section, minMaxLevels }) {
                 {val} m³/s
               </span>
 
-              {/* Min-max range for programmed */}
-              {!historical && level.min !== null && (
+              {/* Min-max range */}
+              {level.min !== null && (
                 <span className="text-[10px] text-slate-600 mt-0.5 leading-none">
                   {level.min}–{level.max}
                 </span>
@@ -173,18 +175,6 @@ export default function RiverSection({ section, minMaxLevels }) {
             </div>
           );
         })}
-      </div>
-
-      {/* Legend */}
-      <div className="flex gap-4 mt-4 justify-end">
-        <span className="flex items-center gap-1.5 text-[11px] text-slate-500">
-          <span className="w-2.5 h-2.5 rounded bg-sky-950/70 border border-sky-700/40" />
-          Real (ayer)
-        </span>
-        <span className="flex items-center gap-1.5 text-[11px] text-slate-500">
-          <span className="w-2.5 h-2.5 rounded bg-slate-800/40 border border-slate-700" />
-          Programado
-        </span>
       </div>
     </div>
   );
