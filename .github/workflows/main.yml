@@ -48,6 +48,13 @@ jobs:
     - name: Run Python script
       run: python scraper_app.py  # Your Python script here
 
+    # Scrape reservoir (embalses) levels into docs/lakes.json. continue-on-error
+    # keeps a lakes failure from blocking the caudales commit; the script itself
+    # refuses to write a partial scrape, so old lakes.json survives on failure.
+    - name: Run lakes scraper
+      continue-on-error: true
+      run: python lakes_scraper.py
+
     - name: Update Front End
       # Copy ONLY the built app (html/assets), never *.json. docs/latest.json is a
       # symlink to the dated file the scraper just wrote; `cp` would follow it and
