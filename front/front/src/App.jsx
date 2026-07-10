@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import RiverSection from './components/RiverSection';
+import LakesSection from './components/LakesSection';
 
 function App() {
   const [data, setData] = useState(null);
   const [minMaxLevels, setMinMaxLevels] = useState(null);
+  const [lakes, setLakes] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -15,6 +17,10 @@ function App() {
       setData(latestData);
       setMinMaxLevels(minMaxData);
     }).catch(err => setError(err.message));
+
+    // Lakes are best-effort: the CI scraper step is continue-on-error, so a
+    // missing/broken lakes.json must not take down the rest of the site.
+    fetch('lakes.json').then(r => r.json()).then(setLakes).catch(() => {});
   }, []);
 
   if (error) return (
@@ -67,6 +73,8 @@ function App() {
         {orderedSections.map((section, i) => (
           <RiverSection key={i} section={section} minMaxLevels={minMaxLevels[section.id]} />
         ))}
+
+        {lakes && <LakesSection lakes={lakes} />}
 
         <footer className="text-center text-slate-700 text-xs mt-10">
           Fuente:{' '}
