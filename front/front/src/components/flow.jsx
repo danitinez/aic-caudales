@@ -36,22 +36,30 @@ export function ChevronIcon({ className }) {
   );
 }
 
+export function ArrowDownIcon({ className }) {
+  return (
+    <svg className={className} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 5v14M5 12l7 7 7-7" />
+    </svg>
+  );
+}
+
 const CLASSES = {
   bajo: {
-    label: 'Bajo', severity: 'low',
-    colors: { text: 'text-blue-400', border: 'border-blue-500/30', bg: 'bg-blue-500/10', dot: 'bg-blue-400' },
+    label: 'Bajo', severity: 'low', chipIcon: ArrowDownIcon,
+    colors: { text: 'text-bajo', bg: 'bg-bajo-bg', fill: 'bg-bajo' },
   },
   medio: {
-    label: 'Medio', severity: 'normal',
-    colors: { text: 'text-emerald-400', border: 'border-emerald-500/30', bg: 'bg-emerald-500/10', dot: 'bg-emerald-400' },
+    label: 'Medio', severity: 'normal', chipIcon: null,
+    colors: { text: 'text-medio', bg: 'bg-medio-bg', fill: 'bg-medio' },
   },
   alto: {
-    label: 'Alto', severity: 'warn',
-    colors: { text: 'text-amber-400', border: 'border-amber-500/30', bg: 'bg-amber-500/10', dot: 'bg-amber-400' },
+    label: 'Alto', severity: 'warn', chipIcon: AlertTriangleIcon,
+    colors: { text: 'text-alto', bg: 'bg-alto-bg', fill: 'bg-alto' },
   },
   muy_alto: {
-    label: 'Muy alto', severity: 'danger',
-    colors: { text: 'text-red-400', border: 'border-red-500/30', bg: 'bg-red-500/10', dot: 'bg-red-400' },
+    label: 'Muy alto', severity: 'danger', chipIcon: AlertOctagonIcon,
+    colors: { text: 'text-muy-alto', bg: 'bg-muy-alto-bg', fill: 'bg-muy-alto' },
   },
 };
 
@@ -105,4 +113,36 @@ export function worstClassification(levels, limits) {
     if (found) return found;
   }
   return classifications[0];
+}
+
+// Section chip text — the plain label if every day (or none stand out) shares
+// the worst classification, otherwise the label plus which day(s) it hits
+// ("Muy alto lun–mar"), so the chip doesn't claim more than it should.
+export function worstDaysLabel(levels, limits) {
+  const status = worstClassification(levels, limits);
+  if (status.key === 'medio' || !levels.length) return status.label;
+
+  const matches = levels
+    .map((l, i) => ({ i, hit: classifyFlow(displayValue(l), limits).key === status.key }))
+    .filter(m => m.hit)
+    .map(m => m.i);
+
+  if (matches.length === levels.length) return status.label;
+
+  const shortDay = (level) => new Date(level.date + 'T00:00:00')
+    .toLocaleDateString('es-ES', { weekday: 'short' })
+    .replace('.', '');
+
+  // Collapse contiguous runs of matching days into "lun–mar" style ranges.
+  const ranges = [];
+  let start = matches[0];
+  let prev = matches[0];
+  for (let k = 1; k <= matches.length; k++) {
+    const cur = matches[k];
+    if (cur === prev + 1) { prev = cur; continue; }
+    ranges.push(start === prev ? shortDay(levels[start]) : `${shortDay(levels[start])}–${shortDay(levels[prev])}`);
+    start = prev = cur;
+  }
+
+  return `${status.label} ${ranges.join(' · ')}`;
 }

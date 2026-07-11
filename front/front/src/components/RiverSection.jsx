@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Gauge from './Gauge';
-import Sparkline from './Sparkline';
-import { classifyFlow, worstClassification, displayValue, ChevronIcon } from './flow.jsx';
+import DayGauge from './DayGauge';
+import { classifyFlow, worstClassification, worstDaysLabel, displayValue, ChevronIcon } from './flow.jsx';
 import { WeatherIcon, WindIcon } from './weather.jsx';
 
 const SECTION_SUBTITLES = {
@@ -35,159 +34,130 @@ export default function RiverSection({ section, minMaxLevels, weather }) {
   const limits = minMaxLevels || { min: 0, max: 100 };
   const upcomingLevels = section.levels.filter(l => !isPast(l.date));
   const sectionStatus = worstClassification(upcomingLevels, limits);
+  const chipLabel = worstDaysLabel(upcomingLevels, limits);
   const c = sectionStatus.colors;
-  const todayIndex = upcomingLevels.findIndex(l => isToday(l.date));
+  const ChipIcon = sectionStatus.chipIcon;
 
   return (
-    <div className={`rounded-2xl p-5 mb-5 border ${c.border} ${c.bg} backdrop-blur-sm`}>
+    <article className="station">
+      <div className="bg-panel border border-hairline rounded-md p-4">
 
-      {/* Section header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-        <div>
-          <h2 className="text-lg font-bold text-white leading-tight">{section.title}</h2>
-          {SECTION_SUBTITLES[section.id] && (
-            <p className="text-slate-400 text-xs mt-0.5">{SECTION_SUBTITLES[section.id]}</p>
-          )}
-          <p className="text-slate-600 text-xs mt-0.5">
-            Rango histórico: <span className="text-slate-500 font-medium">{limits.min}–{limits.max} m³/s</span>
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Sparkline
-            values={upcomingLevels.map(displayValue)}
-            todayIndex={todayIndex}
-            className={c.text}
-          />
-          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-semibold ${c.bg} ${c.border}`}>
-            {sectionStatus.Icon && <sectionStatus.Icon className={`${c.text} leading-none`} />}
-            <span className={`w-2 h-2 rounded-full ${c.dot} ${sectionStatus.severity === 'warn' || sectionStatus.severity === 'danger' ? 'animate-pulse' : ''}`} />
-            <span className={c.text}>{sectionStatus.label}</span>
+        {/* Section header */}
+        <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+          <div>
+            <h3 className="font-display font-bold uppercase text-[21px] tracking-wide leading-tight text-ink">
+              {section.title}
+            </h3>
+            {SECTION_SUBTITLES[section.id] && (
+              <p className="text-ink-2 text-xs mt-0.5">{SECTION_SUBTITLES[section.id]}</p>
+            )}
+            <p className="font-mono text-[11px] text-ink-3 mt-0.5">
+              Rango histórico <span className="tabular-nums">{limits.min}–{limits.max} m³/s</span>
+            </p>
           </div>
-        </div>
-      </div>
 
-      {/* Alert banner */}
-      {sectionStatus.alert && (
-        <div className={`flex items-start gap-2 px-4 py-3 rounded-xl mb-4 border ${c.border} ${c.bg}`}>
-          {sectionStatus.Icon && <sectionStatus.Icon className={`${c.text} mt-0.5 shrink-0`} />}
-          <p className={`text-sm font-medium ${c.text}`}>{sectionStatus.alert}</p>
+          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-semibold ${c.text} ${c.bg}`}>
+            {ChipIcon && <ChipIcon className="leading-none" />}
+            {chipLabel}
+          </span>
         </div>
-      )}
 
-      {/* Day cells */}
-      <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
-        {upcomingLevels.map((level, i) => {
+        {/* Alert banner */}
+        {sectionStatus.alert && (
+          <div className={`flex items-start gap-2 px-3 py-2.5 rounded mb-3 ${c.bg}`}>
+            {sectionStatus.Icon && <sectionStatus.Icon className={`${c.text} mt-0.5 shrink-0`} />}
+            <p className={`text-sm font-medium ${c.text}`}>{sectionStatus.alert}</p>
+          </div>
+        )}
+
+        {/* Day cells */}
+        <div
+          className="grid gap-2"
+          style={{ gridTemplateColumns: `repeat(${upcomingLevels.length}, minmax(0, 1fr))` }}
+        >
+          {upcomingLevels.map((level, i) => {
+            const val = displayValue(level);
+            const status = classifyFlow(val, limits);
+            const dc = status.colors;
+            const today = isToday(level.date);
+            const isOpen = expanded === i;
+            const range = limits.max - limits.min;
+            const pct = range > 0 ? ((val - limits.min) / range) * 100 : 50;
+            const day = new Date(level.date + 'T00:00:00')
+              .toLocaleDateString('es-ES', { weekday: 'short' })
+              .replace('.', '');
+            const dayNum = new Date(level.date + 'T00:00:00').getDate();
+            const fullDate = new Date(level.date + 'T00:00:00')
+              .toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+
+            return (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setExpanded(isOpen ? null : i)}
+                aria-expanded={isOpen}
+                aria-label={`${fullDate}, ${val} metros cúbicos por segundo, caudal ${status.label.toLowerCase()}`}
+                className={`relative flex min-w-0 flex-col items-center rounded py-2.5 px-1 border transition-colors
+                  bg-panel border-hairline hover:bg-panel-2
+                  ${today ? 'border-hairline-strong' : ''}
+                  ${isOpen ? 'border-agua bg-panel-2' : ''}
+                `}
+              >
+                {today && (
+                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-ink text-page text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wide">
+                    Hoy
+                  </span>
+                )}
+
+                <span className="font-display uppercase text-[13px] tracking-widest text-ink-2 mb-1">
+                  {day} {dayNum}
+                </span>
+
+                <span className={`day-val font-display font-bold text-3xl leading-none tabular-nums ${dc.text}`}>
+                  {val}
+                </span>
+
+                <DayGauge pct={pct} fillClass={dc.fill} />
+
+                <ChevronIcon className={`mt-1.5 text-ink-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Expanded detail panel */}
+        {expanded !== null && upcomingLevels[expanded] && (() => {
+          const level = upcomingLevels[expanded];
           const val = displayValue(level);
-          const status = classifyFlow(val, limits);
-          const dc = status.colors;
-          const today = isToday(level.date);
-          const isOpen = expanded === i;
-          const day = new Date(level.date + 'T00:00:00')
-            .toLocaleDateString('es-ES', { weekday: 'short' })
-            .replace('.', '');
           const fullDate = new Date(level.date + 'T00:00:00')
             .toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+          const dayForecast = weather?.days.find(d => d.date === level.date);
 
           return (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setExpanded(isOpen ? null : i)}
-              aria-expanded={isOpen}
-              aria-label={`${fullDate}, ${val} metros cúbicos por segundo, caudal ${status.label.toLowerCase()}`}
-              className={`relative flex flex-col items-center rounded-xl py-3 px-1 transition-all
-                bg-slate-800/40 border border-slate-700/30
-                hover:bg-slate-700/40 active:scale-[0.98]
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60
-                ${today ? 'ring-1 ring-slate-300/60' : ''}
-                ${isOpen ? 'ring-2 ring-white/40' : ''}
-              `}
+            <div
+              role="region"
+              aria-label={`Detalle para ${fullDate}`}
+              className="mt-3 bg-panel-2 border border-hairline rounded p-3 text-[12.5px] text-ink-2 flex flex-wrap gap-x-6 gap-y-1"
             >
-              {today && (
-                <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-slate-200 text-slate-900 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wide">
-                  Hoy
+              <span className="font-semibold text-ink capitalize">{fullDate}</span>
+              <span>Estimado <b className="text-ink font-mono">{val} m³/s</b></span>
+              {level.min !== null && (
+                <span>Pronosticado <span className="font-mono">{level.min}–{level.max} m³/s</span></span>
+              )}
+              <span>Histórico <span className="font-mono">{limits.min}–{limits.max} m³/s</span></span>
+              {dayForecast && (
+                <span className="flex items-center gap-1.5">
+                  <WeatherIcon halfDay={dayForecast.day} />
+                  <span className="font-mono">{dayForecast.day.temperature}°&nbsp;/&nbsp;{dayForecast.night.temperature}°</span>
+                  <span className="flex items-center gap-0.5 text-ink-3">
+                    <WindIcon /> {dayForecast.day.wind} km/h
+                  </span>
                 </span>
               )}
-
-              {/* Day name */}
-              <span className="text-xs font-semibold uppercase tracking-wide mb-1.5 text-slate-300">
-                {day}
-              </span>
-
-              {/* Number — the whole point of the cell */}
-              <span className={`font-black leading-none tracking-tight ${dc.text} ${today ? 'text-2xl' : 'text-xl'}`}>
-                {val}
-              </span>
-
-              <ChevronIcon className={`mt-1.5 text-slate-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Expanded detail panel */}
-      {expanded !== null && upcomingLevels[expanded] && (() => {
-        const level = upcomingLevels[expanded];
-        const val = displayValue(level);
-        const status = classifyFlow(val, limits);
-        const dc = status.colors;
-        const fullDate = new Date(level.date + 'T00:00:00')
-          .toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
-        const dayForecast = weather?.days.find(d => d.date === level.date);
-
-        return (
-          <div
-            role="region"
-            aria-label={`Detalle para ${fullDate}`}
-            className={`mt-3 rounded-xl p-4 border ${dc.border} ${dc.bg}`}
-          >
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-white font-semibold capitalize text-sm">{fullDate}</h3>
-              <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-semibold ${dc.bg} ${dc.border} ${dc.text}`}>
-                {status.Icon && <status.Icon className="leading-none" />}
-                {status.label}
-              </div>
             </div>
-
-            {/* Extension point: future rows (clima, UV, viento…) append here */}
-            <dl className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-              <div className="flex flex-col">
-                <dt className="text-slate-500 text-xs">Nivel</dt>
-                <dd className="mt-1">
-                  <Gauge min={limits.min} max={limits.max} value={val} />
-                </dd>
-              </div>
-              <div className="flex flex-col">
-                <dt className="text-slate-500 text-xs">Caudal estimado</dt>
-                <dd className={`font-semibold ${dc.text}`}>{val} m³/s</dd>
-              </div>
-              {level.min !== null && (
-                <div className="flex flex-col">
-                  <dt className="text-slate-500 text-xs">Rango pronosticado</dt>
-                  <dd className="text-slate-300 font-medium">{level.min}–{level.max} m³/s</dd>
-                </div>
-              )}
-              <div className="flex flex-col">
-                <dt className="text-slate-500 text-xs">Rango histórico</dt>
-                <dd className="text-slate-300 font-medium">{limits.min}–{limits.max} m³/s</dd>
-              </div>
-              {dayForecast && (
-                <div className="flex flex-col">
-                  <dt className="text-slate-500 text-xs">Clima ({weather.city_name})</dt>
-                  <dd className="flex items-center gap-1.5 text-slate-300 font-medium">
-                    <WeatherIcon halfDay={dayForecast.day} />
-                    <span>{dayForecast.day.temperature}°&nbsp;/&nbsp;{dayForecast.night.temperature}°</span>
-                    <span className="flex items-center gap-0.5 text-slate-400 text-xs ml-1">
-                      <WindIcon /> {dayForecast.day.wind} km/h
-                    </span>
-                  </dd>
-                </div>
-              )}
-            </dl>
-          </div>
-        );
-      })()}
-    </div>
+          );
+        })()}
+      </div>
+    </article>
   );
 }

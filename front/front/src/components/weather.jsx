@@ -122,13 +122,13 @@ const ICONS = {
 };
 
 const COLORS = {
-  sun: 'text-amber-400',
-  'sun-cloud': 'text-amber-300',
-  cloud: 'text-slate-400',
-  rain: 'text-sky-400',
-  storm: 'text-violet-400',
-  snow: 'text-cyan-300',
-  fog: 'text-slate-500',
+  sun: 'text-alto',
+  'sun-cloud': 'text-alto',
+  cloud: 'text-ink-3',
+  rain: 'text-bajo',
+  storm: 'text-bajo',
+  snow: 'text-bajo',
+  fog: 'text-ink-3',
 };
 
 export function WeatherIcon({ halfDay, className }) {

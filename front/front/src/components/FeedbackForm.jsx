@@ -44,25 +44,24 @@ export default function FeedbackForm() {
 
   if (status === 'ok') {
     return (
-      <section className="mt-12 max-w-md mx-auto text-center">
-        <div className="rounded-2xl p-6 border border-emerald-500/30 bg-emerald-500/10 backdrop-blur-sm">
-          <p className="text-emerald-400 font-semibold text-sm">¡Gracias por tu opinión! 🙌</p>
-          <p className="text-slate-400 text-xs mt-1">La recibimos correctamente.</p>
+      <section className="mt-11 max-w-md">
+        <div className="rounded-md p-5 bg-medio-bg text-medio">
+          <p className="font-semibold text-sm">¡Gracias por tu opinión!</p>
+          <p className="text-ink-2 text-xs mt-1">La recibimos correctamente.</p>
         </div>
       </section>
     );
   }
 
   const inputClass =
-    'w-full rounded-xl bg-slate-800/60 border border-slate-700 px-3 py-2 text-sm text-white ' +
-    'placeholder-slate-500 focus:outline-none focus:border-emerald-500/60 focus:ring-1 ' +
-    'focus:ring-emerald-500/40 transition-colors';
+    'w-full rounded bg-panel border border-hairline px-3 py-2 text-sm text-ink ' +
+    'placeholder:text-ink-3 focus:outline-none focus:border-agua transition-colors';
 
   return (
-    <section className="mt-12 max-w-md mx-auto">
-      <div className="text-center mb-4">
-        <h2 className="text-xl font-bold text-white tracking-tight">Enviá tu opinión</h2>
-        <p className="text-slate-500 text-xs mt-1">
+    <section className="mt-11 max-w-md">
+      <div className="mb-4">
+        <h2 className="font-display font-bold uppercase text-xl tracking-wide text-ink m-0">Enviá tu opinión</h2>
+        <p className="text-ink-3 text-xs mt-1">
           Contanos qué te parece o qué te gustaría ver
         </p>
       </div>
@@ -96,7 +95,7 @@ export default function FeedbackForm() {
         </label>
 
         {status === 'error' && (
-          <p className="text-red-400 text-xs text-center">
+          <p className="text-muy-alto text-xs">
             Hubo un error al enviar. Probá de nuevo o escribinos a info@develope.ar
           </p>
         )}
@@ -104,9 +103,9 @@ export default function FeedbackForm() {
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="rounded-xl bg-emerald-500/90 hover:bg-emerald-500 disabled:opacity-50
-            disabled:cursor-not-allowed text-white font-semibold text-sm py-2.5
-            transition-colors"
+          className="rounded bg-agua hover:opacity-90 disabled:opacity-50
+            disabled:cursor-not-allowed text-page font-semibold text-sm py-2.5
+            transition-opacity"
         >
           {status === 'sending' ? 'Enviando...' : 'Enviar'}
         </button>

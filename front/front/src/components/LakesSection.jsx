@@ -1,6 +1,6 @@
 import React from 'react';
 import LakeGauge from './LakeGauge';
-import { AlertTriangleIcon, AlertOctagonIcon } from './flow.jsx';
+import { AlertTriangleIcon, AlertOctagonIcon, ArrowDownIcon } from './flow.jsx';
 
 const RIVER_BY_ID = {
   alicura: 'Río Limay',
@@ -21,24 +21,24 @@ const DISPLAY_ORDER = [
 
 const CLASSES = {
   bajo: {
-    label: 'Bajo', severity: 'warn', Icon: AlertTriangleIcon,
-    colors: { text: 'text-amber-400', border: 'border-amber-500/30', bg: 'bg-amber-500/10', dot: 'bg-amber-400' },
+    label: 'Bajo', severity: 'warn', Icon: ArrowDownIcon, reason: 'bajo el mín. normal',
+    colors: { text: 'text-alto', bg: 'bg-alto-bg', fill: 'bg-alto' },
   },
   critico: {
-    label: 'Crítico', severity: 'danger', Icon: AlertOctagonIcon,
-    colors: { text: 'text-red-400', border: 'border-red-500/30', bg: 'bg-red-500/10', dot: 'bg-red-400' },
+    label: 'Crítico', severity: 'danger', Icon: AlertOctagonIcon, reason: 'bajo el mín. extraordinario',
+    colors: { text: 'text-muy-alto', bg: 'bg-muy-alto-bg', fill: 'bg-muy-alto' },
   },
   normal: {
-    label: 'Normal', severity: 'normal', Icon: null,
-    colors: { text: 'text-emerald-400', border: 'border-emerald-500/30', bg: 'bg-emerald-500/10', dot: 'bg-emerald-400' },
+    label: 'Normal', severity: 'normal', Icon: null, reason: 'normal',
+    colors: { text: 'text-ink', bg: 'bg-medio-bg', fill: 'bg-agua' },
   },
   alto: {
-    label: 'Alto', severity: 'warn', Icon: AlertTriangleIcon,
-    colors: { text: 'text-amber-400', border: 'border-amber-500/30', bg: 'bg-amber-500/10', dot: 'bg-amber-400' },
+    label: 'Alto', severity: 'warn', Icon: AlertTriangleIcon, reason: 'sobre el máx. normal',
+    colors: { text: 'text-alto', bg: 'bg-alto-bg', fill: 'bg-alto' },
   },
   muy_alto: {
-    label: 'Muy alto', severity: 'danger', Icon: AlertOctagonIcon,
-    colors: { text: 'text-red-400', border: 'border-red-500/30', bg: 'bg-red-500/10', dot: 'bg-red-400' },
+    label: 'Muy alto', severity: 'danger', Icon: AlertOctagonIcon, reason: 'sobre el nivel máximo',
+    colors: { text: 'text-muy-alto', bg: 'bg-muy-alto-bg', fill: 'bg-muy-alto' },
   },
 };
 
@@ -68,62 +68,61 @@ export default function LakesSection({ lakes }) {
   });
 
   return (
-    <section className="mt-12">
-      <div className="text-center mb-6">
-        <h2 className="text-xl font-bold text-white tracking-tight">Embalses</h2>
-        <p className="text-slate-500 text-xs mt-1">
-          Nivel de los lagos · msnm · Datos actualizados:{' '}
+    <section className="mt-11">
+      <div className="flex items-baseline gap-2.5 mb-1">
+        <h2 className="font-display font-bold uppercase text-xl tracking-wide text-ink m-0">Embalses</h2>
+        <span className="text-xs text-ink-3">
+          Nivel del lago en msnm · actualizado{' '}
           {new Date(lakes.last_update + 'T00:00:00').toLocaleDateString('es-ES', {
             day: 'numeric', month: 'long', year: 'numeric',
           })}
-        </p>
+        </span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div>
         {ordered.map(r => {
           const status = classifyLake(r);
           const c = status.colors;
           const bottom = r.min_extraordinary ?? r.current_level;
           const top = r.max_level ?? r.crown ?? r.current_level;
-          const range = top - bottom;
-          const pct = range > 0 ? Math.round(Math.max(0, Math.min(1, (r.current_level - bottom) / range)) * 100) : null;
 
           return (
-            <div key={r.id} className={`rounded-2xl p-4 border ${c.border} ${c.bg} backdrop-blur-sm flex gap-4`}>
-              <LakeGauge
-                bottom={bottom}
-                top={top}
-                value={r.current_level}
-                minNormal={r.min_normal}
-                maxNormal={r.max_normal}
-                colorClass={c.text}
-              />
-
-              <div className="flex flex-col min-w-0 flex-1">
-                <div className="flex flex-col gap-1.5">
-                  <div className={`self-start flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-semibold ${c.bg} ${c.border}`}>
-                    {status.Icon && <status.Icon className={`${c.text} leading-none`} />}
-                    <span className={`w-1.5 h-1.5 rounded-full ${c.dot} ${status.severity === 'warn' || status.severity === 'danger' ? 'animate-pulse' : ''}`} />
-                    <span className={c.text}>{status.label}</span>
+            <div key={r.id} className="lake-row grid grid-cols-[150px_1fr_auto] gap-x-4 gap-y-1 items-center py-3 border-b border-hairline last:border-b-0">
+              <div>
+                <div className="text-ink font-semibold text-sm leading-tight">{r.name}</div>
+                <div className="text-ink-3 text-[11.5px]">{RIVER_BY_ID[r.id]}</div>
+                {(r.inflow !== null || (r.total_released ?? r.turbined) !== null) && (
+                  <div className="text-ink-3 text-xs mt-1.5 space-x-2">
+                    {r.inflow !== null && <span>Entrante {r.inflow}</span>}
+                    {(r.total_released ?? r.turbined) !== null && (
+                      <span>Erogado {r.total_released ?? r.turbined}</span>
+                    )}
                   </div>
-                  <div>
-                    <h3 className="text-white font-bold text-sm leading-tight">{r.name}</h3>
-                    <p className="text-slate-500 text-xs mt-0.5">{RIVER_BY_ID[r.id]}</p>
-                  </div>
-                </div>
+                )}
+              </div>
 
-                <div className="mt-2">
-                  <span className={`font-black text-xl leading-none tracking-tight ${c.text}`}>
-                    {r.current_level}
-                  </span>
-                  <span className="text-slate-500 text-xs ml-1">msnm{pct !== null ? ` · ${pct}%` : ''}</span>
+              <div className="lake-band-cell">
+                <LakeGauge
+                  bottom={bottom}
+                  top={top}
+                  value={r.current_level}
+                  minNormal={r.min_normal}
+                  maxNormal={r.max_normal}
+                  fillClass={c.fill}
+                />
+                <div className="flex justify-between font-mono text-[10px] text-ink-3 mt-1">
+                  <span>{bottom}</span>
+                  <span>{top}</span>
                 </div>
+              </div>
 
-                <div className="text-slate-500 text-xs mt-2 space-x-2">
-                  {r.inflow !== null && <span>Entrante {r.inflow}</span>}
-                  {(r.total_released ?? r.turbined) !== null && (
-                    <span>Erogado {r.total_released ?? r.turbined}</span>
-                  )}
+              <div className="text-right">
+                <div className={`font-display font-bold text-[22px] leading-none tabular-nums ${c.text}`}>
+                  {r.current_level}
+                </div>
+                <div className="text-ink-3 text-[10.5px] mt-0.5 flex items-center justify-end gap-1">
+                  {status.Icon && <status.Icon className={c.text} />}
+                  msnm · {status.reason}
                 </div>
               </div>
             </div>
