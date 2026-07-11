@@ -16,10 +16,10 @@ python scraper_app.py       # run the scraper manually
 python -m unittest tests/test_scraper.py  # run tests (must run from repo root)
 ```
 
-### Frontend (front/front/)
+### Frontend (front/)
 
 ```bash
-cd front/front
+cd front
 npm install
 npm run dev      # local dev server
 npm run build    # build to dist/ (CI then copies dist/* → docs/)
@@ -41,13 +41,13 @@ Parsing relies on `es_ES.UTF-8` locale to parse Spanish month names in the date 
 
 ### Frontend
 
-The React app (`front/front/src/`) fetches `latest.json` and `min_max_levels.json` at runtime (relative URLs, since it's served from `docs/`). `min_max_levels.json` contains historical min/max bounds per section used for gauge rendering. The built output is committed into `docs/` and served via GitHub Pages at `danitinez.github.io/aic-caudales/`.
+The React app (`front/src/`) fetches `latest.json` and `min_max_levels.json` at runtime (relative URLs, since it's served from `docs/`). `min_max_levels.json` contains historical min/max bounds per section used for gauge rendering. The built output is committed into `docs/` and served via GitHub Pages at `danitinez.github.io/aic-caudales/`.
 
 The Vite base path is set to `/aic-caudales/` to match the GitHub Pages subpath.
 
 ### Feedback form (email)
 
-`front/front/src/components/FeedbackForm.jsx` is an in-page contact form. Since GitHub Pages is static (no backend), it POSTs submissions to **Web3Forms** (`https://api.web3forms.com/submit`), which emails them to **info@develope.ar**. The footer's "Enviar opiniones" link scrolls to it (`#opiniones`).
+`front/src/components/FeedbackForm.jsx` is an in-page contact form. Since GitHub Pages is static (no backend), it POSTs submissions to **Web3Forms** (`https://api.web3forms.com/submit`), which emails them to **info@develope.ar**. The footer's "Enviar opiniones" link scrolls to it (`#opiniones`).
 
 The `ACCESS_KEY` in that file is a **public** Web3Forms routing key — it only directs mail to that inbox, grants no account/inbox access, and is exposed in the client bundle regardless, so it's safe to commit. To change the destination inbox or rotate the key, get a new one at https://web3forms.com and replace the constant. A honeypot `botcheck` field provides basic spam protection.
 
@@ -55,7 +55,7 @@ The `ACCESS_KEY` in that file is a **public** Web3Forms routing key — it only 
 
 `.github/workflows/main.yml` runs on the `caudales` branch every 4 hours:
 1. Runs `python scraper_app.py` (requires `es_ES.UTF-8` locale)
-2. Copies `front/front/dist/*` → `docs/`
+2. Copies `front/dist/*` → `docs/`
 3. Commits and pushes any changes to `docs/`
 
 ### iOS (ios/)

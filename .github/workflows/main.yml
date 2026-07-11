@@ -68,7 +68,7 @@ jobs:
       # symlink to the dated file the scraper just wrote; `cp` would follow it and
       # overwrite fresh data with the build's baked-in stale JSON. --no-links + the
       # json exclude guarantee the scraper's docs/*.json are left untouched.
-      run: rsync -a --no-links --exclude='*.json' front/front/dist/ docs/
+      run: rsync -a --no-links --exclude='*.json' front/dist/ docs/
 
     # - name: en_US.UTF-8
     #   env:
