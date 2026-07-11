@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import RiverSection from './components/RiverSection';
 import LakesSection from './components/LakesSection';
+import FeedbackForm from './components/FeedbackForm';
 
 function App() {
   const [data, setData] = useState(null);
@@ -91,6 +92,10 @@ function App() {
 
         {lakes && <LakesSection lakes={lakes} />}
 
+        <div id="opiniones">
+          <FeedbackForm />
+        </div>
+
         <footer className="text-center text-slate-700 text-xs mt-10">
           Fuente:{' '}
           <a
@@ -101,6 +106,24 @@ function App() {
           >
             AIC – Autoridad Interjurisdiccional de las Cuencas
           </a>
+          <p className="mt-3">
+            Hecho con <span className="text-red-500">♥</span> por{' '}
+            <a
+              href="https://develope.ar"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-slate-400 transition-colors underline"
+            >
+              develope.ar
+            </a>
+            {' · '}
+            <a
+              href="#opiniones"
+              className="hover:text-slate-400 transition-colors underline"
+            >
+              Enviar opiniones
+            </a>
+          </p>
         </footer>
       </div>
     </div>

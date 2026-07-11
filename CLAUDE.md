@@ -45,6 +45,12 @@ The React app (`front/front/src/`) fetches `latest.json` and `min_max_levels.jso
 
 The Vite base path is set to `/aic-caudales/` to match the GitHub Pages subpath.
 
+### Feedback form (email)
+
+`front/front/src/components/FeedbackForm.jsx` is an in-page contact form. Since GitHub Pages is static (no backend), it POSTs submissions to **Web3Forms** (`https://api.web3forms.com/submit`), which emails them to **info@develope.ar**. The footer's "Enviar opiniones" link scrolls to it (`#opiniones`).
+
+The `ACCESS_KEY` in that file is a **public** Web3Forms routing key — it only directs mail to that inbox, grants no account/inbox access, and is exposed in the client bundle regardless, so it's safe to commit. To change the destination inbox or rotate the key, get a new one at https://web3forms.com and replace the constant. A honeypot `botcheck` field provides basic spam protection.
+
 ### CI
 
 `.github/workflows/main.yml` runs on the `caudales` branch every 4 hours:
