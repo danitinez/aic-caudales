@@ -4,17 +4,68 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CaudalGuru · Caudales de los ríos de Neuquén</title>
-    <meta name="description" content="Planeá tu ida al río de forma segura, sabiendo cuál es el caudal para el día que quieras ir. Datos actualizados del Limay y Neuquén." />
-    <meta property="og:title" content="CaudalGuru · Caudales de los ríos de Neuquén" />
-    <meta property="og:description" content="Planeá tu ida al río de forma segura, sabiendo cuál es el caudal para el día que quieras ir." />
+    <title>Caudal y altura del río Limay y Neuquén | CaudalGuru</title>
+    <meta name="description" content="Consultá el caudal y la altura del río Limay y del río Neuquén, actualizado a diario. Pronóstico de caudales y nivel de embalses para planificar tu salida al río en la provincia del Neuquén." />
+    <meta name="keywords" content="caudal Limay, caudal río Limay, caudales Neuquén, altura río Limay, altura río Neuquén, caudal río Neuquén, nivel embalses Neuquén, pronóstico caudal" />
+    <meta property="og:title" content="Caudal y altura del río Limay y Neuquén | CaudalGuru" />
+    <meta property="og:description" content="Consultá el caudal y la altura del río Limay y del río Neuquén, actualizado a diario. Planeá tu ida al río de forma segura." />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
     <meta property="og:url" content="https://caudalguru.com.ar/" />
+    <meta name="twitter:card" content="summary" />
     <link rel="canonical" href="https://caudalguru.com.ar/" />
     <meta name="theme-color" content="#020617" />
+
+    <!-- Google Search Console verification. Uncomment and paste the token from
+         Search Console (Settings → Ownership verification → HTML tag). -->
+    <!-- <meta name="google-site-verification" content="REPLACE_WITH_TOKEN" /> -->
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "CaudalGuru",
+          "url": "https://caudalguru.com.ar/",
+          "description": "Caudal y altura de los ríos Limay y Neuquén, actualizado a diario.",
+          "inLanguage": "es-AR"
+        },
+        {
+          "@type": "Dataset",
+          "name": "Caudales y altura de los ríos Limay y Neuquén",
+          "description": "Caudal (m³/s), altura y pronóstico diario de los ríos Limay y Neuquén, y nivel de los embalses de la cuenca, en la provincia del Neuquén, Argentina.",
+          "url": "https://caudalguru.com.ar/",
+          "keywords": ["caudal río Limay", "caudal río Neuquén", "altura río Limay", "embalses Neuquén"],
+          "spatialCoverage": "Provincia del Neuquén, Argentina",
+          "creator": { "@type": "Organization", "name": "develope.ar", "url": "https://develope.ar" },
+          "isAccessibleForFree": true
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static, crawlable content shown before the React app mounts and for
+           search engines that don't run JS. React replaces this on mount. -->
+      <main style="max-width:640px;margin:0 auto;padding:2.5rem 1rem;font-family:system-ui,sans-serif;color:#cbd5e1;background:#020617">
+        <h1 style="color:#fff;font-size:1.5rem">Caudal y altura del río Limay y Neuquén</h1>
+        <p>
+          CaudalGuru muestra el <strong>caudal</strong> y la <strong>altura</strong> de los
+          <strong>ríos Limay y Neuquén</strong> actualizados a diario, junto al pronóstico de
+          caudales y el nivel de los principales embalses de la cuenca en la
+          <strong>provincia del Neuquén</strong>. Planeá tu ida al río de forma segura sabiendo
+          cuál será el caudal el día que quieras ir.
+        </p>
+        <p>
+          Presas y embalses de la cuenca: Alicura, Piedra del Águila, Pichi Picún Leufú,
+          El Chocón, Arroyito (río Limay) y Los Barreales, Mari Menuco, Portezuelo Grande,
+          El Chañar (río Neuquén). Fuente: AIC — Autoridad Interjurisdiccional de las Cuencas.
+        </p>
+        <p>Cargando datos…</p>
+      </main>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
