@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this project does
 
-Scrapes daily water flow (caudales) data from `aic.gov.ar/sitio/caudales` and publishes it as JSON + a React dashboard on GitHub Pages. The `caudales` branch is the working branch — CI commits scraped data directly to it every 4 hours.
+Scrapes daily water flow (caudales) data from `aic.gov.ar/sitio/caudales` and publishes it as JSON + a React dashboard on GitHub Pages. The `caudales` branch is the working branch — a Raspberry Pi runs the scraping pipeline every 4 hours (`scripts/run_publish_on_pi.sh` via systemd, see `deploy/README.md`) and commits scraped data directly to it.
 
 ## Commands
 
@@ -30,7 +30,7 @@ npm run lint
 
 ### Data pipeline
 
-`scraper_app.py` fetches the AIC HTML page → `DataGatherer.parse()` extracts the table (`#body_TablaCaudales`) → saves a dated JSON file to `docs/DD_MM_YYYY.json` and updates `docs/latest.json` (a symlink to the most recent file).
+`scraper_app.py` fetches the AIC HTML page → `DataGatherer.parse()` extracts the table (`#body_TablaCaudales`) → saves a dated JSON file to `docs/DD_MM_YYYY.json` and rewrites `docs/latest.json` (a real-file copy of the most recent dated file — same pattern for `lakes.json` and `weather.json`; these aliases were symlinks in the past, never reintroduce symlinks under `docs/`).
 
 The data model is:
 - `Sections` → list of `Section` (id, title, order, levels)
@@ -55,12 +55,11 @@ The Vite base path is set to `/aic-caudales/` to match the GitHub Pages subpath.
 
 The `ACCESS_KEY` in that file is a **public** Web3Forms routing key — it only directs mail to that inbox, grants no account/inbox access, and is exposed in the client bundle regardless, so it's safe to commit. To change the destination inbox or rotate the key, get a new one at https://web3forms.com and replace the constant. A honeypot `botcheck` field provides basic spam protection.
 
-### CI
+### Publishing (Raspberry Pi + CI fallback)
 
-`.github/workflows/main.yml` runs on the `caudales` branch every 4 hours:
-1. Runs `python scraper_app.py` (requires `es_ES.UTF-8` locale)
-2. Copies `front/dist/*` → `docs/`
-3. Commits and pushes any changes to `docs/`
+The primary data pipeline runs on a Raspberry Pi: a systemd timer (`deploy/systemd/aic-caudales.timer`, every 4 hours UTC) runs `scripts/run_publish_on_pi.sh` in a dedicated automation clone, which pulls `caudales`, runs `scraper_app.py` (requires `es_ES.UTF-8` locale), `compute_ranges.py --write`, then `lakes_scraper.py` and `weather_scraper.py` (these two are non-fatal on failure), and commits/pushes any `docs/` changes. Setup and operations: `deploy/README.md`.
+
+`.github/workflows/main.yml` is a manual emergency fallback (`workflow_dispatch` only, no schedule) that runs the same data pipeline plus a `front/dist/` → `docs/` copy.
 
 ### iOS (ios/)
 

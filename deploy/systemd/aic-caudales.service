@@ -1,0 +1,13 @@
+[Unit]
+Description=Scraping y publish de caudales AIC (corrida completa)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=danitinez
+WorkingDirectory=/home/danitinez/dm/personal/aic-caudales
+ExecStart=/home/danitinez/dm/personal/aic-caudales/scripts/run_publish_on_pi.sh
+# El scrape completo (caudales + 13 embalses + 5 ciudades) tarda ~1-2 min;
+# si se cuelga contra aic.gov.ar, cortar antes de que se pise con la próxima.
+TimeoutStartSec=30min

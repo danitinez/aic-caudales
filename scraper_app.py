@@ -1,4 +1,5 @@
 import os
+import shutil
 import requests
 import json
 from dataclasses import asdict
@@ -40,12 +41,14 @@ def add_link_to_index(json_filename, html_file_path):
         html_file.write(link_line)
 
 
-def update_latest_json_symlink(path, filename):
-    # Create a symbolic link called "latest.json" that points to the file_path
-    symlink_path = os.path.join(path, "latest.json")
-    if os.path.islink(symlink_path):
-        os.remove(symlink_path)
-    os.symlink(filename, symlink_path)
+def update_latest_json_alias(path, filename):
+    """Publish a real copy of the dated file as the stable "latest.json" alias."""
+    alias_path = os.path.join(path, "latest.json")
+    # If the alias is still an old symlink pointing at the dated file, copyfile
+    # would truncate the source through the link; remove it first.
+    if os.path.lexists(alias_path):
+        os.remove(alias_path)
+    shutil.copyfile(os.path.join(path, filename), alias_path)
 
 def read_published_last_update(docs_dir):
     """Return the last_update date already published in latest.json, or None."""
@@ -134,7 +137,7 @@ if __name__ == "__main__":
     filename = sections.last_update.strftime("%d_%m_%Y.json")
     file_path = github_docs_dir + filename
     save_data_as_json(sections, file_path)
-    update_latest_json_symlink(github_docs_dir, filename)
+    update_latest_json_alias(github_docs_dir, filename)
     
     print(f"JSON file created: {file_path}")
-    print(f"Symlink updated: {github_docs_dir}latest.json -> {filename}")
+    print(f"Alias updated: {github_docs_dir}latest.json (copy of {filename})")

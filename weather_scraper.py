@@ -1,4 +1,5 @@
 import os
+import shutil
 import re
 import json
 import requests
@@ -60,11 +61,14 @@ def save_data_as_json(weather, file_path):
         json.dump(asdict(weather), json_file, indent=4, default=default_serializer)
 
 
-def update_latest_json_symlink(path, filename):
-    symlink_path = os.path.join(path, "weather.json")
-    if os.path.islink(symlink_path):
-        os.remove(symlink_path)
-    os.symlink(filename, symlink_path)
+def update_latest_json_alias(path, filename):
+    """Publish a real copy of the newest dated file as the stable "weather.json" alias."""
+    alias_path = os.path.join(path, "weather.json")
+    # If the alias is still an old symlink pointing at the dated file, copyfile
+    # would truncate the source through the link; remove it first.
+    if os.path.lexists(alias_path):
+        os.remove(alias_path)
+    shutil.copyfile(os.path.join(path, filename), alias_path)
 
 
 def assert_data_is_complete(weather, expected_city_count):
@@ -121,7 +125,7 @@ if __name__ == "__main__":
     filename = data.last_update.strftime("weather_%d_%m_%Y.json")
     file_path = github_docs_dir + filename
     save_data_as_json(data, file_path)
-    update_latest_json_symlink(github_docs_dir, filename)
+    update_latest_json_alias(github_docs_dir, filename)
 
     print(f"JSON file created: {file_path}")
-    print(f"Symlink updated: {github_docs_dir}weather.json -> {filename}")
+    print(f"Alias updated: {github_docs_dir}weather.json (copy of {filename})")

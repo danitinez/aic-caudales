@@ -1,0 +1,14 @@
+[Unit]
+Description=Corre el scraping de caudales cada 4 horas
+
+[Timer]
+# En UTC para que sea independiente del timezone configurado en la Pi
+# (mismo esquema que el cron viejo de GitHub Actions, "0 */4 * * *" UTC;
+# el :07 evita el pico de la hora en punta contra aic.gov.ar).
+OnCalendar=*-*-* 00/4:07:00 UTC
+RandomizedDelaySec=300
+# Si la Pi estaba apagada cuando tocaba, corre al arrancar.
+Persistent=true
+
+[Install]
+WantedBy=timers.target
