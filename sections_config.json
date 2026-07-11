@@ -6,11 +6,20 @@
         { "id": "rio_negro", "glyph": "confluence" }
     ],
     "sections": [
-        { "id": "portezuelo_grande", "river_id": "neuquen" },
-        { "id": "el_chanar", "river_id": "neuquen" },
+        { "id": "portezuelo_grande", "river_id": "neuquen", "display_order": 0 },
+        { "id": "el_chanar", "river_id": "neuquen", "display_order": 1 },
+        { "id": "pichi_picun_leufu", "river_id": "limay", "display_order": 3 },
+        { "id": "arroyito", "river_id": "limay", "display_order": 2 },
+        { "id": "el_chanar_arroyito", "river_id": "rio_negro", "display_order": 4 }
+    ],
+    "lakes": [
+        { "id": "alicura", "river_id": "limay" },
+        { "id": "piedra_del_aguila", "river_id": "limay" },
         { "id": "pichi_picun_leufu", "river_id": "limay" },
+        { "id": "el_chocon", "river_id": "limay" },
         { "id": "arroyito", "river_id": "limay" },
-        { "id": "el_chanar_arroyito", "river_id": "rio_negro" }
+        { "id": "los_barreales", "river_id": "neuquen" },
+        { "id": "mari_menuco", "river_id": "neuquen" }
     ],
     "legacy_id_aliases": {
         "el_chanar_+_arroyito": "el_chanar_arroyito"

@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import RiverSection from './components/RiverSection';
+import RiverGlyph from './components/RiverGlyph';
 import LakesSection from './components/LakesSection';
 import FeedbackForm from './components/FeedbackForm';
 import { RIVER_GROUPS, normalizeId } from './config';
 import { t } from './i18n';
-
-function RiverGlyph({ kind }) {
-  if (kind === 'confluence') {
-    return (
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M2 1c0 5 5 5 5 8v4M12 1c0 5-5 5-5 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    );
-  }
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <path d="M7 1v12M3 9l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 function StaffLogo() {
   return (
