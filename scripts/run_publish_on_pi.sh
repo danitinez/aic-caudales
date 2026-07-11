@@ -14,6 +14,21 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$REPO_DIR"
 
+# shellcheck source=notify_telegram.sh
+source "$REPO_DIR/scripts/notify_telegram.sh"
+if [ -f "$REPO_DIR/deploy/.env" ]; then
+    set -a
+    # shellcheck source=/dev/null
+    source "$REPO_DIR/deploy/.env"
+    set +a
+fi
+# Cubre cualquier comando que falle bajo set -e (git pull, scraper, push...).
+# El chequeo de branch de abajo usa `exit` explícito, que no dispara ERR, así
+# que notifica a mano antes de salir.
+trap 'notify_telegram "❌ aic-caudales: falló el publish en la Pi (línea ${LINENO})
+Comando: ${BASH_COMMAND}
+Logs: journalctl -u aic-caudales.service -e"' ERR
+
 # DataGatherer parsea fechas en castellano ("viernes, 11 de julio de 2026").
 export LC_ALL=es_ES.UTF-8 LANG=es_ES.UTF-8
 
@@ -25,6 +40,7 @@ echo "==> Sync del repo (${BRANCH})"
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 if [ "$current_branch" != "$BRANCH" ]; then
     echo "ERROR: el repo está en '$current_branch', se esperaba '$BRANCH'; no se corre el publish." >&2
+    notify_telegram "❌ aic-caudales: el repo en la Pi está en '$current_branch', se esperaba '$BRANCH'; no se corrió el publish."
     exit 1
 fi
 git fetch origin
@@ -54,7 +70,8 @@ python weather_scraper.py || echo "WARN: weather_scraper.py falló; se conserva 
 echo "==> Publish"
 # --porcelain incluye archivos nuevos sin trackear (los JSON fechados del día),
 # que `git diff` no vería.
-if [ -z "$(git status --porcelain -- docs/)" ]; then
+changed_files="$(git status --porcelain -- docs/)"
+if [ -z "$changed_files" ]; then
     echo "Sin cambios en docs/; no hay nada que publicar."
     exit 0
 fi
@@ -63,3 +80,6 @@ git add docs/
 git commit -m "Actualizando caudales: $(LC_ALL=C date -u)"
 git push origin "$BRANCH"
 echo "==> Publicado OK"
+
+notify_telegram "✅ aic-caudales publicado ($(LC_ALL=C date -u '+%Y-%m-%d %H:%M UTC'))
+$(echo "$changed_files" | awk '{print "• "$2}')"

@@ -25,7 +25,27 @@ sudo locale-gen
 locale -a | grep -i es_ES   # debe listar es_ES.utf8
 ```
 
-### 2. Unidades systemd
+### 2. Notificaciones por Telegram (opcional)
+
+`scripts/run_publish_on_pi.sh` avisa por Telegram cuando el publish falla y
+manda un resumen cuando publica OK (ver `scripts/notify_telegram.sh`). Sin
+configurar, no-opea en silencio.
+
+```bash
+cp deploy/.env.example deploy/.env
+$EDITOR deploy/.env   # completar TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID
+```
+
+`deploy/.env` no se commitea (cubierto por el `.env` de `.gitignore`). Para
+probar el envío a mano:
+
+```bash
+source scripts/notify_telegram.sh
+set -a && source deploy/.env && set +a
+notify_telegram "test desde la Pi"
+```
+
+### 3. Unidades systemd
 
 ```bash
 sudo cp deploy/systemd/aic-caudales.{service,timer} /etc/systemd/system/
