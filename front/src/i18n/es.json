@@ -1,0 +1,26 @@
+{
+    "rivers": {
+        "limay": { "name": "Río Limay", "course": "de la cordillera hacia la confluencia →" },
+        "neuquen": { "name": "Río Neuquén", "course": "del norte neuquino hacia la confluencia →" },
+        "rio_negro": { "name": "Río Negro", "course": "Limay + Neuquén desde la confluencia →" }
+    },
+    "sections": {
+        "portezuelo_grande": { "title": "Portezuelo Grande", "subtitle": "Río Neuquén · Entrada al complejo Cerros Colorados" },
+        "el_chanar": { "title": "El Chañar", "subtitle": "Río Neuquén · Centenario · Vista Alegre · Cipolletti" },
+        "pichi_picun_leufu": { "title": "Pichi Picún Leufú", "subtitle": "Río Limay · Aguas arriba de Arroyito" },
+        "arroyito": { "title": "Arroyito", "subtitle": "Río Limay · Senillosa · Plottier · Neuquén" },
+        "el_chanar_arroyito": { "title": "El Chañar + Arroyito", "subtitle": "Río Negro · Neuquén · Cipolletti · Allen" }
+    },
+    "lakes": {
+        "alicura": "Río Limay",
+        "piedra_del_aguila": "Río Limay",
+        "pichi_picun_leufu": "Río Limay",
+        "el_chocon": "Río Limay",
+        "arroyito": "Río Limay · Presa compensadora",
+        "los_barreales": "Río Neuquén · Cerros Colorados",
+        "mari_menuco": "Río Neuquén · Cerros Colorados"
+    },
+    "ui": {
+        "other_sections": "Otros tramos"
+    }
+}

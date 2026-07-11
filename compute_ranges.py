@@ -18,13 +18,18 @@ import re
 import sys
 import unicodedata
 
-DOCS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs")
+ROOT = os.path.dirname(os.path.abspath(__file__))
+DOCS = os.path.join(ROOT, "docs")
 DATED_FILE = re.compile(r"^\d{2}_\d{2}_\d{4}\.json$")
+
+with open(os.path.join(ROOT, "sections_config.json")) as f:
+    ID_ALIASES = json.load(f).get("legacy_id_aliases", {})
 
 
 def slugify(name):
     # Old v1.0.0 files only have "name" ("El Chañar + Arroyito");
-    # map it to the modern id ("el_chanar_+_arroyito").
+    # map it to the id that was current at scrape time. ID_ALIASES then
+    # brings it forward to the modern id.
     normalized = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
     return normalized.lower().replace(" ", "_")
 
@@ -51,6 +56,7 @@ def load_observations():
 
         for section in sections:
             sid = section.get("id") or slugify(section["name"])
+            sid = ID_ALIASES.get(sid, sid)
             for level in section.get("levels", []):
                 date = level.get("date")
                 if not date:

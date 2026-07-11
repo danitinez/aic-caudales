@@ -2,29 +2,8 @@ import React, { useState, useEffect } from 'react';
 import RiverSection from './components/RiverSection';
 import LakesSection from './components/LakesSection';
 import FeedbackForm from './components/FeedbackForm';
-
-// Upstream → downstream, grouped by river so the layout mirrors the basin:
-// Limay and Neuquén each flow independently, then join into the Río Negro.
-const RIVER_GROUPS = [
-  {
-    name: 'Río Limay',
-    course: 'de la cordillera hacia la confluencia →',
-    glyph: 'down',
-    ids: ['pichi_picun_leufu', 'arroyito'],
-  },
-  {
-    name: 'Río Neuquén',
-    course: 'del norte neuquino hacia la confluencia →',
-    glyph: 'down',
-    ids: ['portezuelo_grande', 'el_chanar'],
-  },
-  {
-    name: 'Río Negro',
-    course: 'Limay + Neuquén desde la confluencia →',
-    glyph: 'confluence',
-    ids: ['el_chanar_+_arroyito'],
-  },
-];
+import { RIVER_GROUPS, normalizeId } from './config';
+import { t } from './i18n';
 
 function RiverGlyph({ kind }) {
   if (kind === 'confluence') {
@@ -71,15 +50,25 @@ function App() {
       fetch('latest.json').then(r => r.json()),
       fetch('min_max_levels.json').then(r => r.json())
     ]).then(([latestData, minMaxData]) => {
-      setData(latestData);
-      setMinMaxLevels(minMaxData);
+      setData({
+        ...latestData,
+        sections: latestData.sections.map(s => ({ ...s, id: normalizeId(s.id) })),
+      });
+      setMinMaxLevels(
+        Object.fromEntries(Object.entries(minMaxData).map(([k, v]) => [normalizeId(k), v]))
+      );
     }).catch(err => setError(err.message));
 
     // Lakes and weather are best-effort: their CI scraper steps are
     // continue-on-error, so a missing/broken json must not take down the
     // rest of the site.
     fetch('lakes.json').then(r => r.json()).then(setLakes).catch(() => {});
-    fetch('weather.json').then(r => r.json()).then(setWeather).catch(() => {});
+    fetch('weather.json').then(r => r.json()).then(data => setWeather({
+      ...data,
+      section_cities: Object.fromEntries(
+        Object.entries(data.section_cities ?? {}).map(([k, v]) => [normalizeId(k), v])
+      ),
+    })).catch(() => {});
   }, []);
 
   function weatherForSection(sectionId) {
@@ -108,7 +97,7 @@ function App() {
   const groupedIds = new Set(RIVER_GROUPS.flatMap(g => g.ids));
   const otherIds = data.sections.map(s => s.id).filter(id => !groupedIds.has(id));
   const groups = otherIds.length
-    ? [...RIVER_GROUPS, { name: 'Otros tramos', course: '', glyph: 'down', ids: otherIds }]
+    ? [...RIVER_GROUPS, { id: 'other', glyph: 'down', ids: otherIds }]
     : RIVER_GROUPS;
 
   return (
@@ -165,16 +154,18 @@ function App() {
           {groups.map(group => {
             const sections = group.ids.map(id => sectionById[id]).filter(Boolean);
             if (!sections.length) return null;
+            const name = group.id === 'other' ? t('ui.other_sections') : t(`rivers.${group.id}.name`);
+            const course = group.id === 'other' ? '' : t(`rivers.${group.id}.course`, '');
             return (
-              <section className="river-group" key={group.name}>
+              <section className="river-group" key={group.id}>
                 <div className="flex items-baseline gap-2.5 mb-3 relative">
                   <span className="river-head-glyph absolute -left-[30px] top-0.5 text-agua">
                     <RiverGlyph kind={group.glyph} />
                   </span>
                   <h2 className="font-display font-bold uppercase text-xl tracking-wide text-agua m-0">
-                    {group.name}
+                    {name}
                   </h2>
-                  {group.course && <span className="text-xs text-ink-3">{group.course}</span>}
+                  {course && <span className="text-xs text-ink-3">{course}</span>}
                 </div>
 
                 {sections.map(section => (

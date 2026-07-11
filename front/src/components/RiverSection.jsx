@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import DayGauge from './DayGauge';
 import { classifyFlow, worstClassification, worstDaysLabel, displayValue, ChevronIcon } from './flow.jsx';
 import { WeatherIcon, WindIcon } from './weather.jsx';
-
-const SECTION_SUBTITLES = {
-  portezuelo_grande:    'Río Neuquén · Entrada al complejo Cerros Colorados',
-  el_chanar:            'Río Neuquén · Centenario · Vista Alegre · Cipolletti',
-  pichi_picun_leufu:    'Río Limay · Aguas arriba de Arroyito',
-  arroyito:             'Río Limay · Senillosa · Plottier · Neuquén',
-  'el_chanar_+_arroyito': 'Río Negro · Neuquén · Cipolletti · Allen',
-};
+import { t } from '../i18n';
 
 function isToday(dateStr) {
   const now = new Date();
@@ -46,10 +39,10 @@ export default function RiverSection({ section, minMaxLevels, weather }) {
         <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
           <div>
             <h3 className="font-display font-bold uppercase text-[21px] tracking-wide leading-tight text-ink">
-              {section.title}
+              {t(`sections.${section.id}.title`, section.title)}
             </h3>
-            {SECTION_SUBTITLES[section.id] && (
-              <p className="text-ink-2 text-xs mt-0.5">{SECTION_SUBTITLES[section.id]}</p>
+            {t(`sections.${section.id}.subtitle`, '') && (
+              <p className="text-ink-2 text-xs mt-0.5">{t(`sections.${section.id}.subtitle`, '')}</p>
             )}
             <p className="font-mono text-[11px] text-ink-3 mt-0.5">
               Rango histórico <span className="tabular-nums">{limits.min}–{limits.max} m³/s</span>

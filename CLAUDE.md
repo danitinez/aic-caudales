@@ -39,11 +39,15 @@ The data model is:
 
 Parsing relies on `es_ES.UTF-8` locale to parse Spanish month names in the date string (e.g., "domingo, 21 de julio de 2025").
 
+### Section ids and river grouping
+
+`sections_config.json` (repo root) is the single source of truth for section ids and river grouping. `sections` is ordered to match the AIC table's row order — `DataGatherer` assigns `Section.id` by **table row position**, not by scraping the title (`section.title` is still scraped and kept in the output JSON for reference, but ids are hardcoded). If AIC adds/removes/reorders a table row, `DataGatherer.parse()` raises `ValueError` rather than guessing — update `sections_config.json` to match. `rivers` defines the three basins (`limay`, `neuquen`, `rio_negro`) in display order; each section has a `river_id`. `legacy_id_aliases` maps old ids (e.g. the pre-rename `el_chanar_+_arroyito`) to current ones, so historical dated JSONs and any not-yet-refreshed published files still resolve correctly — `compute_ranges.py` (Python) and `front/src/config.js` (`normalizeId`, frontend) both apply it.
+
 ### Frontend
 
-The React app (`front/src/`) fetches `latest.json` and `min_max_levels.json` at runtime (relative URLs, since it's served from `docs/`). `min_max_levels.json` contains historical min/max bounds per section used for gauge rendering. The built output is committed into `docs/` and served via GitHub Pages at `danitinez.github.io/aic-caudales/`.
+The React app (`front/src/`) fetches `latest.json`, `min_max_levels.json`, and `weather.json` at runtime (relative URLs, since it's served from `docs/`), normalizing any ids through `normalizeId` (`front/src/config.js`). `min_max_levels.json` contains historical min/max bounds per section used for gauge rendering. River groups (`RIVER_GROUPS` in `front/src/config.js`) and display strings (`front/src/i18n/es.json`, looked up via `t()` in `front/src/i18n/index.js`) are both derived from `sections_config.json` — no section/river names are hardcoded in components. The built output is committed into `docs/` and served via GitHub Pages at `danitinez.github.io/aic-caudales/`.
 
-The Vite base path is set to `/aic-caudales/` to match the GitHub Pages subpath.
+The Vite base path is set to `/aic-caudales/` to match the GitHub Pages subpath. The dev server's `server.fs.allow` is widened to the repo root so it can serve `sections_config.json` from outside `front/`.
 
 ### Feedback form (email)
 

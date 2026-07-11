@@ -3,10 +3,13 @@ import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
 
-const docsDir = path.resolve(process.cwd(), '../../docs')
+const docsDir = path.resolve(process.cwd(), '../docs')
 
 export default defineConfig({
   base: '/',
+  server: {
+    fs: { allow: [path.resolve(process.cwd(), '..')] },
+  },
   plugins: [
     react(),
     {

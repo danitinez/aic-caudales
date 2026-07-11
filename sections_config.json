@@ -1,0 +1,18 @@
+{
+    "version": "1.0.0",
+    "rivers": [
+        { "id": "limay", "glyph": "down" },
+        { "id": "neuquen", "glyph": "down" },
+        { "id": "rio_negro", "glyph": "confluence" }
+    ],
+    "sections": [
+        { "id": "portezuelo_grande", "river_id": "neuquen" },
+        { "id": "el_chanar", "river_id": "neuquen" },
+        { "id": "pichi_picun_leufu", "river_id": "limay" },
+        { "id": "arroyito", "river_id": "limay" },
+        { "id": "el_chanar_arroyito", "river_id": "rio_negro" }
+    ],
+    "legacy_id_aliases": {
+        "el_chanar_+_arroyito": "el_chanar_arroyito"
+    }
+}

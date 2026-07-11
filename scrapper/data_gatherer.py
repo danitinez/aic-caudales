@@ -1,14 +1,23 @@
 from bs4 import BeautifulSoup
+import json
 import locale
+import os
 from dataclasses import asdict
 from datetime import datetime, timedelta
 from .models import Sections, Section, Level
-import unicodedata
+
+CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "sections_config.json")
+
+
+def _load_default_section_ids():
+    with open(CONFIG_PATH) as f:
+        return [s["id"] for s in json.load(f)["sections"]]
+
 
 class DataGatherer:
-    
-    def __init__(self):
-        pass
+
+    def __init__(self, section_ids=None):
+        self.section_ids = section_ids if section_ids is not None else _load_default_section_ids()
 
     def _build_date(self, date_string):
         # Set locale to Spanish
@@ -41,21 +50,33 @@ class DataGatherer:
                 "The site may be serving cached data."
             )
 
+        row_count = (len(trs) - 2) // 2
+        if row_count != len(self.section_ids):
+            titles = [
+                tr.find("td", class_="HeaderCaudalesFila").get_text().strip()
+                for tr in trs[2::2] if tr.find("td", class_="HeaderCaudalesFila")
+            ]
+            raise ValueError(
+                f"AIC table has {row_count} sections but sections_config.json defines "
+                f"{len(self.section_ids)}. Scraped titles: {titles}. "
+                "Update sections_config.json to match the table."
+            )
+
         sections = []
         for i in range(2, len(trs), 2):
             tr_n = trs[i]
             tr_n_plus_1 = trs[i + 1]
-            
+
             section = self._build_section(tr_n, tr_n_plus_1, dates, order=(i-2)/2)
             sections.append(section)
 
-        return Sections(version="v1.1.0", last_update=last_update, sections=sections)    
+        return Sections(version="v1.2.0", last_update=last_update, sections=sections)
 
     def _build_section(self, tr1, tr2, dates, order):
         section = Section()
         section.order = int(order)
         section.title = tr1.find("td", class_="HeaderCaudalesFila").get_text().strip()
-        section.id = self.remove_accents(section.title.lower().replace(" ", "_"))
+        section.id = self.section_ids[int(order)]
 
         # Build Levels        
         levels = []
@@ -72,7 +93,3 @@ class DataGatherer:
 
         section.levels = levels
         return section
-    
-    def remove_accents(self, input_str):
-        nfkd_form = unicodedata.normalize('NFKD', input_str)
-        return "".join([c for c in nfkd_form if not unicodedata.combining(c)])

@@ -1,16 +1,7 @@
 import React from 'react';
 import LakeGauge from './LakeGauge';
 import { AlertTriangleIcon, AlertOctagonIcon, ArrowDownIcon } from './flow.jsx';
-
-const RIVER_BY_ID = {
-  alicura: 'Río Limay',
-  piedra_del_aguila: 'Río Limay',
-  pichi_picun_leufu: 'Río Limay',
-  el_chocon: 'Río Limay',
-  arroyito: 'Río Limay · Presa compensadora',
-  los_barreales: 'Río Neuquén · Cerros Colorados',
-  mari_menuco: 'Río Neuquén · Cerros Colorados',
-};
+import { t } from '../i18n';
 
 // Upstream → downstream per river, mirroring the ordering used for river
 // sections in App.jsx.
@@ -90,7 +81,7 @@ export default function LakesSection({ lakes }) {
             <div key={r.id} className="lake-row grid grid-cols-[150px_1fr_auto] gap-x-4 gap-y-1 items-center py-3 border-b border-hairline last:border-b-0">
               <div>
                 <div className="text-ink font-semibold text-sm leading-tight">{r.name}</div>
-                <div className="text-ink-3 text-[11.5px]">{RIVER_BY_ID[r.id]}</div>
+                <div className="text-ink-3 text-[11.5px]">{t(`lakes.${r.id}`, '')}</div>
                 {(r.inflow !== null || (r.total_released ?? r.turbined) !== null) && (
                   <div className="text-ink-3 text-xs mt-1.5 space-x-2">
                     {r.inflow !== null && <span>Entrante {r.inflow}</span>}
