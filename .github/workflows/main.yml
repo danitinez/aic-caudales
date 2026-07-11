@@ -55,6 +55,14 @@ jobs:
       continue-on-error: true
       run: python lakes_scraper.py
 
+    # Scrape the extended forecast (día/noche icon, temperature, wind) per
+    # section's nearest city into docs/weather.json. Same continue-on-error
+    # safety as the lakes scraper: a failure here never blocks the caudales
+    # commit, and the script refuses to write a partial scrape.
+    - name: Run weather scraper
+      continue-on-error: true
+      run: python weather_scraper.py
+
     - name: Update Front End
       # Copy ONLY the built app (html/assets), never *.json. docs/latest.json is a
       # symlink to the dated file the scraper just wrote; `cp` would follow it and

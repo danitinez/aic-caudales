@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Gauge from './Gauge';
 import Sparkline from './Sparkline';
 import { classifyFlow, worstClassification, displayValue, ChevronIcon } from './flow.jsx';
+import { WeatherIcon, WindIcon } from './weather.jsx';
 
 const SECTION_SUBTITLES = {
   portezuelo_grande:    'Río Neuquén · Entrada al complejo Cerros Colorados',
@@ -29,7 +30,7 @@ function isPast(dateStr) {
   return d < today;
 }
 
-export default function RiverSection({ section, minMaxLevels }) {
+export default function RiverSection({ section, minMaxLevels, weather }) {
   const [expanded, setExpanded] = useState(null);
   const limits = minMaxLevels || { min: 0, max: 100 };
   const upcomingLevels = section.levels.filter(l => !isPast(l.date));
@@ -133,6 +134,7 @@ export default function RiverSection({ section, minMaxLevels }) {
         const dc = status.colors;
         const fullDate = new Date(level.date + 'T00:00:00')
           .toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+        const dayForecast = weather?.days.find(d => d.date === level.date);
 
         return (
           <div
@@ -170,6 +172,18 @@ export default function RiverSection({ section, minMaxLevels }) {
                 <dt className="text-slate-500 text-xs">Rango histórico</dt>
                 <dd className="text-slate-300 font-medium">{limits.min}–{limits.max} m³/s</dd>
               </div>
+              {dayForecast && (
+                <div className="flex flex-col">
+                  <dt className="text-slate-500 text-xs">Clima ({weather.city_name})</dt>
+                  <dd className="flex items-center gap-1.5 text-slate-300 font-medium">
+                    <WeatherIcon halfDay={dayForecast.day} />
+                    <span>{dayForecast.day.temperature}°&nbsp;/&nbsp;{dayForecast.night.temperature}°</span>
+                    <span className="flex items-center gap-0.5 text-slate-400 text-xs ml-1">
+                      <WindIcon /> {dayForecast.day.wind} km/h
+                    </span>
+                  </dd>
+                </div>
+              )}
             </dl>
           </div>
         );

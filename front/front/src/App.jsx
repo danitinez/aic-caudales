@@ -7,6 +7,7 @@ function App() {
   const [data, setData] = useState(null);
   const [minMaxLevels, setMinMaxLevels] = useState(null);
   const [lakes, setLakes] = useState(null);
+  const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -18,10 +19,19 @@ function App() {
       setMinMaxLevels(minMaxData);
     }).catch(err => setError(err.message));
 
-    // Lakes are best-effort: the CI scraper step is continue-on-error, so a
-    // missing/broken lakes.json must not take down the rest of the site.
+    // Lakes and weather are best-effort: their CI scraper steps are
+    // continue-on-error, so a missing/broken json must not take down the
+    // rest of the site.
     fetch('lakes.json').then(r => r.json()).then(setLakes).catch(() => {});
+    fetch('weather.json').then(r => r.json()).then(setWeather).catch(() => {});
   }, []);
+
+  function weatherForSection(sectionId) {
+    if (!weather) return null;
+    const cityId = weather.section_cities?.[sectionId];
+    if (!cityId) return null;
+    return weather.cities.find(c => c.city_id === cityId) || null;
+  }
 
   if (error) return (
     <div className="min-h-screen flex items-center justify-center text-red-400 text-sm">
@@ -71,7 +81,12 @@ function App() {
         </div>
 
         {orderedSections.map((section, i) => (
-          <RiverSection key={i} section={section} minMaxLevels={minMaxLevels[section.id]} />
+          <RiverSection
+            key={i}
+            section={section}
+            minMaxLevels={minMaxLevels[section.id]}
+            weather={weatherForSection(section.id)}
+          />
         ))}
 
         {lakes && <LakesSection lakes={lakes} />}
