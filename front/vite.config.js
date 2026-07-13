@@ -8,6 +8,7 @@ const docsDir = path.resolve(process.cwd(), '../docs')
 export default defineConfig({
   base: '/',
   server: {
+    host: true,
     fs: { allow: [path.resolve(process.cwd(), '..')] },
   },
   plugins: [

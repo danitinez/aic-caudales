@@ -51,6 +51,15 @@ The React app (`front/src/`) fetches `latest.json`, `min_max_levels.json`, and `
 
 The Vite base path is set to `/aic-caudales/` to match the GitHub Pages subpath. The dev server's `server.fs.allow` is widened to the repo root so it can serve `sections_config.json` from outside `front/`.
 
+### Basin map (mini maps + modal)
+
+Each caudal section card shows a clickable mini map (`front/src/components/BasinMap.jsx`) of the Limay/Neuquén/Negro basin with that section's river stretch highlighted; clicking opens a modal zoomed to the stretch (with a "whole basin" toggle). The SVG (`front/src/assets/basin-map.svg`) is generated, not hand-drawn:
+
+- `scripts/build_basin_data.py` — fetches real geometry from OpenStreetMap (province polygon, river centerlines chained/simplified from OSM ways, lake polygons), snaps dams onto the river lines and writes `scripts/basin_map_data.json` (committed; ODbL attribution required, shown in the modal). Only re-run to refresh geometry; downloads cache in `<tmp>/aic-basin-cache`.
+- `scripts/gen_basin_map.py` — renders the SVG from that JSON offline. River stretches get `id="tramo-<section_id>"` matching `sections_config.json`, per-section zoom viewBoxes are embedded as `data-vb-<section_id>` attributes on the svg root, and labels/markers sit in `<g class="map-labels">`/`<g class="map-markers">` so the mini rendering can hide them. Rerun after changing labels/marker positions.
+
+`BasinMap.jsx` imports the SVG with Vite's `?raw`, toggles the highlight by string-replacing the tramo's class, and reads the `data-vb-*` viewBoxes for the modal zoom. Map colors are `--map-*` CSS vars defined in `front/src/index.css` (light + dark). A section id without a tramo on the map renders no mini (same fallback spirit as `otherIds`).
+
 ### Feedback form (email)
 
 `front/src/components/FeedbackForm.jsx` is an in-page contact form. Since GitHub Pages is static (no backend), it POSTs submissions to **Web3Forms** (`https://api.web3forms.com/submit`), which emails them to **info@develope.ar**. The footer's "Enviar opiniones" link scrolls to it (`#opiniones`).

@@ -13,7 +13,7 @@ SECTION_CITIES = {
     "portezuelo_grande": "1082",       # Añelo
     "el_chanar": "1015",               # El Chañar
     "pichi_picun_leufu": "1077",       # Picún Leufú
-    "arroyito": "1021",                # El Chocón
+    "arroyito": "1054",                # Neuquén
     "el_chanar_arroyito": "1054",      # Neuquén (confluence)
 }
 CITY_IDS = sorted(set(SECTION_CITIES.values()))

@@ -5,13 +5,13 @@
         "portezuelo_grande": "1082",
         "el_chanar": "1015",
         "pichi_picun_leufu": "1077",
-        "arroyito": "1021",
+        "arroyito": "1054",
         "el_chanar_arroyito": "1054"
     },
     "cities": [
         {
             "city_id": "1015",
-            "city_name": "El Cha\u00f1ar",
+            "city_name": "El Chañar",
             "days": [
                 {
                     "date": "2026-07-12",
@@ -143,7 +143,7 @@
         },
         {
             "city_id": "1021",
-            "city_name": "El Choc\u00f3n",
+            "city_name": "El Chocón",
             "days": [
                 {
                     "date": "2026-07-12",
@@ -275,7 +275,7 @@
         },
         {
             "city_id": "1054",
-            "city_name": "Neuqu\u00e9n",
+            "city_name": "Neuquén",
             "days": [
                 {
                     "date": "2026-07-12",
@@ -407,7 +407,7 @@
         },
         {
             "city_id": "1077",
-            "city_name": "Pic\u00fan Leuf\u00fa",
+            "city_name": "Picún Leufú",
             "days": [
                 {
                     "date": "2026-07-12",
@@ -539,7 +539,7 @@
         },
         {
             "city_id": "1082",
-            "city_name": "A\u00f1elo",
+            "city_name": "Añelo",
             "days": [
                 {
                     "date": "2026-07-12",

@@ -3,6 +3,7 @@ import RiverSection from './components/RiverSection';
 import RiverGlyph from './components/RiverGlyph';
 import LakesSection from './components/LakesSection';
 import FeedbackForm from './components/FeedbackForm';
+import MapView from './components/MapView';
 import { RIVER_GROUPS, normalizeId } from './config';
 import { t } from './i18n';
 
@@ -17,6 +18,28 @@ function StaffLogo() {
   );
 }
 
+function MapIcon({ className }) {
+  return (
+    <svg className={className} width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 3 3.6 5.4a1 1 0 0 0-.6.9v13.2a.5.5 0 0 0 .7.5L9 18l6 3 5.4-2.4a1 1 0 0 0 .6-.9V4.5a.5.5 0 0 0-.7-.5L15 6 9 3z" />
+      <path d="M9 3v15M15 6v15" />
+    </svg>
+  );
+}
+
+function ListIcon({ className }) {
+  return (
+    <svg className={className} width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6" />
+      <line x1="8" y1="12" x2="21" y2="12" />
+      <line x1="8" y1="18" x2="21" y2="18" />
+      <circle cx="3.5" cy="6" r="1" fill="currentColor" stroke="none" />
+      <circle cx="3.5" cy="12" r="1" fill="currentColor" stroke="none" />
+      <circle cx="3.5" cy="18" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 const LEGEND = [
   { key: 'bajo', label: 'Bajo', color: 'bg-bajo' },
   { key: 'medio', label: 'Medio', color: 'bg-medio' },
@@ -24,12 +47,23 @@ const LEGEND = [
   { key: 'muy_alto', label: 'Muy alto', color: 'bg-muy-alto' },
 ];
 
+function hashToView() {
+  return window.location.hash === '#mapa' ? 'map' : 'list';
+}
+
 function App() {
   const [data, setData] = useState(null);
   const [minMaxLevels, setMinMaxLevels] = useState(null);
   const [lakes, setLakes] = useState(null);
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
+  const [view, setView] = useState(hashToView);
+
+  useEffect(() => {
+    const onHashChange = () => setView(hashToView());
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
   useEffect(() => {
     Promise.all([
@@ -97,23 +131,33 @@ function App() {
               Caudal<span className="text-agua">Guru</span>
             </span>
           </div>
-          <p className="text-xs text-ink-2">
-            Actualizado{' '}
-            <span className="font-mono">
-              {new Date(data.last_update + 'T00:00:00').toLocaleDateString('es-ES', {
-                day: 'numeric', month: 'short', year: 'numeric',
-              })}
-            </span>
-            {' · '}Fuente{' '}
-            <a
-              href="http://www.aic.gov.ar"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-agua underline decoration-agua/30 hover:decoration-agua"
+          <div className="flex items-center gap-3">
+            <p className="text-xs text-ink-2 m-0">
+              Actualizado{' '}
+              <span className="font-mono">
+                {new Date(data.last_update + 'T00:00:00').toLocaleDateString('es-ES', {
+                  day: 'numeric', month: 'short', year: 'numeric',
+                })}
+              </span>
+              {' · '}Fuente{' '}
+              <a
+                href="http://www.aic.gov.ar"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-agua underline decoration-agua/30 hover:decoration-agua"
+              >
+                AIC
+              </a>
+            </p>
+            <button
+              type="button"
+              onClick={() => { window.location.hash = view === 'map' ? '' : 'mapa'; }}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-agua border border-hairline rounded px-2.5 py-1 hover:bg-panel-2"
             >
-              AIC
-            </a>
-          </p>
+              {view === 'map' ? <ListIcon /> : <MapIcon />}
+              {view === 'map' ? t('ui.list_view') : t('ui.map_view')}
+            </button>
+          </div>
         </header>
 
         <div className="mt-4 mb-1.5 max-w-[58ch]">
@@ -137,40 +181,50 @@ function App() {
         </div>
 
         <main>
-          {groups.map(group => {
-            const sections = group.ids.map(id => sectionById[id]).filter(Boolean);
-            if (!sections.length) return null;
-            const name = group.id === 'other' ? t('ui.other_sections') : t(`rivers.${group.id}.name`);
-            const course = group.id === 'other' ? '' : t(`rivers.${group.id}.course`, '');
-            return (
-              <section className="river-group" key={group.id}>
-                <div className="flex items-baseline gap-2.5 mb-3 relative">
-                  <span className="river-head-glyph absolute -left-[30px] top-0.5 text-agua">
-                    <RiverGlyph kind={group.glyph} />
-                  </span>
-                  <h2 className="font-display font-bold uppercase text-xl tracking-wide text-agua m-0">
-                    {name}
-                  </h2>
-                  {course && <span className="text-xs text-ink-3">{course}</span>}
-                </div>
+          {view === 'map' ? (
+            <MapView
+              sections={data.sections}
+              minMaxLevels={minMaxLevels}
+              weatherForSection={weatherForSection}
+            />
+          ) : (
+            <>
+              {groups.map(group => {
+                const sections = group.ids.map(id => sectionById[id]).filter(Boolean);
+                if (!sections.length) return null;
+                const name = group.id === 'other' ? t('ui.other_sections') : t(`rivers.${group.id}.name`);
+                const course = group.id === 'other' ? '' : t(`rivers.${group.id}.course`, '');
+                return (
+                  <section className="river-group" key={group.id}>
+                    <div className="flex items-baseline gap-2.5 mb-3 relative">
+                      <span className="river-head-glyph absolute -left-[30px] top-0.5 text-agua">
+                        <RiverGlyph kind={group.glyph} />
+                      </span>
+                      <h2 className="font-display font-bold uppercase text-xl tracking-wide text-agua m-0">
+                        {name}
+                      </h2>
+                      {course && <span className="text-xs text-ink-3">{course}</span>}
+                    </div>
 
-                {sections.map(section => (
-                  <RiverSection
-                    key={section.id}
-                    section={section}
-                    minMaxLevels={minMaxLevels[section.id]}
-                    weather={weatherForSection(section.id)}
-                  />
-                ))}
-              </section>
-            );
-          })}
+                    {sections.map(section => (
+                      <RiverSection
+                        key={section.id}
+                        section={section}
+                        minMaxLevels={minMaxLevels[section.id]}
+                        weather={weatherForSection(section.id)}
+                      />
+                    ))}
+                  </section>
+                );
+              })}
 
-          {lakes && <LakesSection lakes={lakes} />}
+              {lakes && <LakesSection lakes={lakes} />}
 
-          <div id="opiniones">
-            <FeedbackForm />
-          </div>
+              <div id="opiniones">
+                <FeedbackForm />
+              </div>
+            </>
+          )}
         </main>
 
         <footer className="flex flex-wrap justify-between gap-2.5 mt-11 pt-3.5 border-t border-hairline-strong text-xs text-ink-2">

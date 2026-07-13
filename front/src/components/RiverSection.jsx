@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DayGauge from './DayGauge';
+import BasinMiniMap from './BasinMap';
 import { classifyFlow, worstClassification, worstDaysLabel, displayValue, ChevronIcon } from './flow.jsx';
 import { WeatherIcon, WindIcon } from './weather.jsx';
 import { t } from '../i18n';
@@ -15,7 +16,7 @@ function isToday(dateStr) {
 // A level is "past" if its date falls before today. We filter by date rather
 // than by level.type, because when AIC's data lags a day or two the programmed
 // levels can include dates that are already in the past.
-function isPast(dateStr) {
+export function isPast(dateStr) {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const d = new Date(dateStr + 'T00:00:00');
@@ -49,10 +50,13 @@ export default function RiverSection({ section, minMaxLevels, weather }) {
             </p>
           </div>
 
-          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-semibold ${c.text} ${c.bg}`}>
-            {ChipIcon && <ChipIcon className="leading-none" />}
-            {chipLabel}
-          </span>
+          <div className="flex items-start gap-2.5">
+            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-semibold ${c.text} ${c.bg}`}>
+              {ChipIcon && <ChipIcon className="leading-none" />}
+              {chipLabel}
+            </span>
+            <BasinMiniMap sectionId={section.id} />
+          </div>
         </div>
 
         {/* Alert banner */}
@@ -82,6 +86,11 @@ export default function RiverSection({ section, minMaxLevels, weather }) {
             const dayNum = new Date(level.date + 'T00:00:00').getDate();
             const fullDate = new Date(level.date + 'T00:00:00')
               .toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+            const dayForecast = weather?.days.find(d => d.date === level.date);
+            const maxWind = dayForecast ? Math.max(dayForecast.day.wind, dayForecast.night.wind) : null;
+            const weatherLabel = dayForecast
+              ? `, máxima ${dayForecast.day.temperature}°, mínima ${dayForecast.night.temperature}°, viento ${maxWind} km/h`
+              : '';
 
             return (
               <button
@@ -89,7 +98,7 @@ export default function RiverSection({ section, minMaxLevels, weather }) {
                 type="button"
                 onClick={() => setExpanded(isOpen ? null : i)}
                 aria-expanded={isOpen}
-                aria-label={`${fullDate}, ${val} metros cúbicos por segundo, caudal ${status.label.toLowerCase()}`}
+                aria-label={`${fullDate}, ${val} metros cúbicos por segundo, caudal ${status.label.toLowerCase()}${weatherLabel}`}
                 className={`relative flex min-w-0 flex-col items-center rounded py-2.5 px-1 border transition-colors
                   bg-panel border-hairline hover:bg-panel-2
                   ${today ? 'border-hairline-strong' : ''}
@@ -112,6 +121,20 @@ export default function RiverSection({ section, minMaxLevels, weather }) {
 
                 <DayGauge pct={pct} fillClass={dc.fill} />
 
+                {dayForecast ? (
+                  <div className="flex flex-col items-center gap-0.5 mt-1.5">
+                    <WeatherIcon halfDay={dayForecast.day} className="w-4 h-4" />
+                    <span className="font-mono text-[10px] tabular-nums text-ink-2 leading-none">
+                      {dayForecast.day.temperature}°/{dayForecast.night.temperature}°
+                    </span>
+                    <span className="flex items-center gap-0.5 font-mono text-[10px] tabular-nums text-ink-3 leading-none">
+                      <WindIcon className="w-3 h-3" /> {maxWind}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="h-[38px]" />
+                )}
+
                 <ChevronIcon className={`mt-1.5 text-ink-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
               </button>
             );
@@ -130,22 +153,37 @@ export default function RiverSection({ section, minMaxLevels, weather }) {
             <div
               role="region"
               aria-label={`Detalle para ${fullDate}`}
-              className="mt-3 bg-panel-2 border border-hairline rounded p-3 text-[12.5px] text-ink-2 flex flex-wrap gap-x-6 gap-y-1"
+              className="mt-3 bg-panel-2 border border-hairline rounded p-3 text-[12.5px] text-ink-2 flex flex-col gap-2"
             >
-              <span className="font-semibold text-ink capitalize">{fullDate}</span>
-              <span>Estimado <b className="text-ink font-mono">{val} m³/s</b></span>
-              {level.min !== null && (
-                <span>Pronosticado <span className="font-mono">{level.min}–{level.max} m³/s</span></span>
-              )}
-              <span>Histórico <span className="font-mono">{limits.min}–{limits.max} m³/s</span></span>
+              <div className="flex flex-wrap gap-x-6 gap-y-1">
+                <span className="font-semibold text-ink capitalize">{fullDate}</span>
+                <span>Estimado <b className="text-ink font-mono">{val} m³/s</b></span>
+                {level.min !== null && (
+                  <span>Pronosticado <span className="font-mono">{level.min}–{level.max} m³/s</span></span>
+                )}
+                <span>Histórico <span className="font-mono">{limits.min}–{limits.max} m³/s</span></span>
+              </div>
+
               {dayForecast && (
-                <span className="flex items-center gap-1.5">
-                  <WeatherIcon halfDay={dayForecast.day} />
-                  <span className="font-mono">{dayForecast.day.temperature}°&nbsp;/&nbsp;{dayForecast.night.temperature}°</span>
-                  <span className="flex items-center gap-0.5 text-ink-3">
-                    <WindIcon /> {dayForecast.day.wind} km/h
-                  </span>
-                </span>
+                <div className="flex flex-wrap gap-x-6 gap-y-1.5 pt-2 border-t border-hairline">
+                  {dayForecast.day.estado && (
+                    <span className="w-full text-ink-3">Pronóstico en {weather.city_name}</span>
+                  )}
+                  {[
+                    { label: 'Día', halfDay: dayForecast.day },
+                    { label: 'Noche', halfDay: dayForecast.night },
+                  ].map(({ label, halfDay }) => (
+                    <span key={label} className="flex items-center gap-1.5">
+                      <span className="text-ink-3">{label}</span>
+                      <WeatherIcon halfDay={halfDay} />
+                      <span className="font-mono">{halfDay.temperature}°</span>
+                      <span>{halfDay.estado}</span>
+                      <span className="flex items-center gap-0.5 text-ink-3">
+                        <WindIcon /> {halfDay.wind} km/h ({halfDay.direction}, ráfagas {halfDay.gusts})
+                      </span>
+                    </span>
+                  ))}
+                </div>
               )}
             </div>
           );
