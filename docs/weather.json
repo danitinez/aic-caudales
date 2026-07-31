@@ -18,7 +18,7 @@
                     "day": {
                         "icon_code": 1200,
                         "estado": "Inestable",
-                        "temperature": 20,
+                        "temperature": 15,
                         "wind": 30,
                         "gusts": 46,
                         "direction": "E",
@@ -27,7 +27,7 @@
                     "night": {
                         "icon_code": 2102,
                         "estado": "Parcialmente Nublado",
-                        "temperature": 4,
+                        "temperature": 0,
                         "wind": 38,
                         "gusts": 64,
                         "direction": "NE",
@@ -150,7 +150,7 @@
                     "day": {
                         "icon_code": 1200,
                         "estado": "Inestable",
-                        "temperature": 19,
+                        "temperature": 13,
                         "wind": 24,
                         "gusts": 38,
                         "direction": "NE",
@@ -159,7 +159,7 @@
                     "night": {
                         "icon_code": 2103,
                         "estado": "Mayormente Cubierto",
-                        "temperature": 4,
+                        "temperature": 1,
                         "wind": 21,
                         "gusts": 38,
                         "direction": "NE",
@@ -414,7 +414,7 @@
                     "day": {
                         "icon_code": 1200,
                         "estado": "Inestable",
-                        "temperature": 20,
+                        "temperature": 15,
                         "wind": 30,
                         "gusts": 46,
                         "direction": "E",
@@ -423,7 +423,7 @@
                     "night": {
                         "icon_code": 2102,
                         "estado": "Parcialmente Nublado",
-                        "temperature": 4,
+                        "temperature": 0,
                         "wind": 38,
                         "gusts": 64,
                         "direction": "NE",
