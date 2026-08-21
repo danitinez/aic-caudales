@@ -73,14 +73,14 @@
             "crown": 424.0,
             "max_level": 422.5,
             "max_normal": 416.18,
-            "current_level": 414.53,
+            "current_level": 414.55,
             "min_normal": 413.0,
             "min_extraordinary": 410.0,
-            "inflow": 339.0,
+            "inflow": 330.0,
             "spilled": null,
             "turbined": null,
             "total_released": null,
-            "diverted": 77.0
+            "diverted": 154.0
         },
         {
             "id": "mari_menuco",
@@ -89,12 +89,12 @@
             "crown": 418.0,
             "max_level": 415.0,
             "max_normal": 413.5,
-            "current_level": 413.37,
+            "current_level": 413.39,
             "min_normal": 410.5,
             "min_extraordinary": 410.0,
-            "inflow": 77.0,
+            "inflow": 154.0,
             "spilled": null,
-            "turbined": 102.0,
+            "turbined": 91.0,
             "total_released": null,
             "diverted": null
         },
@@ -108,7 +108,7 @@
             "current_level": 478.62,
             "min_normal": null,
             "min_extraordinary": 477.0,
-            "inflow": 0.0,
+            "inflow": 619.0,
             "spilled": 0.0,
             "turbined": 592.0,
             "total_released": 592.0,
@@ -121,13 +121,13 @@
             "crown": 595.3,
             "max_level": 592.0,
             "max_normal": 586.98,
-            "current_level": 578.66,
+            "current_level": 578.65,
             "min_normal": 576.0,
             "min_extraordinary": 564.0,
             "inflow": 692.0,
             "spilled": 0.0,
-            "turbined": 754.0,
-            "total_released": 754.0,
+            "turbined": 619.0,
+            "total_released": 619.0,
             "diverted": null
         },
         {
@@ -144,7 +144,7 @@
             "spilled": null,
             "turbined": null,
             "total_released": 9.0,
-            "diverted": 339.0
+            "diverted": 330.0
         }
     ]
 }
