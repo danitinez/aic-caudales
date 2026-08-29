@@ -148,7 +148,7 @@
                 {
                     "date": "2026-08-29",
                     "day": {
-                        "icon_code": 1300,
+                        "icon_code": 1200,
                         "estado": "Inestable",
                         "temperature": 19,
                         "wind": 37,
