@@ -66,36 +66,36 @@
                 {
                     "type": "programmed",
                     "date": "2026-09-16",
-                    "min": 210,
-                    "max": 240,
+                    "min": 230,
+                    "max": 280,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-09-17",
-                    "min": 210,
-                    "max": 240,
+                    "min": 230,
+                    "max": 280,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-09-18",
-                    "min": 210,
-                    "max": 240,
+                    "min": 230,
+                    "max": 280,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-09-19",
-                    "min": 210,
-                    "max": 240,
+                    "min": 230,
+                    "max": 280,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-09-20",
-                    "min": 210,
-                    "max": 240,
+                    "min": 230,
+                    "max": 280,
                     "dispensed": null
                 }
             ]
