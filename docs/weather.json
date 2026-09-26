@@ -157,8 +157,8 @@
                         "pressure": 1007
                     },
                     "night": {
-                        "icon_code": 2104,
-                        "estado": "Cubierto",
+                        "icon_code": 2200,
+                        "estado": "Inestable",
                         "temperature": 6,
                         "wind": 34,
                         "gusts": 39,
@@ -179,7 +179,7 @@
                     },
                     "night": {
                         "icon_code": 2201,
-                        "estado": "",
+                        "estado": "Lluvias D\u00e9biles y Dispersas",
                         "temperature": 6,
                         "wind": 15,
                         "gusts": 17,
