@@ -14,27 +14,6 @@
             "city_name": "El Cha\u00f1ar",
             "days": [
                 {
-                    "date": "2026-10-04",
-                    "day": {
-                        "icon_code": 1102,
-                        "estado": "Parcialmente Nublado",
-                        "temperature": 20,
-                        "wind": 37,
-                        "gusts": 55,
-                        "direction": "O",
-                        "pressure": 1010
-                    },
-                    "night": {
-                        "icon_code": 2100,
-                        "estado": "Despejado",
-                        "temperature": 0,
-                        "wind": 32,
-                        "gusts": 47,
-                        "direction": "SO",
-                        "pressure": 1015
-                    }
-                },
-                {
                     "date": "2026-10-05",
                     "day": {
                         "icon_code": 1103,
@@ -138,6 +117,27 @@
                         "direction": "E",
                         "pressure": 1021
                     }
+                },
+                {
+                    "date": "2026-10-10",
+                    "day": {
+                        "icon_code": 1104,
+                        "estado": "Cubierto",
+                        "temperature": 19,
+                        "wind": 15,
+                        "gusts": 18,
+                        "direction": "NE",
+                        "pressure": 1014
+                    },
+                    "night": {
+                        "icon_code": 2201,
+                        "estado": "Lluvias D\u00e9biles y Dispersas",
+                        "temperature": 5,
+                        "wind": 17,
+                        "gusts": 28,
+                        "direction": "NE",
+                        "pressure": 1016
+                    }
                 }
             ]
         },
@@ -145,27 +145,6 @@
             "city_id": "1054",
             "city_name": "Neuqu\u00e9n",
             "days": [
-                {
-                    "date": "2026-10-04",
-                    "day": {
-                        "icon_code": 1102,
-                        "estado": "Parcialmente Nublado",
-                        "temperature": 20,
-                        "wind": 42,
-                        "gusts": 49,
-                        "direction": "O",
-                        "pressure": 1010
-                    },
-                    "night": {
-                        "icon_code": 2100,
-                        "estado": "Despejado",
-                        "temperature": 1,
-                        "wind": 41,
-                        "gusts": 57,
-                        "direction": "SO",
-                        "pressure": 1015
-                    }
-                },
                 {
                     "date": "2026-10-05",
                     "day": {
@@ -270,6 +249,27 @@
                         "direction": "SE",
                         "pressure": 1022
                     }
+                },
+                {
+                    "date": "2026-10-10",
+                    "day": {
+                        "icon_code": 1104,
+                        "estado": "Cubierto",
+                        "temperature": 18,
+                        "wind": 14,
+                        "gusts": 19,
+                        "direction": "E",
+                        "pressure": 1014
+                    },
+                    "night": {
+                        "icon_code": 2201,
+                        "estado": "Lluvias D\u00e9biles y Dispersas",
+                        "temperature": 6,
+                        "wind": 18,
+                        "gusts": 30,
+                        "direction": "NE",
+                        "pressure": 1016
+                    }
                 }
             ]
         },
@@ -277,27 +277,6 @@
             "city_id": "1077",
             "city_name": "Pic\u00fan Leuf\u00fa",
             "days": [
-                {
-                    "date": "2026-10-04",
-                    "day": {
-                        "icon_code": 1103,
-                        "estado": "Mayormente Cubierto",
-                        "temperature": 18,
-                        "wind": 40,
-                        "gusts": 48,
-                        "direction": "O",
-                        "pressure": 1011
-                    },
-                    "night": {
-                        "icon_code": 2101,
-                        "estado": "Mayormente Despejado",
-                        "temperature": 3,
-                        "wind": 41,
-                        "gusts": 46,
-                        "direction": "SO",
-                        "pressure": 1015
-                    }
-                },
                 {
                     "date": "2026-10-05",
                     "day": {
@@ -402,6 +381,27 @@
                         "direction": "NE",
                         "pressure": 1022
                     }
+                },
+                {
+                    "date": "2026-10-10",
+                    "day": {
+                        "icon_code": 1104,
+                        "estado": "Cubierto",
+                        "temperature": 15,
+                        "wind": 22,
+                        "gusts": 24,
+                        "direction": "NE",
+                        "pressure": 1014
+                    },
+                    "night": {
+                        "icon_code": 2104,
+                        "estado": "Cubierto",
+                        "temperature": 7,
+                        "wind": 20,
+                        "gusts": 35,
+                        "direction": "NE",
+                        "pressure": 1015
+                    }
                 }
             ]
         },
@@ -409,27 +409,6 @@
             "city_id": "1082",
             "city_name": "A\u00f1elo",
             "days": [
-                {
-                    "date": "2026-10-04",
-                    "day": {
-                        "icon_code": 1102,
-                        "estado": "Parcialmente Nublado",
-                        "temperature": 20,
-                        "wind": 37,
-                        "gusts": 55,
-                        "direction": "O",
-                        "pressure": 1010
-                    },
-                    "night": {
-                        "icon_code": 2100,
-                        "estado": "Despejado",
-                        "temperature": 0,
-                        "wind": 32,
-                        "gusts": 47,
-                        "direction": "SO",
-                        "pressure": 1015
-                    }
-                },
                 {
                     "date": "2026-10-05",
                     "day": {
@@ -533,6 +512,27 @@
                         "gusts": 20,
                         "direction": "E",
                         "pressure": 1021
+                    }
+                },
+                {
+                    "date": "2026-10-10",
+                    "day": {
+                        "icon_code": 1104,
+                        "estado": "Cubierto",
+                        "temperature": 19,
+                        "wind": 15,
+                        "gusts": 18,
+                        "direction": "NE",
+                        "pressure": 1014
+                    },
+                    "night": {
+                        "icon_code": 2201,
+                        "estado": "Lluvias D\u00e9biles y Dispersas",
+                        "temperature": 5,
+                        "wind": 17,
+                        "gusts": 28,
+                        "direction": "NE",
+                        "pressure": 1016
                     }
                 }
             ]
