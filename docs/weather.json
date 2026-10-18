@@ -101,7 +101,7 @@
                     "date": "2026-10-22",
                     "day": {
                         "icon_code": 1202,
-                        "estado": "Lluvias y Chaparrones",
+                        "estado": "Lluvias y Chaparrones Aislados",
                         "temperature": 14,
                         "wind": 35,
                         "gusts": 43,
@@ -200,7 +200,7 @@
                     },
                     "night": {
                         "icon_code": 2200,
-                        "estado": "Lluvias D\u00e9biles y Dispersas",
+                        "estado": "Inestable",
                         "temperature": 7,
                         "wind": 16,
                         "gusts": 28,
@@ -242,7 +242,7 @@
                     },
                     "night": {
                         "icon_code": 2200,
-                        "estado": "Lluvias D\u00e9biles y Dispersas",
+                        "estado": "Inestable",
                         "temperature": 3,
                         "wind": 12,
                         "gusts": 31,
@@ -353,7 +353,7 @@
                     },
                     "night": {
                         "icon_code": 2201,
-                        "estado": "Lluvias y Chaparrones Localmente Fuertes",
+                        "estado": "Lluvias D\u00e9biles y Dispersas",
                         "temperature": 6,
                         "wind": 40,
                         "gusts": 48,
@@ -497,7 +497,7 @@
                     "date": "2026-10-22",
                     "day": {
                         "icon_code": 1202,
-                        "estado": "Lluvias y Chaparrones",
+                        "estado": "Lluvias y Chaparrones Aislados",
                         "temperature": 14,
                         "wind": 35,
                         "gusts": 43,
