@@ -1,0 +1,251 @@
+{
+    "version": "v1.2.0",
+    "last_update": "2026-10-23",
+    "sections": [
+        {
+            "id": "portezuelo_grande",
+            "title": "Portezuelo Grande",
+            "order": 0,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2026-10-22",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "12"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-23",
+                    "min": 12,
+                    "max": 14,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-24",
+                    "min": 12,
+                    "max": 14,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-25",
+                    "min": 12,
+                    "max": 14,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-26",
+                    "min": 12,
+                    "max": 14,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-27",
+                    "min": 12,
+                    "max": 14,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "id": "el_chanar",
+            "title": "El Cha\u00f1ar",
+            "order": 1,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2026-10-22",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "497"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-23",
+                    "min": 500,
+                    "max": 520,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-24",
+                    "min": 500,
+                    "max": 520,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-25",
+                    "min": 500,
+                    "max": 520,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-26",
+                    "min": 450,
+                    "max": 500,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-27",
+                    "min": 450,
+                    "max": 500,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "id": "pichi_picun_leufu",
+            "title": "Pichi Pic\u00fan Leuf\u00fa",
+            "order": 2,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2026-10-22",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "1097"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-23",
+                    "min": 1100,
+                    "max": 1200,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-24",
+                    "min": 1100,
+                    "max": 1200,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-25",
+                    "min": 600,
+                    "max": 700,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-26",
+                    "min": 1100,
+                    "max": 1200,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-27",
+                    "min": 1100,
+                    "max": 1200,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "id": "arroyito",
+            "title": "Arroyito",
+            "order": 3,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2026-10-22",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "345"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-23",
+                    "min": 320,
+                    "max": 350,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-24",
+                    "min": 340,
+                    "max": 360,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-25",
+                    "min": 340,
+                    "max": 360,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-26",
+                    "min": 340,
+                    "max": 360,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-27",
+                    "min": 340,
+                    "max": 360,
+                    "dispensed": null
+                }
+            ]
+        },
+        {
+            "id": "el_chanar_arroyito",
+            "title": "El Cha\u00f1ar + Arroyito",
+            "order": 4,
+            "levels": [
+                {
+                    "type": "dispensed",
+                    "date": "2026-10-22",
+                    "min": null,
+                    "max": null,
+                    "dispensed": "842"
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-23",
+                    "min": 820,
+                    "max": 870,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-24",
+                    "min": 840,
+                    "max": 880,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-25",
+                    "min": 840,
+                    "max": 880,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-26",
+                    "min": 790,
+                    "max": 860,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-10-27",
+                    "min": 790,
+                    "max": 860,
+                    "dispensed": null
+                }
+            ]
+        }
+    ]
+}
