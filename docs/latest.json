@@ -1,6 +1,6 @@
 {
     "version": "v1.2.0",
-    "last_update": "2026-10-30",
+    "last_update": "2026-10-31",
     "sections": [
         {
             "id": "portezuelo_grande",
@@ -9,17 +9,10 @@
             "levels": [
                 {
                     "type": "dispensed",
-                    "date": "2026-10-29",
+                    "date": "2026-10-30",
                     "min": null,
                     "max": null,
                     "dispensed": "12"
-                },
-                {
-                    "type": "programmed",
-                    "date": "2026-10-30",
-                    "min": 12,
-                    "max": 14,
-                    "dispensed": null
                 },
                 {
                     "type": "programmed",
@@ -45,6 +38,13 @@
                 {
                     "type": "programmed",
                     "date": "2026-11-03",
+                    "min": 12,
+                    "max": 14,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-11-04",
                     "min": 12,
                     "max": 14,
                     "dispensed": null
@@ -58,17 +58,10 @@
             "levels": [
                 {
                     "type": "dispensed",
-                    "date": "2026-10-29",
+                    "date": "2026-10-30",
                     "min": null,
                     "max": null,
-                    "dispensed": "401"
-                },
-                {
-                    "type": "programmed",
-                    "date": "2026-10-30",
-                    "min": 400,
-                    "max": 420,
-                    "dispensed": null
+                    "dispensed": "403"
                 },
                 {
                     "type": "programmed",
@@ -97,6 +90,13 @@
                     "min": 400,
                     "max": 420,
                     "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-11-04",
+                    "min": 400,
+                    "max": 420,
+                    "dispensed": null
                 }
             ]
         },
@@ -107,23 +107,16 @@
             "levels": [
                 {
                     "type": "dispensed",
-                    "date": "2026-10-29",
+                    "date": "2026-10-30",
                     "min": null,
                     "max": null,
-                    "dispensed": "1156"
-                },
-                {
-                    "type": "programmed",
-                    "date": "2026-10-30",
-                    "min": 1100,
-                    "max": 1200,
-                    "dispensed": null
+                    "dispensed": "1124"
                 },
                 {
                     "type": "programmed",
                     "date": "2026-10-31",
-                    "min": 1100,
-                    "max": 1200,
+                    "min": 1250,
+                    "max": 1350,
                     "dispensed": null
                 },
                 {
@@ -146,6 +139,13 @@
                     "min": 1200,
                     "max": 1300,
                     "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-11-04",
+                    "min": 1200,
+                    "max": 1300,
+                    "dispensed": null
                 }
             ]
         },
@@ -156,17 +156,10 @@
             "levels": [
                 {
                     "type": "dispensed",
-                    "date": "2026-10-29",
+                    "date": "2026-10-30",
                     "min": null,
                     "max": null,
                     "dispensed": "350"
-                },
-                {
-                    "type": "programmed",
-                    "date": "2026-10-30",
-                    "min": 340,
-                    "max": 360,
-                    "dispensed": null
                 },
                 {
                     "type": "programmed",
@@ -185,15 +178,22 @@
                 {
                     "type": "programmed",
                     "date": "2026-11-02",
-                    "min": 340,
-                    "max": 360,
+                    "min": 380,
+                    "max": 400,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-11-03",
-                    "min": 340,
-                    "max": 360,
+                    "min": 390,
+                    "max": 410,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-11-04",
+                    "min": 390,
+                    "max": 410,
                     "dispensed": null
                 }
             ]
@@ -205,17 +205,10 @@
             "levels": [
                 {
                     "type": "dispensed",
-                    "date": "2026-10-29",
+                    "date": "2026-10-30",
                     "min": null,
                     "max": null,
-                    "dispensed": "751"
-                },
-                {
-                    "type": "programmed",
-                    "date": "2026-10-30",
-                    "min": 740,
-                    "max": 780,
-                    "dispensed": null
+                    "dispensed": "753"
                 },
                 {
                     "type": "programmed",
@@ -234,15 +227,22 @@
                 {
                     "type": "programmed",
                     "date": "2026-11-02",
-                    "min": 740,
-                    "max": 780,
+                    "min": 780,
+                    "max": 820,
                     "dispensed": null
                 },
                 {
                     "type": "programmed",
                     "date": "2026-11-03",
-                    "min": 740,
-                    "max": 780,
+                    "min": 790,
+                    "max": 830,
+                    "dispensed": null
+                },
+                {
+                    "type": "programmed",
+                    "date": "2026-11-04",
+                    "min": 790,
+                    "max": 830,
                     "dispensed": null
                 }
             ]
