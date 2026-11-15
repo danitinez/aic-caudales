@@ -9,13 +9,13 @@
             "crown": 710.0,
             "max_level": 705.0,
             "max_normal": null,
-            "current_level": 702.72,
+            "current_level": 702.19,
             "min_normal": 700.5,
             "min_extraordinary": 692.0,
             "inflow": 399.84,
             "spilled": 0.0,
-            "turbined": 599.1,
-            "total_released": 599.0,
+            "turbined": 831.0,
+            "total_released": 831.0,
             "diverted": null
         },
         {
@@ -25,10 +25,10 @@
             "crown": 319.0,
             "max_level": 315.85,
             "max_normal": null,
-            "current_level": 315.28,
+            "current_level": 314.95,
             "min_normal": null,
             "min_extraordinary": 310.5,
-            "inflow": 974.0,
+            "inflow": 252.0,
             "spilled": 0.0,
             "turbined": 400.0,
             "total_released": 400.0,
@@ -57,13 +57,13 @@
             "crown": 386.0,
             "max_level": 381.5,
             "max_normal": 380.61,
-            "current_level": 379.58,
+            "current_level": 379.64,
             "min_normal": 372.0,
             "min_extraordinary": 367.0,
-            "inflow": 798.0,
+            "inflow": 785.0,
             "spilled": 0.0,
-            "turbined": 974.0,
-            "total_released": 974.0,
+            "turbined": 252.0,
+            "total_released": 252.0,
             "diverted": null
         },
         {
@@ -73,14 +73,14 @@
             "crown": 424.0,
             "max_level": 422.5,
             "max_normal": 419.88,
-            "current_level": 419.38,
+            "current_level": 419.41,
             "min_normal": 413.0,
             "min_extraordinary": 410.0,
-            "inflow": 659.0,
+            "inflow": 660.0,
             "spilled": null,
             "turbined": null,
             "total_released": null,
-            "diverted": 537.0
+            "diverted": 468.0
         },
         {
             "id": "mari_menuco",
@@ -89,12 +89,12 @@
             "crown": 418.0,
             "max_level": 415.0,
             "max_normal": 413.5,
-            "current_level": 413.47,
+            "current_level": 413.5,
             "min_normal": 410.5,
             "min_extraordinary": 410.0,
-            "inflow": 537.0,
+            "inflow": 468.0,
             "spilled": null,
-            "turbined": 288.0,
+            "turbined": 393.0,
             "total_released": null,
             "diverted": null
         },
@@ -105,13 +105,13 @@
             "crown": 482.7,
             "max_level": 479.0,
             "max_normal": null,
-            "current_level": 478.5,
+            "current_level": 478.21,
             "min_normal": null,
             "min_extraordinary": 477.0,
-            "inflow": 725.0,
+            "inflow": 845.0,
             "spilled": 0.0,
-            "turbined": 798.0,
-            "total_released": 798.0,
+            "turbined": 785.0,
+            "total_released": 785.0,
             "diverted": null
         },
         {
@@ -121,13 +121,13 @@
             "crown": 595.3,
             "max_level": 592.0,
             "max_normal": 591.21,
-            "current_level": 590.64,
+            "current_level": 590.85,
             "min_normal": 576.0,
             "min_extraordinary": 564.0,
-            "inflow": 1149.0,
+            "inflow": 1360.0,
             "spilled": 0.0,
-            "turbined": 725.0,
-            "total_released": 725.0,
+            "turbined": 845.0,
+            "total_released": 845.0,
             "diverted": null
         },
         {
@@ -144,7 +144,7 @@
             "spilled": null,
             "turbined": null,
             "total_released": 14.0,
-            "diverted": 659.0
+            "diverted": 660.0
         }
     ]
 }
