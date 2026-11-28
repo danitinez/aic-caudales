@@ -1,5 +1,6 @@
 import React from 'react';
 import LakeGauge from './LakeGauge';
+import ReservoirFlows, { ReservoirLink } from './ReservoirFlows';
 import RiverGlyph from './RiverGlyph';
 import { AlertTriangleIcon, AlertOctagonIcon, ArrowDownIcon } from './flow.jsx';
 import { LAKE_RIVER_GROUPS } from '../config';
@@ -43,27 +44,14 @@ export function classifyLake(reservoir) {
   return { key, ...CLASSES[key] };
 }
 
-function LakeRow({ r }) {
+function LakeLevel({ r }) {
   const status = classifyLake(r);
   const c = status.colors;
   const bottom = r.min_extraordinary ?? r.current_level;
   const top = r.max_level ?? r.crown ?? r.current_level;
 
   return (
-    <div className="lake-row grid grid-cols-[150px_1fr_auto] gap-x-4 gap-y-1 items-center py-3 border-b border-hairline last:border-b-0">
-      <div>
-        <div className="text-ink font-semibold text-sm leading-tight">{r.name}</div>
-        <div className="text-ink-3 text-[11.5px]">{t(`lakes.${r.id}`, '')}</div>
-        {(r.inflow != null || (r.total_released ?? r.turbined) != null) && (
-          <div className="text-ink-3 text-xs mt-1.5 space-x-2">
-            {r.inflow != null && <span>Entrante {r.inflow}</span>}
-            {(r.total_released ?? r.turbined) != null && (
-              <span>Erogado {r.total_released ?? r.turbined}</span>
-            )}
-          </div>
-        )}
-      </div>
-
+    <>
       <div className="lake-band-cell">
         <LakeGauge
           bottom={bottom}
@@ -88,12 +76,25 @@ function LakeRow({ r }) {
           msnm · {status.reason}
         </div>
       </div>
+    </>
+  );
+}
+
+function LakeRow({ r }) {
+  return (
+    <div className="lake-row grid grid-cols-[150px_1fr_auto] gap-x-4 gap-y-1 items-center py-3 border-b border-hairline last:border-b-0">
+      <div>
+        <div className="text-ink font-semibold text-sm leading-tight"><ReservoirLink reservoir={r} /></div>
+        <div className="text-ink-3 text-[11.5px]">{t(`lakes.${r.id}`, '')}</div>
+      </div>
+      {r.current_level != null && <LakeLevel r={r} />}
+      <div className="col-span-full max-sm:order-4"><ReservoirFlows reservoir={r} /></div>
     </div>
   );
 }
 
 export default function LakesSection({ lakes }) {
-  const reservoirs = lakes.reservoirs.filter(r => r.current_level != null);
+  const reservoirs = lakes.reservoirs;
   if (!reservoirs.length) return null;
 
   const reservoirById = Object.fromEntries(reservoirs.map(r => [r.id, r]));
@@ -108,7 +109,7 @@ export default function LakesSection({ lakes }) {
       <div className="flex items-baseline gap-2.5 mb-1">
         <h2 className="font-display font-bold uppercase text-xl tracking-wide text-ink m-0">Embalses</h2>
         <span className="text-xs text-ink-3">
-          Nivel del lago en msnm · actualizado{' '}
+          {t('reservoir_flow.retrieved_on')}{' '}
           {new Date(lakes.last_update + 'T00:00:00').toLocaleDateString('es-ES', {
             day: 'numeric', month: 'long', year: 'numeric',
           })}

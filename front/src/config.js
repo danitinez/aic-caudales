@@ -6,6 +6,10 @@ const LEGACY_ID_ALIASES = sectionsConfig.legacy_id_aliases ?? {};
 // run) may still carry pre-rename ids; normalize everything to current ids.
 export const normalizeId = (id) => LEGACY_ID_ALIASES[id] ?? id;
 
+export const SECTION_RESERVOIRS = Object.fromEntries(sectionsConfig.sections
+  .filter(section => section.reservoir_id)
+  .map(section => [section.id, section.reservoir_id]));
+
 // Ordered river groups: rivers array order = display order. Within each
 // group, sections sort by display_order — a purely visual field, independent
 // from the sections array's own position (= AIC table row order), which

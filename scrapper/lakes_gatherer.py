@@ -1,7 +1,7 @@
 import re
 import unicodedata
 from bs4 import BeautifulSoup
-from .lakes_models import Reservoirs, Reservoir
+from .lakes_models import Reservoir
 
 # AIC embalses pages live on the .gob.ar domain (the caudales scraper uses
 # .gov.ar — they are NOT interchangeable; use what is confirmed to work here).
@@ -13,6 +13,7 @@ DETAIL_URL = "https://www.aic.gob.ar/sitio/embalses-detalle?a={a}&z={z}"
 # exact value works (a wrong/absent z redirects back to the listing), so we
 # always scrape the listing first to obtain fresh (a, z) pairs.
 _LINK_RE = re.compile(r"embalses-detalle\?a=(\d+)&(?:amp;)?z=(\d+)")
+_FLOW_TIME_RE = re.compile(r"\(\s*([01]?\d|2[0-3]):([0-5]\d)\s*h(?:s)?\.?\s*\)", re.IGNORECASE)
 
 # Maps normalised Spanish labels from the detail data grid to Reservoir fields.
 # Not every reservoir exposes every row: dammed lakes report levels + flows,
@@ -44,12 +45,12 @@ class LakesGatherer:
         """
         return list(dict.fromkeys(_LINK_RE.findall(html_content)))
 
-    def parse_detail(self, html_content, order):
+    def parse_detail(self, html_content, order, detail_url=None):
         """Parse a single reservoir detail page into a Reservoir."""
         soup = BeautifulSoup(html_content, "html.parser")
         name = soup.find(id="body_lblnombre").get_text().strip()
 
-        reservoir = Reservoir(id=self._slug(name), name=name, order=order)
+        reservoir = Reservoir(id=self._slug(name), name=name, order=order, detail_url=detail_url)
 
         grid = soup.find(id="body_TabSintesis_TabDatos_grilla")
         for tr in grid.find_all("tr"):
@@ -67,13 +68,17 @@ class LakesGatherer:
             ):
                 field_name = "diverted"
             if field_name:
-                setattr(reservoir, field_name, self._parse_value(cells[1]))
+                value = self._parse_value(cells[1])
+                setattr(reservoir, field_name, value)
+                clock = _FLOW_TIME_RE.search(cells[0])
+                if value is not None and label.startswith("caudal ") and clock:
+                    reservoir.flow_times[field_name] = f"{int(clock[1]):02d}:{clock[2]}"
 
         return reservoir
 
     def _parse_value(self, text):
         """Extract the leading number from e.g. '373.28 msnm' or '430 m³/s'."""
-        match = re.search(r"-?\d+(?:[.,]\d+)?", text)
+        match = re.match(r"-?\d+(?:[.,]\d+)?", text)
         if not match:
             return None
         return float(match.group(0).replace(",", "."))

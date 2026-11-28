@@ -4,9 +4,10 @@ import RiverGlyph from './components/RiverGlyph';
 import LakesSection from './components/LakesSection';
 import FeedbackForm from './components/FeedbackForm';
 import MapView from './components/MapView';
-import { RIVER_GROUPS, normalizeId } from './config';
+import { RIVER_GROUPS, SECTION_RESERVOIRS, normalizeId } from './config';
 import { t } from './i18n';
 import { isLakesFeed, isWeatherFeed, readStationFlows } from './optionalFeeds';
+import { ReservoirFlowCard } from './components/ReservoirFlows';
 
 function StaffLogo() {
   return (
@@ -112,6 +113,9 @@ function App() {
     return weather.cities.find(c => c.city_id === cityId) || null;
   }
 
+  const reservoirById = Object.fromEntries((lakes?.reservoirs ?? []).map(reservoir => [reservoir.id, reservoir]));
+  const reservoirForSection = sectionId => reservoirById[SECTION_RESERVOIRS[sectionId]];
+
   if (error) return (
     <div className="min-h-screen flex items-center justify-center bg-page text-muy-alto text-sm">
       Error cargando datos: {error}
@@ -201,6 +205,7 @@ function App() {
               minMaxLevels={minMaxLevels}
               weatherForSection={weatherForSection}
               stationFlows={stationFlows}
+              reservoirForSection={reservoirForSection}
             />
           ) : (
             <>
@@ -222,13 +227,18 @@ function App() {
                     </div>
 
                     {sections.map(section => (
-                      <RiverSection
-                        key={section.id}
-                        section={section}
-                        minMaxLevels={minMaxLevels[section.id]}
-                        weather={weatherForSection(section.id)}
-                        stationFlow={stationFlows[section.id]}
-                      />
+                      <React.Fragment key={section.id}>
+                        <RiverSection
+                          section={section}
+                          minMaxLevels={minMaxLevels[section.id]}
+                          weather={weatherForSection(section.id)}
+                          stationFlow={stationFlows[section.id]}
+                          reservoir={reservoirForSection(section.id)}
+                        />
+                        {section.id === 'arroyito' && reservoirById.el_chocon && (
+                          <ReservoirFlowCard reservoir={reservoirById.el_chocon} />
+                        )}
+                      </React.Fragment>
                     ))}
                   </section>
                 );
@@ -244,6 +254,7 @@ function App() {
         </main>
 
         <footer className="flex flex-wrap justify-between gap-2.5 mt-11 pt-3.5 border-t border-hairline-strong text-xs text-ink-2">
+          <p className="w-full max-w-[72ch] mb-1">{t('ui.data_disclaimer')}</p>
           <span>
             Fuente:{' '}
             <a

@@ -3,6 +3,7 @@ import shutil
 import json
 from dataclasses import asdict
 from datetime import date, datetime
+from zoneinfo import ZoneInfo
 from scrapper.aic_http import fetch_html
 from scrapper.lakes_gatherer import LakesGatherer, LISTING_URL, DETAIL_URL
 from scrapper.lakes_models import Reservoirs
@@ -86,12 +87,12 @@ if __name__ == "__main__":
 
     reservoirs = []
     for order, (a, z) in enumerate(pairs):
-        detail_html = fetch_html(DETAIL_URL.format(a=a, z=z))
-        reservoirs.append(gatherer.parse_detail(detail_html, order))
+        detail_url = DETAIL_URL.format(a=a, z=z)
+        reservoirs.append(gatherer.parse_detail(fetch_html(detail_url), order, detail_url=detail_url))
 
     data = Reservoirs(
         version="v1.0.0",
-        last_update=datetime.now().date(),
+        last_update=datetime.now(ZoneInfo("America/Argentina/Buenos_Aires")).date(),
         reservoirs=reservoirs,
     )
 

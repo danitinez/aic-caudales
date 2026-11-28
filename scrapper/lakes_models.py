@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import date
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 
 @dataclass
@@ -21,6 +21,8 @@ class Reservoir:
     turbined: Optional[float] = None           # Caudal Turbinado
     total_released: Optional[float] = None     # Caudal (Total) Erogado
     diverted: Optional[float] = None           # Caudal Derivado (e.g. Portezuelo → Los Barreales)
+    detail_url: Optional[str] = None
+    flow_times: Dict[str, str] = field(default_factory=dict)
 
 
 @dataclass

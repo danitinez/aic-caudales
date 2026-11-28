@@ -17,6 +17,8 @@
         "pichi_picun_leufu": "Río Limay",
         "el_chocon": "Río Limay",
         "arroyito": "Río Limay · Presa compensadora",
+        "portezuelo_grande": "Río Neuquén",
+        "el_chanar": "Río Neuquén · Presa compensadora",
         "los_barreales": "Río Neuquén · Cerros Colorados",
         "mari_menuco": "Río Neuquén · Cerros Colorados"
     },
@@ -28,11 +30,22 @@
         "source_updated": "Actualización AIC",
         "unavailable": "Caudal de estación no disponible"
     },
+    "reservoir_flow": {
+        "source": "Embalse AIC ·",
+        "reservoir_only": "Caudales publicados por la AIC para el embalse",
+        "retrieved_on": "Consulta a AIC",
+        "inflow": "Entrante",
+        "total_released": "Caudal erogado publicado",
+        "turbined": "Turbinado",
+        "spilled": "Vertido",
+        "diverted": "Derivado"
+    },
     "ui": {
         "other_sections": "Otros tramos",
         "no_upcoming_forecast": "Sin pronóstico vigente",
         "map_view": "Mapa",
         "list_view": "Lista",
-        "map_hint": "Elegí un tramo en el mapa para ver su pronóstico"
+        "map_hint": "Elegí un tramo en el mapa para ver su pronóstico",
+        "data_disclaimer": "Los datos provienen de fuentes externas y se publican con fines informativos. Consultá la fuente original y las indicaciones oficiales antes de tomar decisiones. CaudalGuru no se hace responsable por el uso de estos datos ni por las decisiones que se tomen a partir de ellos."
     }
 }

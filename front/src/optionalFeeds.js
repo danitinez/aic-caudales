@@ -5,17 +5,23 @@ const isOptionalText = value => value == null || isText(value);
 const STATION_FLOW_KINDS = ['daily_mean', 'rating_curve', 'measured'];
 const STATION_DETAIL_URL = /^https:\/\/www\.aic\.gob\.ar\/sitio\/estaciones-detalle\?a=\d+&z=\d+$/;
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const LAKE_DETAIL_URL = /^https:\/\/www\.aic\.gob\.ar\/sitio\/embalses-detalle\?a=\d+&z=\d+$/;
+const FLOW_TIME = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+export const LAKE_FLOW_FIELDS = ['inflow', 'total_released', 'turbined', 'spilled', 'diverted'];
 
 const LAKE_MEASUREMENTS = [
   'crown', 'max_level', 'max_normal', 'current_level', 'min_normal',
-  'min_extraordinary', 'inflow', 'total_released', 'turbined',
+  'min_extraordinary', ...LAKE_FLOW_FIELDS,
 ];
 
 export function isLakesFeed(data) {
   return isText(data?.last_update) && Array.isArray(data.reservoirs) &&
     data.reservoirs.every(lake =>
       isText(lake?.id) && isText(lake.name) &&
-      LAKE_MEASUREMENTS.every(field => isOptionalNumber(lake[field]))
+      LAKE_MEASUREMENTS.every(field => isOptionalNumber(lake[field])) &&
+      (lake.detail_url == null || (isText(lake.detail_url) && LAKE_DETAIL_URL.test(lake.detail_url))) &&
+      (lake.flow_times == null || (isRecord(lake.flow_times) && Object.values(lake.flow_times)
+        .every(time => isText(time) && FLOW_TIME.test(time))))
     );
 }
 

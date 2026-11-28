@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DayGauge from './DayGauge';
 import BasinMiniMap from './BasinMap';
+import ReservoirFlows, { ReservoirLink } from './ReservoirFlows';
 import { classifyFlow, worstClassification, worstDaysLabel, displayValue, ChevronIcon } from './flow.jsx';
 import { WeatherIcon, WindIcon } from './weather.jsx';
 import { t } from '../i18n';
@@ -26,7 +27,7 @@ export function isPast(dateStr) {
   return d < today;
 }
 
-export default function RiverSection({ section, minMaxLevels, weather, stationFlow }) {
+export default function RiverSection({ section, minMaxLevels, weather, stationFlow, reservoir }) {
   const [expanded, setExpanded] = useState(null);
   const limits = minMaxLevels || { min: 0, max: 100 };
   const upcomingLevels = section.levels.filter(l => !isPast(l.date));
@@ -63,6 +64,15 @@ export default function RiverSection({ section, minMaxLevels, weather, stationFl
             <BasinMiniMap sectionId={section.id} />
           </div>
         </div>
+
+        {reservoir?.total_released != null && (
+          <div className="mt-1 mb-3 border-t border-hairline pt-2">
+            <p className="mb-0.5 text-[11px] text-ink-3">
+              {t('reservoir_flow.source')}{' '}<ReservoirLink reservoir={reservoir} />
+            </p>
+            <ReservoirFlows reservoir={reservoir} releaseOnly />
+          </div>
+        )}
 
         {stationFlow ? (
           <div className="mt-1 mb-4 border-t border-hairline pt-2 text-xs text-ink-2">

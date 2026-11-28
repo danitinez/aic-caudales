@@ -19,8 +19,9 @@ class TestLakesGatherer(unittest.TestCase):
         self.assertIn(("8", "1577860616"), pairs)  # El Chocón
 
     def test_parse_dammed_reservoir(self):
+        source = "https://www.aic.gob.ar/sitio/embalses-detalle?a=8&z=1577860616"
         reservoir = self.gatherer.parse_detail(
-            self._read("embalse_el_chocon.html"), order=0
+            self._read("embalse_el_chocon.html"), order=0, detail_url=source
         )
         self.assertEqual(reservoir.name, "El Chocón")
         self.assertEqual(reservoir.id, "el_chocon")
@@ -29,6 +30,8 @@ class TestLakesGatherer(unittest.TestCase):
         self.assertEqual(reservoir.min_extraordinary, 367.0)
         self.assertEqual(reservoir.inflow, 430.0)
         self.assertEqual(reservoir.total_released, 465.0)
+        self.assertEqual(reservoir.detail_url, source)
+        self.assertEqual(reservoir.flow_times, {})
 
     def test_parse_inflow_with_time_suffix(self):
         # Mari Menuco's row is "Caudal Entrante (8:00 hs)"; the time suffix must
@@ -38,6 +41,7 @@ class TestLakesGatherer(unittest.TestCase):
         )
         self.assertEqual(reservoir.inflow, 29.0)
         self.assertEqual(reservoir.turbined, 30.0)
+        self.assertEqual(reservoir.flow_times, {"inflow": "08:00"})
 
     def test_parse_caudal_a_as_diverted(self):
         # Los Barreales' "Caudal a Mari Menuco (8:00 hs)" is a diversion flow.
@@ -46,6 +50,7 @@ class TestLakesGatherer(unittest.TestCase):
         )
         self.assertEqual(reservoir.inflow, 70.0)
         self.assertEqual(reservoir.diverted, 29.0)
+        self.assertEqual(reservoir.flow_times, {"diverted": "08:00"})
 
     def test_parse_diversion_structure(self):
         # Portezuelo Grande has no water level, uses "Caudal Erogado" and a

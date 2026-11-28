@@ -19,7 +19,7 @@ const STATUS_DOT = {
   muy_alto: 'bg-muy-alto',
 };
 
-export default function MapView({ sections, minMaxLevels, weatherForSection, stationFlows = {} }) {
+export default function MapView({ sections, minMaxLevels, weatherForSection, stationFlows = {}, reservoirForSection }) {
   const sectionById = useMemo(
     () => Object.fromEntries(sections.map(s => [s.id, s])),
     [sections]
@@ -112,6 +112,7 @@ export default function MapView({ sections, minMaxLevels, weatherForSection, sta
           minMaxLevels={minMaxLevels[selectedSection.id]}
           weather={weatherForSection(selectedSection.id)}
           stationFlow={stationFlows[selectedSection.id]}
+          reservoir={reservoirForSection?.(selectedSection.id)}
         />
       )}
     </div>
