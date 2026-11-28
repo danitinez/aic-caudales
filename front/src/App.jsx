@@ -184,7 +184,7 @@ function App() {
           </h1>
           <p className="text-ink-2 text-[13.5px] mt-1 m-0">
             Caudal programado por la AIC para los próximos días en los ríos Limay,
-            Neuquén y Negro. Valores en m³/s, ordenados de aguas arriba hacia aguas abajo.
+            Neuquén y Negro. Valores en m³/s.
           </p>
         </div>
 
