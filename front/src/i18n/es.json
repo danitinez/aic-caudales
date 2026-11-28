@@ -38,7 +38,9 @@
         "total_released": "Caudal erogado publicado",
         "turbined": "Turbinado",
         "spilled": "Vertido",
-        "diverted": "Derivado"
+        "diverted": "Derivado",
+        "filling": "Se está llenando según el balance de caudales publicados",
+        "draining": "Se está vaciando según el balance de caudales publicados"
     },
     "ui": {
         "other_sections": "Otros tramos",

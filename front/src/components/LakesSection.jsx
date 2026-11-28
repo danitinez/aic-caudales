@@ -19,6 +19,10 @@ const CLASSES = {
     label: 'Normal', severity: 'normal', Icon: null, reason: 'normal',
     colors: { text: 'text-ink', bg: 'bg-medio-bg', fill: 'bg-agua' },
   },
+  sin_rango: {
+    Icon: null, reason: 'rango normal incompleto',
+    colors: { text: 'text-ink', fill: 'bg-agua' },
+  },
   alto: {
     label: 'Alto', severity: 'warn', Icon: AlertTriangleIcon, reason: 'sobre el máx. normal',
     colors: { text: 'text-alto', bg: 'bg-alto-bg', fill: 'bg-alto' },
@@ -29,19 +33,54 @@ const CLASSES = {
   },
 };
 
+const NEAR_NORMAL_MAX_FRACTION = 0.1;
+const levelDistanceFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
+
+function distanceToNormalMax(currentLevel, maxNormal) {
+  const meters = maxNormal - currentLevel;
+  if (meters === 0) return 'en el máx. normal';
+  const centimeters = Math.round(meters * 100);
+  if (centimeters === 0) return 'a menos de 1 cm del máx. normal';
+  const distance = centimeters < 100 ? `${centimeters} cm` : `${levelDistanceFormatter.format(meters)} m`;
+  return `a ${distance} del máx. normal`;
+}
+
 // Single source of truth for reservoir status — mirrors classifyFlow in
 // flow.jsx so the whole page reads as one system, but keyed on absolute msnm
 // thresholds instead of a historical min/max band.
 export function classifyLake(reservoir) {
   const { current_level: v, min_extraordinary: minExt, min_normal: minNorm, max_normal: maxNorm, max_level: maxLvl } = reservoir;
 
-  let key = 'normal';
-  if (minExt !== null && v < minExt) key = 'critico';
-  else if (minNorm !== null && v < minNorm) key = 'bajo';
-  else if (maxLvl !== null && v > maxLvl) key = 'muy_alto';
-  else if (maxNorm !== null && v > maxNorm) key = 'alto';
+  let key = 'sin_rango';
+  if (minExt != null && v < minExt) key = 'critico';
+  else if (maxLvl != null && v > maxLvl) key = 'muy_alto';
+  else if (minNorm != null && v < minNorm) key = 'bajo';
+  else if (maxNorm != null && v > maxNorm) key = 'alto';
+  else if (minNorm != null && maxNorm != null) key = 'normal';
 
-  return { key, ...CLASSES[key] };
+  const status = CLASSES[key];
+  if (key === 'normal' && v >= maxNorm - (maxNorm - minNorm) * NEAR_NORMAL_MAX_FRACTION) {
+    return { key, ...status, reason: distanceToNormalMax(v, maxNorm) };
+  }
+  return { key, ...status };
+}
+
+function LakeTrend({ reservoir }) {
+  const { inflow, total_released, turbined, spilled, diverted } = reservoir;
+  const release = total_released ?? (turbined != null && spilled != null ? turbined + spilled : null);
+  if (inflow == null || release == null) return null;
+
+  const outflow = release + (diverted ?? 0);
+  const balance = inflow - outflow;
+  if (Math.abs(balance) <= Number.EPSILON * Math.max(inflow, outflow)) return null;
+
+  const filling = balance > 0;
+  const label = t(filling ? 'reservoir_flow.filling' : 'reservoir_flow.draining');
+  return (
+    <span role="img" aria-label={label} title={label}>
+      <ArrowDownIcon className={`h-4 w-4 ${filling ? 'rotate-180 text-medio' : 'text-bajo'}`} />
+    </span>
+  );
 }
 
 function LakeLevel({ r }) {
@@ -68,7 +107,8 @@ function LakeLevel({ r }) {
       </div>
 
       <div className="text-right">
-        <div className={`font-display font-bold text-[22px] leading-none tabular-nums ${c.text}`}>
+        <div className={`flex items-center justify-end gap-1 font-display font-bold text-[22px] leading-none tabular-nums ${c.text}`}>
+          <LakeTrend reservoir={r} />
           {r.current_level}
         </div>
         <div className="text-ink-3 text-[10.5px] mt-0.5 flex items-center justify-end gap-1">
