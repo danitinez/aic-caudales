@@ -7,7 +7,7 @@
       "station_name": "PORTEZUELO GRANDE",
       "kind": "rating_curve",
       "flow_m3s": 13.0,
-      "source_updated_on": "2026-11-27"
+      "source_updated_on": "2026-11-28"
     },
     "el_chanar": {
       "station_id": "37",
@@ -15,23 +15,23 @@
       "station_name": "COMPENSADOR EL CHANAR",
       "kind": "daily_mean",
       "flow_m3s": 355.0,
-      "source_updated_on": "2026-11-27"
+      "source_updated_on": "2026-11-28"
     },
     "pichi_picun_leufu": {
       "station_id": "26",
       "detail_url": "https://www.aic.gob.ar/sitio/estaciones-detalle?a=26&z=1702278334",
       "station_name": "PICHI PICUN LEUFU (NUEVA)",
       "kind": "daily_mean",
-      "flow_m3s": 413.0,
-      "source_updated_on": "2026-11-27"
+      "flow_m3s": 268.0,
+      "source_updated_on": "2026-11-28"
     },
     "arroyito": {
       "station_id": "28",
       "detail_url": "https://www.aic.gob.ar/sitio/estaciones-detalle?a=28&z=1395268860",
       "station_name": "CAMPING Y.P.F.",
       "kind": "daily_mean",
-      "flow_m3s": 473.0,
-      "source_updated_on": "2026-11-27"
+      "flow_m3s": 480.0,
+      "source_updated_on": "2026-11-28"
     },
     "el_chanar_arroyito": {
       "station_id": "22",
@@ -39,7 +39,7 @@
       "station_name": "ALLEN",
       "kind": "daily_mean",
       "flow_m3s": 714.0,
-      "source_updated_on": "2026-11-27"
+      "source_updated_on": "2026-11-28"
     }
   }
 }

@@ -16,7 +16,9 @@
             "spilled": 0.0,
             "turbined": 8.1,
             "total_released": 8.0,
-            "diverted": null
+            "diverted": null,
+            "detail_url": "https://www.aic.gob.ar/sitio/embalses-detalle?a=3&z=1124955851",
+            "flow_times": {}
         },
         {
             "id": "arroyito",
@@ -32,7 +34,9 @@
             "spilled": 0.0,
             "turbined": 450.0,
             "total_released": 450.0,
-            "diverted": null
+            "diverted": null,
+            "detail_url": "https://www.aic.gob.ar/sitio/embalses-detalle?a=9&z=1140930179",
+            "flow_times": {}
         },
         {
             "id": "el_chanar",
@@ -48,7 +52,9 @@
             "spilled": null,
             "turbined": null,
             "total_released": 355.81,
-            "diverted": null
+            "diverted": null,
+            "detail_url": "https://www.aic.gob.ar/sitio/embalses-detalle?a=17&z=1393483090",
+            "flow_times": {}
         },
         {
             "id": "el_chocon",
@@ -64,7 +70,9 @@
             "spilled": 0.0,
             "turbined": 876.0,
             "total_released": 876.0,
-            "diverted": null
+            "diverted": null,
+            "detail_url": "https://www.aic.gob.ar/sitio/embalses-detalle?a=8&z=1577860616",
+            "flow_times": {}
         },
         {
             "id": "los_barreales",
@@ -80,7 +88,11 @@
             "spilled": null,
             "turbined": null,
             "total_released": null,
-            "diverted": 401.0
+            "diverted": 401.0,
+            "detail_url": "https://www.aic.gob.ar/sitio/embalses-detalle?a=14&z=914389327",
+            "flow_times": {
+                "diverted": "08:00"
+            }
         },
         {
             "id": "mari_menuco",
@@ -96,7 +108,11 @@
             "spilled": null,
             "turbined": 389.0,
             "total_released": null,
-            "diverted": null
+            "diverted": null,
+            "detail_url": "https://www.aic.gob.ar/sitio/embalses-detalle?a=15&z=532763504",
+            "flow_times": {
+                "inflow": "08:00"
+            }
         },
         {
             "id": "pichi_picun_leufu",
@@ -112,7 +128,9 @@
             "spilled": 0.0,
             "turbined": 387.0,
             "total_released": 387.0,
-            "diverted": null
+            "diverted": null,
+            "detail_url": "https://www.aic.gob.ar/sitio/embalses-detalle?a=7&z=119576247",
+            "flow_times": {}
         },
         {
             "id": "piedra_del_aguila",
@@ -128,7 +146,9 @@
             "spilled": 0.0,
             "turbined": 434.0,
             "total_released": 434.0,
-            "diverted": null
+            "diverted": null,
+            "detail_url": "https://www.aic.gob.ar/sitio/embalses-detalle?a=6&z=1529784014",
+            "flow_times": {}
         },
         {
             "id": "portezuelo_grande",
@@ -144,7 +164,9 @@
             "spilled": null,
             "turbined": null,
             "total_released": 14.0,
-            "diverted": 455.0
+            "diverted": 455.0,
+            "detail_url": "https://www.aic.gob.ar/sitio/embalses-detalle?a=12&z=1020840713",
+            "flow_times": {}
         }
     ]
 }
