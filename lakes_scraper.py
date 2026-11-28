@@ -1,20 +1,11 @@
 import os
 import shutil
 import json
-import requests
 from dataclasses import asdict
 from datetime import date, datetime
+from scrapper.aic_http import fetch_html
 from scrapper.lakes_gatherer import LakesGatherer, LISTING_URL, DETAIL_URL
 from scrapper.lakes_models import Reservoirs
-
-
-def fetch_html(url):
-    response = requests.get(url)
-    response.raise_for_status()
-    # The AIC pages are UTF-8; set it explicitly so accented reservoir names
-    # (Alicurá, El Chañar) decode correctly even without chardet installed.
-    response.encoding = "utf-8"
-    return response.text
 
 
 def save_data_as_json(reservoirs, file_path):

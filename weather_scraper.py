@@ -19,6 +19,7 @@ SECTION_CITIES = {
 CITY_IDS = sorted(set(SECTION_CITIES.values()))
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; aic-caudales-scraper)"}
+REQUEST_TIMEOUT_SECONDS = 15
 HIDDEN_FIELD_NAMES = (
     "__EVENTTARGET", "__EVENTARGUMENT", "__LASTFOCUS",
     "__VIEWSTATE", "__VIEWSTATEGENERATOR", "__EVENTVALIDATION",
@@ -36,7 +37,7 @@ def _extract_hidden_fields(html):
 
 
 def fetch_city_html(session, city_id):
-    response = session.get(BASE_URL, headers=HEADERS)
+    response = session.get(BASE_URL, headers=HEADERS, timeout=REQUEST_TIMEOUT_SECONDS)
     response.raise_for_status()
     response.encoding = "utf-8"
 
@@ -44,7 +45,7 @@ def fetch_city_html(session, city_id):
     form["ctl00$body$cmbZona"] = city_id
     form["ctl00$body$ButtonPostback"] = "Postback"
 
-    response = session.post(BASE_URL, data=form, headers=HEADERS)
+    response = session.post(BASE_URL, data=form, headers=HEADERS, timeout=REQUEST_TIMEOUT_SECONDS)
     response.raise_for_status()
     response.encoding = "utf-8"
     return response.text

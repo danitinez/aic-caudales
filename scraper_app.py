@@ -8,7 +8,7 @@ import random
 from scrapper.data_gatherer import DataGatherer
 
 def fetch_html(url):
-    response = requests.get(url)
+    response = requests.get(url, timeout=15)
     response.raise_for_status()  # Raises an HTTPError if the HTTP request returned an unsuccessful status code
     return response.text
 

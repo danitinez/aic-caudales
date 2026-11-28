@@ -34,17 +34,25 @@ def slugify(name):
     return normalized.lower().replace(" ", "_")
 
 
+def report_date_key(path):
+    day, month, year = os.path.splitext(os.path.basename(path))[0].split("_")
+    return year, month, day
+
+
 def load_observations():
     # section_id -> date -> value
     dispensed = {}
     # section_id -> date -> (min, max) forecast
     programmed = {}
-    files = sorted(glob.glob(os.path.join(DOCS, "*.json")))
+    files = [
+        path for path in glob.glob(os.path.join(DOCS, "*.json"))
+        if DATED_FILE.fullmatch(os.path.basename(path))
+    ]
+    # Dated filenames are day-first. Sort by year, month, and day before deduplication.
+    files.sort(key=report_date_key)
     n_files = 0
 
     for path in files:
-        if not DATED_FILE.match(os.path.basename(path)):
-            continue
         try:
             with open(path) as f:
                 data = json.load(f)

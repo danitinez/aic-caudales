@@ -20,8 +20,17 @@
         "los_barreales": "Río Neuquén · Cerros Colorados",
         "mari_menuco": "Río Neuquén · Cerros Colorados"
     },
+    "station_flow": {
+        "daily_mean": "Caudal medio diario",
+        "rating_curve": "Caudal calculado por nivel del río",
+        "measured": "Caudal medido",
+        "station": "Estación",
+        "source_updated": "Actualización AIC",
+        "unavailable": "Caudal de estación no disponible"
+    },
     "ui": {
         "other_sections": "Otros tramos",
+        "no_upcoming_forecast": "Sin pronóstico vigente",
         "map_view": "Mapa",
         "list_view": "Lista",
         "map_hint": "Elegí un tramo en el mapa para ver su pronóstico"

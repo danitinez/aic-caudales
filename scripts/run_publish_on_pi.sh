@@ -5,9 +5,8 @@
 #
 # Semántica de fallos (misma que tenía el workflow de CI):
 #   - scraper_app.py falla        -> aborta toda la corrida (nada se publica)
-#   - lakes/weather fallan        -> se loguea y la corrida sigue; los propios
-#                                    scripts se niegan a escribir scrapes
-#                                    parciales, así que el alias viejo sobrevive
+#   - embalses/estaciones/clima fallan -> se loguea y la corrida sigue con los
+#                                         últimos datos válidos de esos feeds
 #   - compute_ranges.py corre solo si scraper_app.py terminó bien (set -e)
 set -euo pipefail
 
@@ -63,6 +62,9 @@ python compute_ranges.py --write
 
 echo "==> Scraper de embalses"
 python lakes_scraper.py || echo "WARN: lakes_scraper.py falló; se conserva el lakes.json anterior" >&2
+
+echo "==> Scraper de caudales de estaciones"
+python stations_scraper.py || echo "WARN: stations_scraper.py falló; se conserva el station_flows.json anterior" >&2
 
 echo "==> Scraper de clima"
 python weather_scraper.py || echo "WARN: weather_scraper.py falló; se conserva el weather.json anterior" >&2

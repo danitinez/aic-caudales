@@ -62,8 +62,13 @@ journalctl -u aic-caudales.service -e       # logs de la última corrida
 ```
 
 Verificación post-corrida en producción (deben responder 200 y con fecha
-fresca): `index.html`, `latest.json`, `lakes.json`, `weather.json`,
+fresca): `index.html`, `latest.json`, `lakes.json`, `station_flows.json`, `weather.json`,
 `min_max_levels.json` bajo https://caudalguru.com.ar/.
+
+`station_flows.json` se actualiza junto a los embalses. El scraper toma los
+enlaces `estaciones-detalle?a=…&z=…` del listado de la AIC y obtiene el caudal
+de la tabla de mediciones de cada estación configurada en `sections_config.json`.
+Cada lectura conserva el tipo de caudal y la fecha de actualización que indica la AIC.
 
 Si se cambian las unidades en `deploy/systemd/`, repetir el paso 2 del setup
 para reinstalarlas.

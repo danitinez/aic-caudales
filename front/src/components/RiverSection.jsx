@@ -5,6 +5,9 @@ import { classifyFlow, worstClassification, worstDaysLabel, displayValue, Chevro
 import { WeatherIcon, WindIcon } from './weather.jsx';
 import { t } from '../i18n';
 
+const flowFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 });
+const stationDateFormatter = new Intl.DateTimeFormat('es-AR', { dateStyle: 'medium', timeZone: 'UTC' });
+
 function isToday(dateStr) {
   const now = new Date();
   const d = new Date(dateStr + 'T00:00:00');
@@ -23,14 +26,14 @@ export function isPast(dateStr) {
   return d < today;
 }
 
-export default function RiverSection({ section, minMaxLevels, weather }) {
+export default function RiverSection({ section, minMaxLevels, weather, stationFlow }) {
   const [expanded, setExpanded] = useState(null);
   const limits = minMaxLevels || { min: 0, max: 100 };
   const upcomingLevels = section.levels.filter(l => !isPast(l.date));
   const sectionStatus = worstClassification(upcomingLevels, limits);
   const chipLabel = worstDaysLabel(upcomingLevels, limits);
-  const c = sectionStatus.colors;
-  const ChipIcon = sectionStatus.chipIcon;
+  const c = sectionStatus?.colors;
+  const ChipIcon = sectionStatus?.chipIcon;
 
   return (
     <article className="station">
@@ -51,24 +54,48 @@ export default function RiverSection({ section, minMaxLevels, weather }) {
           </div>
 
           <div className="flex items-start gap-2.5">
-            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-semibold ${c.text} ${c.bg}`}>
-              {ChipIcon && <ChipIcon className="leading-none" />}
-              {chipLabel}
-            </span>
+            {sectionStatus && (
+              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-semibold ${c.text} ${c.bg}`}>
+                {ChipIcon && <ChipIcon className="leading-none" />}
+                {chipLabel}
+              </span>
+            )}
             <BasinMiniMap sectionId={section.id} />
           </div>
         </div>
 
+        {stationFlow ? (
+          <div className="mt-1 mb-4 border-t border-hairline pt-2 text-xs text-ink-2">
+            <p>
+              {t(`station_flow.${stationFlow.kind}`)}{' '}
+              <strong className="font-mono text-ink tabular-nums">{flowFormatter.format(stationFlow.flow_m3s)} m³/s</strong>
+            </p>
+            <p className="mt-0.5 text-[11px]">
+              {t('station_flow.station')}{' '}
+              <a className="text-agua underline" href={stationFlow.detail_url} target="_blank" rel="noopener noreferrer">
+                {stationFlow.station_name}
+              </a>
+              {' · '}{t('station_flow.source_updated')}{' '}
+              <time dateTime={stationFlow.source_updated_on}>
+                {stationDateFormatter.format(new Date(stationFlow.source_updated_on))}
+              </time>
+            </p>
+          </div>
+        ) : (
+          <p className="mb-4 text-xs text-ink-2">{t('station_flow.unavailable')}</p>
+        )}
+
         {/* Alert banner */}
-        {sectionStatus.alert && (
+        {sectionStatus?.alert && (
           <div className={`flex items-start gap-2 px-3 py-2.5 rounded mb-3 ${c.bg}`}>
             {sectionStatus.Icon && <sectionStatus.Icon className={`${c.text} mt-0.5 shrink-0`} />}
             <p className={`text-sm font-medium ${c.text}`}>{sectionStatus.alert}</p>
           </div>
         )}
 
-        {/* Day cells */}
-        <div
+        {upcomingLevels.length === 0 ? (
+          <p className="text-xs text-ink-2">{t('ui.no_upcoming_forecast')}</p>
+        ) : <div
           className="grid gap-2"
           style={{ gridTemplateColumns: `repeat(${upcomingLevels.length}, minmax(0, 1fr))` }}
         >
@@ -139,7 +166,7 @@ export default function RiverSection({ section, minMaxLevels, weather }) {
               </button>
             );
           })}
-        </div>
+        </div>}
 
         {/* Expanded detail panel */}
         {expanded !== null && upcomingLevels[expanded] && (() => {

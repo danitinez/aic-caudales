@@ -2,22 +2,27 @@ from bs4 import BeautifulSoup
 import json
 import locale
 import os
-from dataclasses import asdict
+from unicodedata import normalize
 from datetime import datetime, timedelta
 from .models import Sections, Section, Level
 
 CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "sections_config.json")
 
 
-def _load_default_section_ids():
-    with open(CONFIG_PATH) as f:
-        return [s["id"] for s in json.load(f)["sections"]]
+def _normalize_title(title):
+    return " ".join(normalize("NFC", title).casefold().split())
 
 
 class DataGatherer:
 
     def __init__(self, section_ids=None):
-        self.section_ids = section_ids if section_ids is not None else _load_default_section_ids()
+        self.section_titles = {}
+        if section_ids is None:
+            with open(CONFIG_PATH, encoding="utf-8") as f:
+                sections = json.load(f)["sections"]
+            section_ids = [section["id"] for section in sections]
+            self.section_titles = {section["id"]: section["aic_title"] for section in sections}
+        self.section_ids = section_ids
 
     def _build_date(self, date_string):
         # Set locale to Spanish
@@ -77,6 +82,12 @@ class DataGatherer:
         section.order = int(order)
         section.title = tr1.find("td", class_="HeaderCaudalesFila").get_text().strip()
         section.id = self.section_ids[int(order)]
+        expected_title = self.section_titles.get(section.id)
+        if expected_title is not None and _normalize_title(section.title) != _normalize_title(expected_title):
+            raise ValueError(
+                f"AIC section {section.order + 1} is {section.title!r}, expected {expected_title!r}. "
+                "Check the table order and titles in sections_config.json."
+            )
 
         # Build Levels        
         levels = []

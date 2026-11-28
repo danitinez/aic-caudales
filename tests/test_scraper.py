@@ -150,6 +150,16 @@ class TestSectionIdAssignment(unittest.TestCase):
             gatherer.parse(html_content)
         self.assertIn('sections_config.json', str(ctx.exception))
 
+    def test_same_count_reorder_raises(self):
+        with open('tests/test.html', 'r') as file:
+            html_content = file.read()
+        html_content = (html_content
+                        .replace('>Portezuelo Grande</td>', '>__FIRST_SECTION__</td>', 1)
+                        .replace('>El Chañar</td>', '>Portezuelo Grande</td>', 1)
+                        .replace('>__FIRST_SECTION__</td>', '>El Chañar</td>', 1))
+        with self.assertRaisesRegex(ValueError, "El Chañar.*Portezuelo Grande"):
+            DataGatherer().parse(html_content)
+
 
 if __name__ == '__main__':
     unittest.main()

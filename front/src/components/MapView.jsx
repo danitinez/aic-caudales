@@ -19,7 +19,7 @@ const STATUS_DOT = {
   muy_alto: 'bg-muy-alto',
 };
 
-export default function MapView({ sections, minMaxLevels, weatherForSection }) {
+export default function MapView({ sections, minMaxLevels, weatherForSection, stationFlows = {} }) {
   const sectionById = useMemo(
     () => Object.fromEntries(sections.map(s => [s.id, s])),
     [sections]
@@ -30,7 +30,8 @@ export default function MapView({ sections, minMaxLevels, weatherForSection }) {
     for (const section of sections) {
       const limits = minMaxLevels[section.id];
       const upcoming = section.levels.filter(l => !isPast(l.date));
-      out[section.id] = worstClassification(upcoming, limits).key;
+      const status = worstClassification(upcoming, limits);
+      if (status) out[section.id] = status.key;
     }
     return out;
   }, [sections, minMaxLevels]);
@@ -93,7 +94,9 @@ export default function MapView({ sections, minMaxLevels, weatherForSection }) {
                     className={`inline-flex items-center gap-1.5 text-xs border rounded px-2 py-1
                       ${selectedId === id ? 'border-agua bg-panel-2' : 'border-hairline hover:bg-panel-2'}`}
                   >
-                    <span className={`inline-block w-1.5 h-1.5 rounded-full ${STATUS_DOT[statusById[id]]}`} />
+                    {statusById[id] && (
+                      <span className={`inline-block w-1.5 h-1.5 rounded-full ${STATUS_DOT[statusById[id]]}`} />
+                    )}
                     {t(`sections.${id}.title`)}
                   </button>
                 ))}
@@ -108,6 +111,7 @@ export default function MapView({ sections, minMaxLevels, weatherForSection }) {
           section={selectedSection}
           minMaxLevels={minMaxLevels[selectedSection.id]}
           weather={weatherForSection(selectedSection.id)}
+          stationFlow={stationFlows[selectedSection.id]}
         />
       )}
     </div>

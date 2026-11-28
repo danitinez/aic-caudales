@@ -106,7 +106,7 @@ export function classifyFlow(value, limits) {
 // Worst classification among a list of levels — used for the section badge
 // and alert banner, so they always agree with the individual day cells.
 export function worstClassification(levels, limits) {
-  if (!levels.length) return classifyFlow(0, limits);
+  if (!levels.length) return null;
   const classifications = levels.map(l => classifyFlow(displayValue(l), limits));
   for (const key of BADNESS_ORDER) {
     const found = classifications.find(c => c.key === key);
@@ -120,7 +120,7 @@ export function worstClassification(levels, limits) {
 // ("Muy alto lun–mar"), so the chip doesn't claim more than it should.
 export function worstDaysLabel(levels, limits) {
   const status = worstClassification(levels, limits);
-  if (status.key === 'medio' || !levels.length) return status.label;
+  if (!status || status.key === 'medio') return status?.label ?? null;
 
   const matches = levels
     .map((l, i) => ({ i, hit: classifyFlow(displayValue(l), limits).key === status.key }))

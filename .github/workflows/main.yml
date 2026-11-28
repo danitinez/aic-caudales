@@ -60,6 +60,10 @@ jobs:
       continue-on-error: true
       run: python lakes_scraper.py
 
+    - name: Run station flow scraper
+      continue-on-error: true
+      run: python stations_scraper.py
+
     # Scrape the extended forecast (día/noche icon, temperature, wind) per
     # section's nearest city into docs/weather.json. Same continue-on-error
     # safety as the lakes scraper: a failure here never blocks the caudales
@@ -91,8 +95,8 @@ jobs:
         echo "---- Git DIFF"
         git diff
         echo "----"
-        git diff-index --quiet HEAD && exit 0
-        git add $FILE_TO_CHECK
+        git add "$FILE_TO_CHECK"
+        git diff --cached --quiet -- "$FILE_TO_CHECK" && exit 0
         timestamp=$(date -u)
         git commit -m "Actualizando caudales: ${timestamp}"
         git push 

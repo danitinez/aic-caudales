@@ -6,6 +6,7 @@ import FeedbackForm from './components/FeedbackForm';
 import MapView from './components/MapView';
 import { RIVER_GROUPS, normalizeId } from './config';
 import { t } from './i18n';
+import { isLakesFeed, isWeatherFeed, readStationFlows } from './optionalFeeds';
 
 function StaffLogo() {
   return (
@@ -51,10 +52,17 @@ function hashToView() {
   return window.location.hash === '#mapa' ? 'map' : 'list';
 }
 
+async function fetchFeed(path) {
+  const response = await fetch(path);
+  if (!response.ok) throw new Error(`${path} (HTTP ${response.status})`);
+  return response.json();
+}
+
 function App() {
   const [data, setData] = useState(null);
   const [minMaxLevels, setMinMaxLevels] = useState(null);
   const [lakes, setLakes] = useState(null);
+  const [stationFlows, setStationFlows] = useState({});
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
   const [view, setView] = useState(hashToView);
@@ -67,8 +75,8 @@ function App() {
 
   useEffect(() => {
     Promise.all([
-      fetch('latest.json').then(r => r.json()),
-      fetch('min_max_levels.json').then(r => r.json())
+      fetchFeed('latest.json'),
+      fetchFeed('min_max_levels.json')
     ]).then(([latestData, minMaxData]) => {
       setData({
         ...latestData,
@@ -82,13 +90,19 @@ function App() {
     // Lakes and weather are best-effort: their CI scraper steps are
     // continue-on-error, so a missing/broken json must not take down the
     // rest of the site.
-    fetch('lakes.json').then(r => r.json()).then(setLakes).catch(() => {});
-    fetch('weather.json').then(r => r.json()).then(data => setWeather({
-      ...data,
-      section_cities: Object.fromEntries(
-        Object.entries(data.section_cities ?? {}).map(([k, v]) => [normalizeId(k), v])
-      ),
-    })).catch(() => {});
+    fetchFeed('lakes.json').then(data => {
+      if (isLakesFeed(data)) setLakes(data);
+    }).catch(() => {});
+    fetchFeed('station_flows.json').then(data => setStationFlows(readStationFlows(data))).catch(() => {});
+    fetchFeed('weather.json').then(data => {
+      if (!isWeatherFeed(data)) return;
+      setWeather({
+        ...data,
+        section_cities: Object.fromEntries(
+          Object.entries(data.section_cities).map(([k, v]) => [normalizeId(k), v])
+        ),
+      });
+    }).catch(() => {});
   }, []);
 
   function weatherForSection(sectionId) {
@@ -186,6 +200,7 @@ function App() {
               sections={data.sections}
               minMaxLevels={minMaxLevels}
               weatherForSection={weatherForSection}
+              stationFlows={stationFlows}
             />
           ) : (
             <>
@@ -212,6 +227,7 @@ function App() {
                         section={section}
                         minMaxLevels={minMaxLevels[section.id]}
                         weather={weatherForSection(section.id)}
+                        stationFlow={stationFlows[section.id]}
                       />
                     ))}
                   </section>

@@ -6,11 +6,11 @@
         { "id": "rio_negro", "glyph": "confluence" }
     ],
     "sections": [
-        { "id": "portezuelo_grande", "river_id": "neuquen", "display_order": 0 },
-        { "id": "el_chanar", "river_id": "neuquen", "display_order": 1 },
-        { "id": "pichi_picun_leufu", "river_id": "limay", "display_order": 3 },
-        { "id": "arroyito", "river_id": "limay", "display_order": 2 },
-        { "id": "el_chanar_arroyito", "river_id": "rio_negro", "display_order": 4 }
+        { "id": "portezuelo_grande", "aic_title": "Portezuelo Grande", "aic_station_id": "126", "river_id": "neuquen", "display_order": 0 },
+        { "id": "el_chanar", "aic_title": "El Chañar", "aic_station_id": "37", "river_id": "neuquen", "display_order": 1 },
+        { "id": "pichi_picun_leufu", "aic_title": "Pichi Picún Leufú", "aic_station_id": "26", "river_id": "limay", "display_order": 3 },
+        { "id": "arroyito", "aic_title": "Arroyito", "aic_station_id": "28", "river_id": "limay", "display_order": 2 },
+        { "id": "el_chanar_arroyito", "aic_title": "El Chañar + Arroyito", "aic_station_id": "22", "river_id": "rio_negro", "display_order": 4 }
     ],
     "lakes": [
         { "id": "alicura", "river_id": "limay" },

@@ -54,10 +54,10 @@ function LakeRow({ r }) {
       <div>
         <div className="text-ink font-semibold text-sm leading-tight">{r.name}</div>
         <div className="text-ink-3 text-[11.5px]">{t(`lakes.${r.id}`, '')}</div>
-        {(r.inflow !== null || (r.total_released ?? r.turbined) !== null) && (
+        {(r.inflow != null || (r.total_released ?? r.turbined) != null) && (
           <div className="text-ink-3 text-xs mt-1.5 space-x-2">
-            {r.inflow !== null && <span>Entrante {r.inflow}</span>}
-            {(r.total_released ?? r.turbined) !== null && (
+            {r.inflow != null && <span>Entrante {r.inflow}</span>}
+            {(r.total_released ?? r.turbined) != null && (
               <span>Erogado {r.total_released ?? r.turbined}</span>
             )}
           </div>
@@ -93,7 +93,7 @@ function LakeRow({ r }) {
 }
 
 export default function LakesSection({ lakes }) {
-  const reservoirs = lakes.reservoirs.filter(r => r.current_level !== null);
+  const reservoirs = lakes.reservoirs.filter(r => r.current_level != null);
   if (!reservoirs.length) return null;
 
   const reservoirById = Object.fromEntries(reservoirs.map(r => [r.id, r]));
